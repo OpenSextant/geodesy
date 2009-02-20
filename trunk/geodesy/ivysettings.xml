@@ -41,7 +41,7 @@
 				root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" />
 		</chain>
 		<ssh name="ssh" user="drand" host="mapsrv">
-			<artifact pattern="/data/m2/repo/[organisation]/[module]/[artifact].[ext]" />
+			<artifact pattern="/data/m2/repo/org/mitre/itf/[module]/[revision]/[artifact]-[revision].[ext]" />
 		</ssh>
 	</resolvers>
 </ivysettings>

@@ -1,8 +1,9 @@
 <ivy-module version="2.0">
 	<info organisation="org.mitre.itf" module="geodesy" 
-		revision="1.8" status="released" />
+		revision="1.8" />
 	<publications>
-		<artifact name="geodesy" />
+		<artifact name="geodesy" type="jar" />
+		<artifact name="geodesy" type="pom" ext="pom" />
 	</publications>
 	<dependencies>
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.2">
