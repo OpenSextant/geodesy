@@ -27,6 +27,7 @@
 	</target>
 
 	<target name="clean">
+		<delete dir="${lib}" />
 		<delete dir="${rel}" />
 	</target>
 
