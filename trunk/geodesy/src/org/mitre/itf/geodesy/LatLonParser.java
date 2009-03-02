@@ -126,7 +126,7 @@ public class LatLonParser {
         //  One will consist of the separator delimiters and the sign delimiters.
         //  One will consist of the separator delimiters only
         //
-        StringBuffer result = new StringBuffer();
+        StringBuilder result = new StringBuilder();
         result.append(delimiters[0]);
         for (int i = 1; i < delimiters.length; i++) {
             result.append(delimiters[i]);
@@ -137,7 +137,7 @@ public class LatLonParser {
         //  skip the 's' delimiter for this Etrex special case.  It wouldn't be used
         //  as a seconds indicator and might be used as a hemispher indicator (s S for South)
         //
-        StringBuffer result2 = new StringBuffer();
+        StringBuilder result2 = new StringBuilder();
         result.append(separatorDelimiters[0]);
         for (int i = 1; i < separatorDelimiters.length; i++) {
             if (separatorDelimiters[i].charAt(0) != 's') result2.append(separatorDelimiters[i]);
