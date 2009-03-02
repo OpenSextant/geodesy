@@ -87,8 +87,8 @@
 		</jar>
 	</target>
 	
-	<target name="publish" depends="jar, makepom">
-		<ivy:publish resolver="ssh">
+	<target name="publish" depends="jar, makepom, javadoc, sourcejar">
+		<ivy:publish resolver="ssh" >
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
@@ -97,5 +97,20 @@
 	<target name="makepom">
 		<ivy:settings file="${basedir}/ivysettings.xml" />
 		<ivy:makepom ivyfile="${basedir}/ivy.xml" pomfile="${rel}/geodesy.pom" />
+	</target>
+	
+	<target name="sourcejar">
+		<jar destfile="${rel}/geodesy_src.jar">
+			<fileset dir="${basedir}/src" />
+		</jar>
+	</target>
+	
+	<target name="javadoc">
+		<mkdir dir="${rel}/docs"/>
+		<javadoc sourcepath="${basedir}/src" destdir="${rel}/docs"
+			classpathref="project.classpath"/>
+		<jar destfile="${rel}/geodesy_javadoc.jar" >
+			<fileset dir="${rel}/docs" />
+		</jar>
 	</target>
 </project>
