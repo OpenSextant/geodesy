@@ -42,7 +42,7 @@
 	</target>
 
 	<target name="resolve" depends="init,init.proxy" description="retrieve dependencies with ivy">
-		<property name="ivy.retrieve.pattern" value="lib/[organization]/[artifact]-[revision].[ext]" />
+		<property name="ivy.retrieve.pattern" value="lib/[organization]/[artifact]-[revision](-[type]).[ext]" />
 		<ivy:retrieve />
 	</target>
 
