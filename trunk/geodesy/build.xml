@@ -13,13 +13,23 @@
 	<path id="project.classpath">
 		<fileset dir="${lib}">
 			<include name="**/*.jar" />
+			<exclude name="**/*-sources.jar" />
+			<exclude name="**/*-javadoc.jar" />
 		</fileset>
 	</path>
 
-	<target name="init">
+	<target name="init" unless="ivy.revision">
 		<mkdir dir="${rel}" />
 		<mkdir dir="${rel}/classes" />
 		<mkdir dir="${rel}/jars" />
+		<dependset>
+			<srcfilelist dir="${basedir}" files="ivy.xml,ivy.settings" />
+			<targetfileset dir="${lib}" />
+		</dependset>
+		<mkdir dir="${lib}" />
+		<property name="ivy.default.ivy.user.dir" value="${user.home}/.ivy/" />
+		<ivy:configure file="${basedir}/ivysettings.xml" />
+		<ivy:info file="${basedir}/ivy.xml" />
 	</target>
 
 	<target name="init.proxy">
@@ -32,12 +42,6 @@
 	</target>
 
 	<target name="resolve" depends="init,init.proxy" description="retrieve dependencies with ivy">
-		<dependset>
-			<srcfilelist dir="${basedir}" files="ivy.xml,ivy.settings" />
-			<targetfileset dir="${lib}" />
-		</dependset>
-		<mkdir dir="${lib}" />
-		<property name="ivy.default.ivy.user.dir" value="${user.home}/.ivy/" />
 		<property name="ivy.retrieve.pattern" value="lib/[organization]/[artifact]-[revision].[ext]" />
 		<ivy:retrieve />
 	</target>
@@ -87,8 +91,14 @@
 		</jar>
 	</target>
 	
-	<target name="publish" depends="jar, makepom, javadoc, sourcejar">
-		<ivy:publish resolver="ssh" >
+	<target name="publish" depends="jar, makepom, javadoc, sourcejar">	
+		<copy todir="${rel}">
+			<fileset dir="${basedir}">
+				<include name="ivy.xml"/>
+			</fileset>
+		</copy>
+		<ivy:buildnumber organisation="org.mitre.itf" module="geodesy" revision="1.9" />
+		<ivy:publish resolver="ssh" revision="${ivy.new.revision}" update="true" >
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
@@ -100,7 +110,7 @@
 	</target>
 	
 	<target name="sourcejar">
-		<jar destfile="${rel}/geodesy_src.jar">
+		<jar destfile="${rel}/geodesy-sources.jar">
 			<fileset dir="${basedir}/src" />
 		</jar>
 	</target>
@@ -109,7 +119,7 @@
 		<mkdir dir="${rel}/docs"/>
 		<javadoc sourcepath="${basedir}/src" destdir="${rel}/docs"
 			classpathref="project.classpath"/>
-		<jar destfile="${rel}/geodesy_javadoc.jar" >
+		<jar destfile="${rel}/geodesy-javadoc.jar" >
 			<fileset dir="${rel}/docs" />
 		</jar>
 	</target>
