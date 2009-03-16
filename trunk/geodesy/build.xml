@@ -81,7 +81,7 @@
 	<target name="generate-eclipse-classpath" depends="generate-eclipse-classpath.clean, generate-eclipse-classpath.real" description="Generate the Eclipse classpath." />
 	
 	<target name="compile" depends="resolve">
-		<javac source="1.5" classpathref="project.classpath" srcdir="${basedir}/src"
+		<javac source="1.5" target="1.5" classpathref="project.classpath" srcdir="${basedir}/src"
 			destdir="${rel}/classes" />
 	</target>
 	
