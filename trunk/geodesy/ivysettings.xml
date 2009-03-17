@@ -1,5 +1,5 @@
 <ivysettings>
-	<property name="repository.dir" value="${user.home}/.ivy" />
+	<property name="repository.dir" value="${user.home}/.ivy2" />
 	<settings defaultResolver="chained" />
 	<namespaces>
 		<namespace name="m2">
@@ -40,7 +40,7 @@
 			<ibiblio name="ibiblio" namespace="m2"
 				root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" />
 		</chain>
-		<ssh name="ssh" user="drand" host="mapsrv">
+		<ssh name="ssh" host="mapsrv">
 			<artifact pattern="/data/m2/repo-local/org/mitre/itf/[module]/[revision]/[artifact]-[revision].[ext]" />
 		</ssh>
 	</resolvers>

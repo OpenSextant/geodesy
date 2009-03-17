@@ -27,7 +27,7 @@
 			<targetfileset dir="${lib}" />
 		</dependset>
 		<mkdir dir="${lib}" />
-		<property name="ivy.default.ivy.user.dir" value="${user.home}/.ivy/" />
+		<property name="ivy.default.ivy.user.dir" value="${user.home}/.ivy2" />
 		<ivy:configure file="${basedir}/ivysettings.xml" />
 		<ivy:info file="${basedir}/ivy.xml" />
 	</target>
@@ -91,21 +91,20 @@
 		</jar>
 	</target>
 	
-	<target name="publish" depends="jar, makepom, javadoc, sourcejar">	
-		<copy todir="${rel}">
-			<fileset dir="${basedir}">
-				<include name="ivy.xml"/>
-			</fileset>
-		</copy>
-		<ivy:buildnumber organisation="org.mitre.itf" module="geodesy" revision="1.9" />
-		<ivy:publish resolver="ssh" revision="${ivy.new.revision}" update="true" >
+	<target name="publish" depends="jar, javadoc, sourcejar">
+		<!-- Update before publishing. ivy:buildnumber should be usable here but
+			was failing for some reason. FIXME -->
+		<property name="rev" value="1.9.0" />
+		<ivy:resolve revision="${rev}" file="${basedir}/ivy.xml" 
+			resolveid="ivyres" />
+		<ivy:deliver revision="${rev}" resolveid="ivyres" 
+			deliverpattern="${rel}/ivy.xml" />
+		<ivy:makepom ivyfile="${basedir}/rel/ivy.xml" pomfile="${rel}/geodesy.pom" 
+			settingsref="ivy.instance" />
+		<ivy:publish resolver="ssh" revision="${rev}" update="true" >
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
-	</target>
-	
-	<target name="makepom" depends="init" >
-		<ivy:makepom ivyfile="${basedir}/ivy.xml" pomfile="${rel}/geodesy.pom" />
 	</target>
 	
 	<target name="sourcejar">
