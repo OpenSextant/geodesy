@@ -50,7 +50,7 @@ public class Angle implements Serializable {
     final static double TWO_PI = 2.0 * Math.PI;  // 360 degrees
 
 	/**
-	 * Unicode degree symbol (°)
+	 * Unicode degree symbol 
 	 * <br>
 	 * This is used by {@link #toString()}.
 	 */
@@ -192,7 +192,6 @@ public class Angle implements Serializable {
         // See if there is a units designator string suffix and handle accordingly
         int suffixLen = 0;
         if (token.endsWith(DEGSYM)) suffixLen = 1;
-        else if (token.endsWith("°")) suffixLen = 1;
         else if (token.endsWith("D")) suffixLen = 1;
         else if (token.endsWith("DEG")) suffixLen = 3;
         else if (token.endsWith("DEGS")) suffixLen = 4;
