@@ -9,6 +9,7 @@
 
 	<property name="lib" value="${basedir}/lib" />
 	<property name="rel" value="${basedir}/rel" />
+	<property name="src" value="${basedir}/src" />
 	<property name="build" value="${basedir}/build" />
 	<property name="build.classes" value="${build}/classes" />
 	<property name="test" value="${basedir}/test" />
@@ -44,6 +45,8 @@
 	<target name="clean">
 		<delete dir="${lib}" />
 		<delete dir="${rel}" />
+		<delete dir="${build}" />
+		<delete dir="${testoutput}" />
 	</target>
 
 	<target name="resolve" depends="init,init.proxy" description="retrieve dependencies with ivy">
@@ -86,7 +89,7 @@
 	<target name="generate-eclipse-classpath" depends="generate-eclipse-classpath.clean, generate-eclipse-classpath.real" description="Generate the Eclipse classpath." />
 	
 	<target name="compile" depends="resolve">
-		<javac source="1.5" target="1.5" classpathref="project.classpath" srcdir="${basedir}/src"
+		<javac source="1.5" target="1.5" classpathref="project.classpath" srcdir="${src}"
 			destdir="${build.classes}" />
 	</target>
 	
@@ -114,13 +117,13 @@
 	
 	<target name="sourcejar">
 		<jar destfile="${rel}/geodesy-sources.jar">
-			<fileset dir="${basedir}/src" />
+			<fileset dir="${src}" />
 		</jar>
 	</target>
 	
 	<target name="javadoc">
 		<mkdir dir="${rel}/docs"/>
-		<javadoc sourcepath="${basedir}/src" destdir="${rel}/docs"
+		<javadoc sourcepath="${src}" destdir="${rel}/docs"
 			classpathref="project.classpath"/>
 		<jar destfile="${rel}/geodesy-javadoc.jar" >
 			<fileset dir="${rel}/docs" />
