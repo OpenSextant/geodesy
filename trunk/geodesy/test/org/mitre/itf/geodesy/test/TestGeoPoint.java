@@ -127,7 +127,7 @@ public class TestGeoPoint extends TestCase {
     public void testEquals() {
 		// test equality with known geo-points
 		assertEquals(a, b);
-		assert(!a.equals(c));
+		assertFalse(a.equals(c));
 
         Geodetic2DPoint a2 = new Geodetic2DPoint(new Longitude(a.getLongitude().inRadians()),
                                     new Latitude(a.getLatitude().inRadians()));
@@ -142,7 +142,7 @@ public class TestGeoPoint extends TestCase {
 
 	public void testHashCode() {
 		assertEquals(a.hashCode(), b.hashCode());
-		assert(a.hashCode() != c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed
+		assertTrue(a.hashCode() != c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed
 	}
 
     public void testToString() {
