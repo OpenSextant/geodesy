@@ -18,6 +18,7 @@ package org.mitre.itf.geodesy.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.File;
 import java.util.Random;
 
 import junit.framework.JUnit4TestAdapter;
@@ -110,7 +111,7 @@ public class TestAngle {
 
 	@Test
 	public void testDegreeSymbol() throws IOException {
-		final InputStream stream = TestAngle.class.getResourceAsStream("DEGREE_SYMBOL.txt");
+		final InputStream stream = getStream("DEGREE_SYMBOL.txt");
 		final InputStreamReader reader = new InputStreamReader(stream, "ISO-8859-1");
 		final StringBuilder buff = new StringBuilder();
 		for (int c = reader.read(); c != -1; c = reader.read()) {
@@ -119,6 +120,12 @@ public class TestAngle {
 		final String file_degree = buff.toString().trim();
 		Assert.assertEquals(Angle.DEGSYM, file_degree);
 	}
+
+    private InputStream getStream(String filename) throws IOException {
+        File file = new File("test/org/mitre/itf/geodesy/test/" + filename);
+        if (file.exists()) return new java.io.FileInputStream(file);
+        return getClass().getResourceAsStream(filename);
+    }
 
 	public static junit.framework.Test suite() {
 		return new JUnit4TestAdapter(TestAngle.class);
