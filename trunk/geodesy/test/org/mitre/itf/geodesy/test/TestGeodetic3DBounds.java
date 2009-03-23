@@ -91,7 +91,7 @@ public class TestGeodetic3DBounds extends TestCase {
         assertTrue(bbox2.contains(pt));
         bbox1.include(bbox2);
         assertTrue(bbox1.contains(bbox2));
-        assertTrue(bbox1.contains(pt));
+        assertTrue(bbox1.contains(pt)); // sometimes this test fails: see comment beloiw
         /*
          try {
             assertTrue(bbox1.contains(pt));
