@@ -9,6 +9,11 @@
 
 	<property name="lib" value="${basedir}/lib" />
 	<property name="rel" value="${basedir}/rel" />
+	<property name="build" value="${basedir}/build" />
+	<property name="build.classes" value="${build}/classes" />
+	<property name="test" value="${basedir}/test" />
+	<property name="test.classes" value="${build}/test" />
+	<property name="testoutput" value="${basedir}/testOutput" />
 
 	<path id="project.classpath">
 		<fileset dir="${lib}">
@@ -20,7 +25,7 @@
 
 	<target name="init" unless="ivy.revision">
 		<mkdir dir="${rel}" />
-		<mkdir dir="${rel}/classes" />
+		<mkdir dir="build/classes" />
 		<mkdir dir="${rel}/jars" />
 		<dependset>
 			<srcfilelist dir="${basedir}" files="ivy.xml,ivy.settings" />
@@ -82,12 +87,12 @@
 	
 	<target name="compile" depends="resolve">
 		<javac source="1.5" target="1.5" classpathref="project.classpath" srcdir="${basedir}/src"
-			destdir="${rel}/classes" />
+			destdir="${build.classes}" />
 	</target>
 	
 	<target name="jar" depends="compile">
 		<jar destfile="${rel}/jars/geodesy.jar">
-			<fileset dir="${rel}/classes" />
+			<fileset dir="${build.classes}" />
 		</jar>
 	</target>
 	
@@ -120,5 +125,34 @@
 		<jar destfile="${rel}/geodesy-javadoc.jar" >
 			<fileset dir="${rel}/docs" />
 		</jar>
+	</target>
+
+	<target name="compileTests" depends="compile">
+		<mkdir dir="${test.classes}" />
+		<javac source="1.5" target="1.5" srcdir="${basedir}/test"
+			debug="true"
+			includeantruntime="false"
+			destdir="${test.classes}">
+			<classpath>
+				<pathelement path="${build.classes}" />
+				<path refid="project.classpath" />
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="test" depends="compileTests" description="Run JUnit tests">
+		<mkdir dir="${testoutput}" />
+
+		<junit printsummary="yes" haltonfailure="no" maxmemory="512m" fork="yes">
+			<classpath>
+				<pathelement path="${build.classes}" />
+				<pathelement path="${test.classes}" />
+				<path refid="project.classpath" />
+			</classpath>
+			<formatter type="plain" />
+			<batchtest fork="yes" todir="${testoutput}">
+				<fileset dir="${test}"/>
+			</batchtest>
+		</junit>
 	</target>
 </project>
