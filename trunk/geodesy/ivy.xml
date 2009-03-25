@@ -1,18 +1,17 @@
 <ivy-module version="2.0">
 	<info organisation="org.mitre.itf" module="geodesy" />
+	<configurations>
+		<conf name="compile" />
+		<conf name="test" extends="compile"  />
+	</configurations>
 	<publications>
 		<artifact name="geodesy" ext="jar" />
 		<artifact name="geodesy" ext="pom" />
 		<artifact name="geodesy-sources" type="sources" ext="jar" />
 		<artifact name="geodesy-javadoc" type="javadoc" ext="jar" />
 	</publications>
-	<dependencies>
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6">
-			<conf name="compile" />
-		</dependency>
-        <dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.5.6">
-            <conf name="compile" />
-        </dependency>
-		<dependency org="junit" name="junit" rev="4.4" />
+	<dependencies defaultconf="compile->default" >
+		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6" />
+		<dependency org="junit" name="junit" rev="4.4" conf="test->default" />
 	</dependencies>
 </ivy-module>
