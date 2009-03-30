@@ -35,10 +35,6 @@
 
 			<ibiblio name="mapsrv" namespace="m2" checkconsistency="false"
 				root="http://mapsrv.mitre.org/maven-proxy" m2compatible="true" />
-			<ibiblio name="maven-repo" namespace="m2"
-				root="http://repo1.maven.org/maven2" m2compatible="true" />
-			<ibiblio name="ibiblio" namespace="m2"
-				root="http://mirrors.ibiblio.org/pub/mirrors/maven2" m2compatible="true" />
 		</chain>
 		<ssh name="ssh" host="mapsrv">
 			<artifact pattern="/data/m2/repo-local/org/mitre/itf/[module]/[revision]/[artifact]-[revision].[ext]" />
