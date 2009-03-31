@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
+	<!-- Update before publishing. ivy:buildnumber should be usable here but
+		was failing for some reason. FIXME -->
+	<property name="version" value="1.9.2"/>
 	<property name="proxy.host" value="gatekeeper.mitre.org" />
 	<property name="proxy.port" value="80" />
 	<property name="proxy.user" value="" />
@@ -94,25 +97,41 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-		<jar destfile="${rel}/jars/geodesy.jar">
+		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-8" conf="default" inline="true"/>
+		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
+		<delete file="${rel}/jars/geodesy.jar"/>
+		<bundle file="${rel}/jars/geodesy.jar"
+		        update="false"
+		        bundlename="ITF Geodesy"
+		        bundledescription="The Transfusion geodetic library."
+		        bundlesymbolicname="org.mitre.itf.geodesy"
+		        bundleVersion="${version}"
+			activator="none"
+			standardJVMPackages="1.5"
+			bundleVendor="The MITRE Corp."
+			contactAddress="202 Burlington Road, Bedford, MA 01730-1420">
+			<importClasspath>
+				<path refid="project.classpath"/>
+			</importClasspath>
+
 			<fileset dir="${build.classes}" />
-		</jar>
+			<autoexportpackage prefix="org.mitre.itf.geodesy" version="${version}"/>
+		</bundle>
 	</target>
 	
 	<target name="publish" depends="jar, javadoc, sourcejar">
-		<!-- Update before publishing. ivy:buildnumber should be usable here but
-			was failing for some reason. FIXME -->
-		<property name="rev" value="1.9.1" />
-		<ivy:resolve revision="${rev}" file="${basedir}/ivy.xml" 
+		<!-- We probably shouldn't be specifying the revision
+		     here directly. -->
+		<ivy:resolve revision="${version}" file="${basedir}/ivy.xml" 
 			resolveid="ivyres" />
-		<ivy:deliver revision="${rev}" resolveid="ivyres" 
+		<ivy:deliver revision="${version}" resolveid="ivyres" 
 			deliverpattern="${rel}/ivy.xml" />
 		<ivy:makepom ivyfile="${basedir}/rel/ivy.xml" pomfile="${rel}/geodesy.pom" 
 			settingsref="ivy.instance">
 			<mapping conf="compile" scope="compile" />
 			<mapping conf="test" scope="test" />
 		</ivy:makepom>
-		<ivy:publish resolver="ssh" revision="${rev}" update="true" >
+		<ivy:publish resolver="ssh" revision="${version}" update="true" >
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
