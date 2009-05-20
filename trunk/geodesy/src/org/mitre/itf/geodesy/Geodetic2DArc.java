@@ -31,7 +31,7 @@ import java.io.Serializable;
  * This code was adapted from the open source GeoTools project, having been
  * translated to Java from original Fortran published by NOAA.
  */
-public class Geodetic2DArc implements Serializable {
+public class Geodetic2DArc implements Serializable, Comparable {
 	private static final long serialVersionUID = 1L;
 	
 	private final static Ellipsoid WGS84 = Ellipsoid.getInstance("WGS 84");
@@ -510,5 +510,21 @@ public class Geodetic2DArc implements Serializable {
         this.distanceInMeters = distanceInMeters;
         this.forwardAzimuth = forwardAzimuth;
         calcPoint2();
+    }
+
+    /**
+     * Compares this Geodetic2DArc with the specified Geodetic2DArc for order. Returns a
+     * negative integer, zero, or a positive integer as this arc's length is less than,
+     * equal to, or greater than the length of the specified arc.
+     *
+     * @param o the Geodetic2DArc to compare lengths with this one
+     * @return a negative integer, zero, or a positive integer as this object is less than,
+     *         equal to, or greater than the specified object.
+     */
+    public int compareTo(Object o) {
+        Geodetic2DArc that = (Geodetic2DArc) o;
+        Double thisLen = this.getDistanceInMeters();
+        Double thatLen = that.getDistanceInMeters();
+        return thisLen.compareTo(thatLen);
     }
 }

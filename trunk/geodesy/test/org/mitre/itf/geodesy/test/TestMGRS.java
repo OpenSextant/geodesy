@@ -18,17 +18,23 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy.test;
 
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-import junit.textui.TestRunner;
 import org.mitre.itf.geodesy.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.junit.runner.JUnitCore;
+import org.junit.Test;
+import org.junit.Assert;
 
 import java.util.Random;
 
-public class TestMGRS extends TestCase {
+public class TestMGRS {
+    final static Class thisClass = TestMGRS.class;
+    final static Logger log = LoggerFactory.getLogger(thisClass);
+
     /**
      * This method does an exhaustive test of possible MGRS square values
      */
+    @Test
     public void testStringCombos() {
         int valid, total;
         String ms;
@@ -57,8 +63,8 @@ public class TestMGRS extends TestCase {
         }
         // There are 49422 valid UTM grid cells out of a possible 1054560
         // (only 4.686504324078289%)
-        assertEquals(1054560, total);
-        assertEquals(49422, valid);
+        Assert.assertEquals(1054560, total);
+        Assert.assertEquals(49422, valid);
 
         // Considering (26 * 26 * 26) = 17,576 strings
         valid = 0;
@@ -80,14 +86,15 @@ public class TestMGRS extends TestCase {
         }
         // There are 568 valid UPS grid cells out of a possible 17576
         // (only 3.23167956304051%)
-        assertEquals(17576, total);
-        assertEquals(568, valid);
+        Assert.assertEquals(17576, total);
+        Assert.assertEquals(568, valid);
     }
 
     /**
      * This method generates a random sample of Geodetic points, converting them to MGRS
      * Strings and back into Geodetic form, to compare the two forms for proximal equality
      */
+    @Test
     public void testGeodeticSample() {
         Random r = new Random();
         FrameOfReference f = new FrameOfReference();
@@ -95,13 +102,14 @@ public class TestMGRS extends TestCase {
         for (int i = 0; i < trials; i++) {
             Geodetic2DPoint g1 = TestGeoPoint.randomGeodetic2DPoint(r);
             Geodetic2DPoint g2 = new MGRS(new MGRS(g1).toString(5)).toGeodetic2DPoint();
-            assertTrue(f.proximallyEquals(g1, g2));
+            Assert.assertTrue(f.proximallyEquals(g1, g2));
         }
     }
 
     /**
      * This method is used to test some specific landmark points around the globe
      */
+    @Test
     public void testLandmarks() {
         // washington_monument == "18SUJ2348306479" -> (77° 2' 6.87" W, 38° 53' 22.07" N)
         String MGRS_washington_monument = "18SUJ2348306479";
@@ -177,7 +185,7 @@ public class TestMGRS extends TestCase {
 
         FrameOfReference f = new FrameOfReference();
         for (int i = 0; i < mArray.length; i++) {
-            assertTrue(f.proximallyEquals(new MGRS(mArray[i]).toGeodetic2DPoint(), gArray[i]));
+            Assert.assertTrue(f.proximallyEquals(new MGRS(mArray[i]).toGeodetic2DPoint(), gArray[i]));
 //            String ms = mArray[i];
 //            MGRS mc = new MGRS(ms);
 //            Geodetic2DPoint gc = mc.getGeodetic();
@@ -190,54 +198,76 @@ public class TestMGRS extends TestCase {
         }
     }
 
-	public void testBoundary() {
-		Geodetic2DPoint point = new Geodetic2DPoint(new Longitude(-0.00000019, Angle.DEGREES),
-				new Latitude(6.40175, Angle.DEGREES));
-		MGRS mgrs = new MGRS(point);
-		Geodetic2DPoint pt = mgrs.toGeodetic2DPoint();
-		assertEquals(point, pt);
+    @Test
+    public void testBoundary() {
+        Geodetic2DPoint point = new Geodetic2DPoint(new Longitude(-0.00000019, Angle.DEGREES),
+                new Latitude(6.40175, Angle.DEGREES));
+        MGRS mgrs = new MGRS(point);
+        Geodetic2DPoint pt = mgrs.toGeodetic2DPoint();
+        Assert.assertEquals(point, pt);
 
         point = new Geodetic2DPoint(new Longitude(6.40175, Angle.DEGREES),
-				    new Latitude(-0.00000019, Angle.DEGREES));
+                new Latitude(-0.00000019, Angle.DEGREES));
         mgrs = new MGRS(point);
         pt = mgrs.toGeodetic2DPoint();
-		assertEquals(point, pt);
-	}
+        Assert.assertEquals(point, pt);
+    }
 
-	private static void dump(MGRS mgrs) {
-		System.out.println("MGRS");
-		for (int i=1; i <= 5; i++) {
-			System.out.println("\t" + mgrs.toString(i));
-		}
-		Geodetic2DBounds bbox = mgrs.getBoundingBox();
-		System.out.println("\t" + bbox);
-		Geodetic2DPoint pt = mgrs.toGeodetic2DPoint();
-		System.out.println("\tpointInCell=" + pt);
-		System.out.println("\tlon=" + pt.getLongitude().inDegrees() + ", lat=" + pt.getLatitude().inDegrees());
-		System.out.println();
-	}
+    private static void dump(MGRS mgrs) {
+        System.out.println("MGRS");
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("\t" + mgrs.toString(i));
+        }
+        Geodetic2DBounds bbox = mgrs.getBoundingBox();
+        System.out.println("\t" + bbox);
+        Geodetic2DPoint pt = mgrs.toGeodetic2DPoint();
+        System.out.println("\tpointInCell=" + pt);
+        System.out.println("\tlon=" + pt.getLongitude().inDegrees() + ", lat=" + pt.getLatitude().inDegrees());
+        System.out.println();
+    }
 
-	/**
+    @Test
+    public void testFormatAndParse() throws Exception {
+        final int n = 100000;
+        Random r = new Random();
+
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            // Generate a random point, convert to MGRS string and then re-parse
+            Geodetic2DPoint p1 = new Geodetic2DPoint(r);
+            MGRS m1 = new MGRS(p1);
+            String m1Str = m1.toString(r.nextInt(4) + 2);
+            try {
+                new MGRS(m1Str, true);
+            } catch (Exception ex) {
+                count += 1;
+            }
+        }
+        log.info("Total parse error rate after imprecise formatting: " +
+                count + " out of " + n);
+    }
+
+    /**
      * Main method for running class tests.
      *
      * @param args standard command line arguments - ignored.
      */
     public static void main(String[] args) {
+        //dump(new MGRS("38SMB 45873 88305"));
+        //dump(new MGRS("38 S MB 45873 88305"));
 
-		//dump(new MGRS("38SMB 45873 88305"));
-		//dump(new MGRS("38 S MB 45873 88305"));
+        //dump(new MGRS("42SWD152360"));
+        //dump(new MGRS("4QFJ")); // => implies 4QFJ00
+        //dump(new MGRS("55DEC07"));
+        //dump(new MGRS("4QFJ15"));
+        //dump(new MGRS("4QFJ0000100001"));
+        //dump(new MGRS(new Longitude("44.418396"), new Latitude("33.3325477N")));	// bagdad
+        //dump(new MGRS("4QFJ000000000000")); // ill-formed 1..5 digits
+        //dump(new MGRS(new Longitude(44,23,0), new Latitude(33,20,0))); 			// bagdad
+        //dump(new MGRS(new Longitude(69,10,0), new Latitude(34,40,0))); 			// kabul
 
-		//dump(new MGRS("42SWD152360"));
-		//dump(new MGRS("4QFJ")); // => implies 4QFJ00
-		//dump(new MGRS("55DEC07"));
-		//dump(new MGRS("4QFJ15"));
-		//dump(new MGRS("4QFJ0000100001"));
-		//dump(new MGRS(new Longitude("44.418396"), new Latitude("33.3325477N")));	// bagdad
-		//dump(new MGRS("4QFJ000000000000")); // ill-formed 1..5 digits
-		//dump(new MGRS(new Longitude(44,23,0), new Latitude(33,20,0))); 			// bagdad
-		//dump(new MGRS(new Longitude(69,10,0), new Latitude(34,40,0))); 				// kabul
-
-		TestSuite suite = new TestSuite(TestMGRS.class);
-        new TestRunner().doRun(suite);
-	}
+        log.info("start");
+        JUnitCore.runClasses(thisClass);
+        log.info("end");
+    }
 }

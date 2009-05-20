@@ -16,6 +16,7 @@
 package org.mitre.itf.geodesy;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,9 +46,9 @@ import org.slf4j.LoggerFactory;
  * @author Paul Silvey
  */
 public class MGRS implements GeoPoint, Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final Logger log = LoggerFactory.getLogger(MGRS.class);
+    private static final Logger log = LoggerFactory.getLogger(MGRS.class);
 
     private static final int ONEHT = 100000;
     private static final int TWOMIL = 2000000;
@@ -185,33 +186,37 @@ public class MGRS implements GeoPoint, Serializable {
     private Geodetic2DPoint urCorner;       // Upper-Right corner of most precise containing cell
     private Geodetic2DBounds bbox;          // Bounding box of MGRS cell (contains precise coordinate)
 
+    private DecimalFormat FMT = new DecimalFormat("00000"); // Instance Formatter for eastings & northings
+
     // Initialize this MGRS object from String notation
-    private void initFromString(final CharSequence mgrs) throws IllegalArgumentException {
+    // If argument 'strict' is true, exception will be thrown for non optimal projection encodings
+    private void initFromString(final CharSequence mgrs, boolean strict)
+            throws IllegalArgumentException {
         if (mgrs == null) {
-			throw new IllegalArgumentException("null value for MGRS String is invalid");
-		}
+            throw new IllegalArgumentException("null value for MGRS String is invalid");
+        }
 
         // Normalize the string by removing separators and converting case
         // Remove embedded whitespace, non-breaking spaces, slashes, dashes, null characters, and convert to uppercase
         final StringBuilder mgrsBuf = new StringBuilder(mgrs.length());
-		for(int i = 0; i < mgrs.length(); i += 1) {
-			final char c = mgrs.charAt(i);
+        for (int i = 0; i < mgrs.length(); i += 1) {
+            final char c = mgrs.charAt(i);
             if ((!Character.isWhitespace(c)) && (!Character.isSpaceChar(c)) && (c != '-') && (c != '/') && (((int) c) != 0))
                 mgrsBuf.append(Character.toUpperCase(c));
         }
-		if(mgrsBuf.length() == 0) {
-			throw new IllegalArgumentException("empty value for MGRS String is invalid");
-		}
+        if (mgrsBuf.length() == 0) {
+            throw new IllegalArgumentException("empty value for MGRS String is invalid");
+        }
 
         // Parse leading digits as UTM lon zone, if present
         int i = 0;
 
         while (Character.isDigit(mgrsBuf.charAt(i))) {
-			i++;
-			if(i >= mgrsBuf.length()) {
-				throw new IllegalArgumentException("MGRS String parse error, string was entirely numeric: " + mgrsBuf);
-			}
-		}
+            i++;
+            if (i >= mgrsBuf.length()) {
+                throw new IllegalArgumentException("MGRS String parse error, string was entirely numeric: " + mgrsBuf);
+            }
+        }
         lonZone = 0;
         if ((1 <= i) && (i <= 2)) {
             lonZone = Integer.parseInt(mgrsBuf.substring(0, i));
@@ -242,18 +247,17 @@ public class MGRS implements GeoPoint, Serializable {
             // MGRS square needed for poles, and we also choose to require it for UTM coordinates
             throw new IllegalArgumentException("MGRS String parse error," +
                     " expecting 2 alpha characters for MGRS square, found only one, or end of string: " +
-					mgrsBuf.subSequence(i, mgrsBuf.length()));
+                    mgrsBuf.subSequence(i, mgrsBuf.length()));
         } else {
-            int j = i;
-			// Set instance variables based on MGRS square identifiers, and validate syntax
-			xSquare = mgrsBuf.charAt(i++);
-			if (!Character.isLetter(xSquare)) {
-				throw new IllegalArgumentException("xSquare character was not a letter: " + xSquare);
-			}
-			ySquare = mgrsBuf.charAt(i++);
-			if (!Character.isLetter(ySquare)) {
-				throw new IllegalArgumentException("ySquare character was not a letter: " + ySquare);
-			}
+            // Set instance variables based on MGRS square identifiers, and validate syntax
+            xSquare = mgrsBuf.charAt(i++);
+            if (!Character.isLetter(xSquare)) {
+                throw new IllegalArgumentException("xSquare character was not a letter: " + xSquare);
+            }
+            ySquare = mgrsBuf.charAt(i++);
+            if (!Character.isLetter(ySquare)) {
+                throw new IllegalArgumentException("ySquare character was not a letter: " + ySquare);
+            }
         }
 
         // Finally, if present, parse next string of digits as easting & northing; compute precision
@@ -263,15 +267,15 @@ public class MGRS implements GeoPoint, Serializable {
         final CharSequence en = mgrsBuf.subSequence(i, mgrsBuf.length());
         int n = en.length();
         if (n > 0) {
-			if (n > 11) {
-				throw new IllegalArgumentException("Length of easting/northing values exceeded 10: " + n + ": " + en);
-			} else if ((n % 2) != 0) {
-				throw new IllegalArgumentException("Length of easting/northing values was odd: " + n + ": " + en);
-			}
-			int k = n / 2;
-			precision = (int) Math.pow(10.0, 5.0 - k);
-			easting = Integer.parseInt(en.subSequence(0, k).toString()) * precision;
-			northing = Integer.parseInt(en.subSequence(k, en.length()).toString()) * precision;
+            if (n > 10) {
+                throw new IllegalArgumentException("Length of easting/northing values exceeded 10: " + n + ": " + en);
+            } else if ((n % 2) != 0) {
+                throw new IllegalArgumentException("Length of easting/northing values was odd: " + n + ": " + en);
+            }
+            int k = n / 2;
+            precision = (int) Math.pow(10.0, 5.0 - k);
+            easting = Integer.parseInt(en.subSequence(0, k).toString()) * precision;
+            northing = Integer.parseInt(en.subSequence(k, en.length()).toString()) * precision;
         }
 
         // Now, convert UTM or UPS parameters into a Geodetic2DPoint for the Southwest corner point
@@ -333,9 +337,12 @@ public class MGRS implements GeoPoint, Serializable {
                 Geodetic2DPoint pMin = new Geodetic2DPoint(new Longitude(minLonDeg, Angle.DEGREES), lat);
                 if (ellipsoid.orthodromicDistance(pMin, pointInCell) > 1.0) {
                     Geodetic2DPoint pMax = new Geodetic2DPoint(new Longitude(maxLonDeg, Angle.DEGREES), lat);
-                    if (ellipsoid.orthodromicDistance(pMax, pointInCell) > 1.0)
-                        throw new IllegalArgumentException("MGRS easting out of range for square identifier '" +
-                                xSquare + "' in longitudinal zone " + lonZone);
+                    if (ellipsoid.orthodromicDistance(pMax, pointInCell) > 1.0) {
+                        String msg = "MGRS easting out of range for square identifier '" +
+                                xSquare + "' in longitudinal zone " + lonZone;
+                        if (strict) throw new IllegalArgumentException(msg);
+                        else log.debug(msg);
+                    }
                 }
             }
         } else {
@@ -405,9 +412,12 @@ public class MGRS implements GeoPoint, Serializable {
             urCorner = urUPS.getGeodetic();
 
             // Validate that the latitude is within the polar regions
-            if (utmCoord(pointInCell.getLatitude()))
-                throw new IllegalArgumentException("MGRS coordinate corresponds to a UPS " +
-                        "point outside a polar region");
+            if (utmCoord(pointInCell.getLatitude())) {
+                String msg = "MGRS coordinate corresponds to a UPS " +
+                        "point outside a polar region";
+                if (strict) throw new IllegalArgumentException(msg);
+                else log.debug(msg);
+            }
         }
         bbox = new Geodetic2DBounds(llCorner, urCorner);
     }
@@ -476,26 +486,65 @@ public class MGRS implements GeoPoint, Serializable {
     }
 
     /**
+     * This constructor takes an Ellipsoid object and an MGRS coordinate CharSequence.
+     * It uses the default non strict parsing rules, which will result in only a
+     * logged warning when the given encoding is not optimal for the
+     * projected point (easting out of range or UPS outside of polar region).
+     *
+     * @param ellip Ellipsoid model of the earth to use in projections
+     * @param mgrs  Military Grid Reference System coordinate CharSequence
+     * @throws IllegalArgumentException error if parameters are invalid
+     */
+    public MGRS(Ellipsoid ellip, CharSequence mgrs) throws IllegalArgumentException {
+        ellipsoid = ellip;
+        initFromString(mgrs, false);
+    }
+
+    /**
      * This constructor takes an Ellipsoid object and an MGRS coordinate string.
+     * It uses the default non strict parsing rules, which will result in only a
+     * logged warning when the given encoding is not optimal for the
+     * projected point (easting out of range or UPS outside of polar region).
      *
      * @param ellip Ellipsoid model of the earth to use in projections
      * @param mgrs  Military Grid Reference System coordinate string
      * @throws IllegalArgumentException error if parameters are invalid
      */
     public MGRS(Ellipsoid ellip, String mgrs) throws IllegalArgumentException {
-		this(ellip, (CharSequence) mgrs);
+        this(ellip, (CharSequence) mgrs);
     }
 
     /**
-     * This constructor takes an Ellipsoid object and an MGRS coordinate string.
+     * This constructor takes an Ellipsoid object, an MGRS coordinate string, and
+     * a boolean flag indicating whether strict parsing rules should be followed, which
+     * can result in an IllegalArgumentException when the given encoding is not optimal
+     * for the projected point (easting out of range or UPS outside of polar region).
      *
-     * @param ellip Ellipsoid model of the earth to use in projections
-     * @param mgrs  Military Grid Reference System coordinate string
+     * @param ellip  Ellipsoid model of the earth to use in projections
+     * @param mgrs   Military Grid Reference System coordinate string
+     * @param strict boolean indicating if parsing rules should be strictly enforced
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Ellipsoid ellip, CharSequence mgrs) throws IllegalArgumentException {
+    public MGRS(Ellipsoid ellip, String mgrs, boolean strict)
+            throws IllegalArgumentException {
+        this(ellip, (CharSequence) mgrs, strict);
+    }
+
+    /**
+     * This constructor takes an Ellipsoid object, an MGRS coordinate CharSequence, and
+     * a boolean flag indicating whether strict parsing rules should be followed, which
+     * can result in an IllegalArgumentException when the given encoding is not optimal
+     * for the projected point (easting out of range or UPS outside of polar region).
+     *
+     * @param ellip  Ellipsoid model of the earth to use in projections
+     * @param mgrs   Military Grid Reference System coordinate CharSequence
+     * @param strict boolean indicating if parsing rules should be strictly enforced
+     * @throws IllegalArgumentException error if parameters are invalid
+     */
+    public MGRS(Ellipsoid ellip, CharSequence mgrs, boolean strict)
+            throws IllegalArgumentException {
         ellipsoid = ellip;
-        initFromString(mgrs);
+        initFromString(mgrs, strict);
     }
 
     /**
@@ -524,7 +573,23 @@ public class MGRS implements GeoPoint, Serializable {
     }
 
     /**
+     * This constructor takes an MGRS coordinate CharSequence, assuming WGS 84 Ellipsoid.
+     * It uses the default non strict parsing rules, which will result in only a
+     * logged debug level warning when the given encoding is not optimal for the
+     * projected point (easting out of range or UPS outside of polar region).
+     *
+     * @param mgrs Military Grid Reference System coordinate CharSequence
+     * @throws IllegalArgumentException error if parameters are invalid
+     */
+    public MGRS(CharSequence mgrs) throws IllegalArgumentException {
+        initFromString(mgrs, false);
+    }
+
+    /**
      * This constructor takes an MGRS coordinate string, assuming WGS 84 Ellipsoid.
+     * It uses the default non strict parsing rules, which will result in only a
+     * logged debug level warning when the given encoding is not optimal for the
+     * projected point (easting out of range or UPS outside of polar region).
      *
      * @param mgrs Military Grid Reference System coordinate string
      * @throws IllegalArgumentException error if parameters are invalid
@@ -534,13 +599,33 @@ public class MGRS implements GeoPoint, Serializable {
     }
 
     /**
-     * This constructor takes an MGRS coordinate string, assuming WGS 84 Ellipsoid.
+     * This constructor takes an MGRS coordinate CharSequence and a boolean flag
+     * indicating if strict parsing rules should be followed, which can result in
+     * an IllegalArgumentException when given encoding is not optimal for the
+     * projected point (easting out of range or UPS outside of polar region).
+     * It assumes the WGS84 Ellipsoid model of the Earth.
      *
-     * @param mgrs Military Grid Reference System coordinate string
+     * @param mgrs   Military Grid Reference System coordinate string
+     * @param strict boolean indicating if parsing rules should be strictly enforced
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(CharSequence mgrs) throws IllegalArgumentException {
-        initFromString(mgrs);
+    public MGRS(CharSequence mgrs, boolean strict) throws IllegalArgumentException {
+        initFromString(mgrs, strict);
+    }
+
+    /**
+     * This constructor takes an MGRS coordinate String and a boolean flag
+     * indicating if strict parsing rules should be followed, which can result in
+     * an IllegalArgumentException when given encoding is not optimal for the
+     * projected point (easting out of range or UPS outside of polar region).
+     * It assumes the WGS84 Ellipsoid model of the Earth.
+     *
+     * @param mgrs   Military Grid Reference System coordinate string
+     * @param strict boolean indicating if parsing rules should be strictly enforced
+     * @throws IllegalArgumentException error if parameters are invalid
+     */
+    public MGRS(String mgrs, boolean strict) throws IllegalArgumentException {
+        this((CharSequence) mgrs, strict);
     }
 
     /**
@@ -569,14 +654,14 @@ public class MGRS implements GeoPoint, Serializable {
      * precise MGRS coordinate that it corresponds to.  Since MGRS cells make up a fixed grid on the
      * surface of the Ellipsoid, not all bounding boxes will properly snap to it.  This method is
      * designed to reverse the mapping from a valid MGRS string to a bounding box, to recover the
-     * MGRS string that was used to create the bounding box. It can throw an IllegalArgumentException
+     * MGRS string that was used to create the bounding box. It throws a NotAnMGRSBoxException
      * when the fit is not adequate.
      *
      * @param bbox Geodetic2DBBounds bounding box to try to convert back to an MGRS coordinate
      * @throws IllegalArgumentException if there is another problem initializing from the derived string.
-	 * @throws NotAnMGRSBoxException if the bounding box doesn't fit to the MGRS grid properly
+     * @throws NotAnMGRSBoxException    if the bounding box doesn't fit to the MGRS grid properly
      */
-    public MGRS(Geodetic2DBounds bbox) throws IllegalArgumentException, NotAnMGRSBoxException {
+    public MGRS(Geodetic2DBounds bbox) throws NotAnMGRSBoxException {
         Geodetic2DPoint sw = new Geodetic2DPoint(bbox.getWestLon(), bbox.getSouthLat());
         Geodetic2DPoint ne = new Geodetic2DPoint(bbox.getEastLon(), bbox.getNorthLat());
         Geodetic2DArc d = new Geodetic2DArc(sw, ne);
@@ -587,10 +672,11 @@ public class MGRS implements GeoPoint, Serializable {
         else if (diagonal == 141) precision = 3;
         else if (diagonal == 1414) precision = 2;
         else if (diagonal == 14142) precision = 1;
-        else throw new NotAnMGRSBoxException("Bounding box doesn't fit the MGRS grid properly: " + bbox + " diagonal was: " + diagonal);
+        else
+            throw new NotAnMGRSBoxException("Bounding box doesn't fit the MGRS grid properly: " + bbox + " diagonal was: " + diagonal);
 
         MGRS m = new MGRS(sw);
-        initFromString(m.toString(precision));
+        initFromString(m.toString(precision), true);
     }
 
     /**
@@ -631,7 +717,7 @@ public class MGRS implements GeoPoint, Serializable {
      *
      * @return a hash code value for this object.
      */
-	@Override
+    @Override
     public int hashCode() {
         return this.pointInCell.hashCode();
     }
@@ -654,7 +740,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param that MGRS point to compare against this one.
      * @return true if specified MGRS point is equal in value to this one.
      */
-	@Override
+    @Override
     public boolean equals(Object that) {
         return that instanceof MGRS && equals((MGRS) that);
     }
@@ -672,7 +758,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @return MGRS coordinate string at the specified precision level
      * @throws IllegalArgumentException - exception if precision is out of range (0..5)
      */
-    public String toString(int precisionDigits) throws IllegalArgumentException {
+    public synchronized String toString(int precisionDigits) throws IllegalArgumentException {
         if ((precisionDigits < 0) || (5 < precisionDigits))
             throw new IllegalArgumentException("Precision must be an integer in the range 0..5");
 
@@ -683,18 +769,9 @@ public class MGRS implements GeoPoint, Serializable {
         mgrsStr.append(latBand);
         mgrsStr.append(xSquare);
         mgrsStr.append(ySquare);
-        // Add the correct easting and northing values at the specified precision
-        if (precisionDigits > 0) {
-            // round easting and northing values to the 'precision' number of digits
-            String e = Long.toString(Math.round(easting / Math.pow(10.0, 5.0 - precisionDigits)));
-            for (int count = e.length(); count < precisionDigits; count++)
-                mgrsStr.append('0');
-            mgrsStr.append(e);
-            String n = Long.toString(Math.round(northing / Math.pow(10.0, 5.0 - precisionDigits)));
-            for (int count = n.length(); count < precisionDigits; count++)
-                mgrsStr.append('0');
-            mgrsStr.append(n);
-        }
+        // Add the correct easting and northing values truncated at the specified precision
+        mgrsStr.append(FMT.format(easting).substring(0, precisionDigits));
+        mgrsStr.append(FMT.format(northing).substring(0, precisionDigits));
         return mgrsStr.toString();
     }
 
@@ -703,7 +780,7 @@ public class MGRS implements GeoPoint, Serializable {
      *
      * @return MGRS coordinate string at the most appropriate precision value
      */
-	@Override
+    @Override
     public String toString() {
         int precisionDigits = 5;
         if (precision == 100000) precisionDigits = 0;
