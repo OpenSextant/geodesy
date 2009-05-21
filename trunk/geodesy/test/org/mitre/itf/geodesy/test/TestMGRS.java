@@ -213,35 +213,33 @@ public class TestMGRS {
         Assert.assertEquals(point, pt);
     }
 
-    private static void dump(MGRS mgrs) {
-        System.out.println("MGRS");
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("\t" + mgrs.toString(i));
-        }
-        Geodetic2DBounds bbox = mgrs.getBoundingBox();
-        System.out.println("\t" + bbox);
-        Geodetic2DPoint pt = mgrs.toGeodetic2DPoint();
-        System.out.println("\tpointInCell=" + pt);
-        System.out.println("\tlon=" + pt.getLongitude().inDegrees() + ", lat=" + pt.getLatitude().inDegrees());
-        System.out.println();
-    }
-
     @Test
     public void testFormatAndParse() throws Exception {
-        final int n = 100000;
+        MGRS m1, m2;
+        String s1, s2;
+        int p;
+        final int n = 10;
         Random r = new Random();
 
         int count = 0;
         for (int i = 0; i < n; i++) {
-            // Generate a random point, convert to MGRS string and then re-parse
+            // Generate a random point
             Geodetic2DPoint p1 = new Geodetic2DPoint(r);
-            MGRS m1 = new MGRS(p1);
-            String m1Str = m1.toString(r.nextInt(4) + 2);
+            m1 = new MGRS(p1);
+            // Reduce precision
+            p = r.nextInt(3) + 2;
+            s1 = m1.toString(p);
+            // Re-parse original point strictly using less precision, count errors
             try {
-                new MGRS(m1Str, true);
+                new MGRS(s1, true);
             } catch (Exception ex) {
                 count += 1;
             }
+            // Re-parse original point non-strictly using less precision
+            m2 = new MGRS(s1);
+            // Increase precision
+            s2 = m2.toString(5);
+            log.debug(m1 + " vs. " + s2);
         }
         log.info("Total parse error rate after imprecise formatting: " +
                 count + " out of " + n);
@@ -253,19 +251,6 @@ public class TestMGRS {
      * @param args standard command line arguments - ignored.
      */
     public static void main(String[] args) {
-        //dump(new MGRS("38SMB 45873 88305"));
-        //dump(new MGRS("38 S MB 45873 88305"));
-
-        //dump(new MGRS("42SWD152360"));
-        //dump(new MGRS("4QFJ")); // => implies 4QFJ00
-        //dump(new MGRS("55DEC07"));
-        //dump(new MGRS("4QFJ15"));
-        //dump(new MGRS("4QFJ0000100001"));
-        //dump(new MGRS(new Longitude("44.418396"), new Latitude("33.3325477N")));	// bagdad
-        //dump(new MGRS("4QFJ000000000000")); // ill-formed 1..5 digits
-        //dump(new MGRS(new Longitude(44,23,0), new Latitude(33,20,0))); 			// bagdad
-        //dump(new MGRS(new Longitude(69,10,0), new Latitude(34,40,0))); 			// kabul
-
         log.info("start");
         JUnitCore.runClasses(thisClass);
         log.info("end");
