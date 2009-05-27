@@ -160,24 +160,29 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
         return lon.hashCode() ^ lat.hashCode();
     }
 
-    /**
+	// Inherited Javadoc
+    private boolean eq(Geodetic2DPoint that) {
+        // angular diff on surface Earth quite different than Earth to nearest star
+        return Angle.equals(this.lon.inRadians, that.lon.inRadians) &&
+                Angle.equals(this.lat.inRadians, that.lat.inRadians);
+    }
+
+	/**
      * This method is used to test whether two points are equal in the sense that have
      * the same angular coordinate values to within epsilon. See also the static method
      * proximallyEquals in the FrameOfReference class.
      *
      * @param that Geodetic2DPoint point to compare against this one.
      * @return true if specified Geodetic2DPoint point is equal in value to this
-     *         Geodetic2DPoint.
+     *         Geodetic2DPoint. If point is a Geodetic3DPoint then the
+	 * 		   Geodetic3DPoint equals is used for equality.
      */
-    public boolean equals(Geodetic2DPoint that) {
-        // angular diff on surface Earth quite different than Earth to nearest star
-        return Angle.equals(this.lon.inRadians, that.lon.inRadians) &&
-                Angle.equals(this.lat.inRadians, that.lat.inRadians);
-    }
-
-    // Inherited Javadoc
     public boolean equals(Object that) {
-        return (that instanceof Geodetic2DPoint) && this.equals((Geodetic2DPoint) that);
+		if (that instanceof Geodetic3DPoint) {
+			Geodetic3DPoint pt = (Geodetic3DPoint)that;
+			return pt.equals(this);
+		}
+		return (that instanceof Geodetic2DPoint) && this.eq((Geodetic2DPoint) that);
     }
 
     /**

@@ -68,7 +68,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
         this.elevation = elevation;
     }
 
-    private static final double EPSILON = 1e-7;
+    private static final double EPSILON = 1e-3;
 
     /**
      * This method returns a hash code for this Geodetic3DPoint object. The
@@ -86,29 +86,40 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
         return lon.hashCode() ^ lat.hashCode() ^ ((int) (elevation * 10e+6));
     }
 
-    /**
+	/**
      * This method is used to test whether two points are equal in the sense that have
      * the same angular coordinate values and elevations, to within epsilon. See also the
      * static method proximallyEquals in the FrameOfReference class.
      *
      * @param that Geodetic3DPoint point to compare against this one.
      * @return true if specified Geodetic3DPoint point is equal in value to this
-     *         Geodetic3DPoint.
+     *         Geodetic3DPoint. If point is a Geodetic2DPoint then 0 elevation is assumed. 
      */
-    public boolean equals(Geodetic3DPoint that) {
-        // angular diff on surface Earth quite different than Earth to nearest star
-        return Angle.equals(this.lon.inRadians, that.lon.inRadians) &&
-                Angle.equals(this.lat.inRadians, that.lat.inRadians) &&
-                (this.elevation == that.elevation ||
-                        Math.abs(this.elevation - that.elevation) <
-                                EPSILON * Math.max(Math.abs(this.elevation),
-                                        Math.abs(that.elevation)));
+    public boolean equals(Object that) {
+        if (that instanceof Geodetic3DPoint)
+			return this.eq((Geodetic3DPoint) that);
+		if (that instanceof Geodetic2DPoint) {
+			Geodetic2DPoint pt = (Geodetic2DPoint)that;
+			return equals(pt.lon, pt.lat, 0);  // test with 0 elevation
+		}
+		return false;
     }
 
-    // Inherited Javadoc
-    public boolean equals(Object that) {
-        return (that instanceof Geodetic3DPoint) && this.equals((Geodetic3DPoint) that);
+	// Inherited Javadoc
+    private boolean eq(Geodetic3DPoint that) {
+        // angular diff on surface Earth quite different than Earth to nearest star
+        return that != null && equals(that.lon, that.lat, that.elevation);
     }
+
+	// Inherited Javadoc
+	private boolean equals(Longitude otherLon, Latitude otherLat, double otherElevation) {
+		return Angle.equals(this.lon.inRadians, otherLon.inRadians) &&
+                Angle.equals(this.lat.inRadians, otherLat.inRadians) &&
+                (this.elevation == otherElevation ||
+                        Math.abs(this.elevation - otherElevation) <
+                                EPSILON * Math.max(Math.abs(this.elevation),
+                                        Math.abs(otherElevation)));
+	}
 
     /**
      * This method abstracts this Geodetic3DPoint object as a general purpose GeoPoint.
