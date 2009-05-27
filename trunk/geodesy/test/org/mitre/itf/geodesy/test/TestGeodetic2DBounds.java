@@ -22,13 +22,10 @@ import junit.framework.TestSuite;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 import org.mitre.itf.geodesy.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Random;
 
 public class TestGeodetic2DBounds extends TestCase {
-    private final Logger log = LoggerFactory.getLogger(TestGeodetic2DBounds.class);
 
     private void evaluateBBox(Geodetic2DBounds bbox, double radius) {
         FrameOfReference f = new FrameOfReference();
@@ -40,20 +37,20 @@ public class TestGeodetic2DBounds extends TestCase {
         sw = new Geodetic2DPoint(bbox.getWestLon(), bbox.getSouthLat());
         ne = new Geodetic2DPoint(bbox.getEastLon(), bbox.getNorthLat());
         diag1a = e.orthodromicDistance(sw, ne);
-        log.info("Diagonal by distance method 1: " + diag1a);
+        System.out.println("Diagonal by distance method 1: " + diag1a);
         Geodetic2DArc arc = new Geodetic2DArc(sw, ne);
         diag1b = arc.getDistanceInMeters();
-        log.info("Diagonal by distance method 2: " + diag1b);
+        System.out.println("Diagonal by distance method 2: " + diag1b);
 
         diag2 = 2.0 * Math.sqrt((radius * radius) + (radius * radius));
         diff = Math.abs(diag2 - diag1a);
         err = Math.max((diff / diag2), (diff / diag1a));
         // Look for large errors
         if (Math.abs(err) >= 0.00) {
-            log.warn(bbox.toString());
-            log.warn("Error in Diagonal = " + (100.0 * err) + " Percent");
-            log.warn("Diagonal = " + diag1a + ", expecting " + diag2);
-            log.warn("--------------");
+            System.out.println(bbox.toString());
+            System.out.println("Error in Diagonal = " + (100.0 * err) + " Percent");
+            System.out.println("Diagonal = " + diag1a + ", expecting " + diag2);
+            System.out.println("--------------");
         }
     }
 
@@ -75,7 +72,7 @@ public class TestGeodetic2DBounds extends TestCase {
                 evaluateBBox(bbox, radius);
 
             } catch (IllegalArgumentException ex) {
-                log.error(ex.toString());
+                ex.printStackTrace(System.out);
             }
         }
         System.out.println();
@@ -88,8 +85,8 @@ public class TestGeodetic2DBounds extends TestCase {
         double distance = 123456.0;
         Angle azimuth = new Angle(33.0, Angle.DEGREES);
         Geodetic2DArc arc = new Geodetic2DArc(pt, distance, azimuth);
-        log.info(arc.getPoint1().toString(5));
-        log.info(arc.getPoint2().toString(5));
+        System.out.println(arc.getPoint1().toString(5));
+        System.out.println(arc.getPoint2().toString(5));
     }
 
     public void testBBox() {
