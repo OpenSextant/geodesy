@@ -68,7 +68,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
         this.elevation = elevation;
     }
 
-    private static final double EPSILON = 1e-3;
+    private static final double DELTA = 1e-3;
 
     /**
      * This method returns a hash code for this Geodetic3DPoint object. The
@@ -100,7 +100,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
 			return this.eq((Geodetic3DPoint) that);
 		if (that instanceof Geodetic2DPoint) {
 			Geodetic2DPoint pt = (Geodetic2DPoint)that;
-			return equals(pt.lon, pt.lat, 0);  // test with 0 elevation
+			return eq(pt.lon, pt.lat, 0);  // test with 0 elevation
 		}
 		return false;
     }
@@ -108,17 +108,15 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
 	// Inherited Javadoc
     private boolean eq(Geodetic3DPoint that) {
         // angular diff on surface Earth quite different than Earth to nearest star
-        return that != null && equals(that.lon, that.lat, that.elevation);
+        return that != null && eq(that.lon, that.lat, that.elevation);
     }
 
 	// Inherited Javadoc
-	private boolean equals(Longitude otherLon, Latitude otherLat, double otherElevation) {
+	private boolean eq(Longitude otherLon, Latitude otherLat, double otherElevation) {
 		return Angle.equals(this.lon.inRadians, otherLon.inRadians) &&
                 Angle.equals(this.lat.inRadians, otherLat.inRadians) &&
-                (this.elevation == otherElevation ||
-                        Math.abs(this.elevation - otherElevation) <
-                                EPSILON * Math.max(Math.abs(this.elevation),
-                                        Math.abs(otherElevation)));
+                (Double.compare(this.elevation, otherElevation) == 0 ||
+                        Math.abs(this.elevation - otherElevation) <= DELTA);
 	}
 
     /**
