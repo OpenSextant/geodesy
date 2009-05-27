@@ -82,6 +82,24 @@ public class TestGeodetic3DPoint extends TestCase {
 		assertEquals(a, a2);
 	}
 
+    /**
+     * Test 2d vs 3d points with 3d elavations at/close to 0
+     */
+    public void testMismatchedEquals() {
+        Geodetic2DPoint p1 = makePoint(-81.9916466079043, 29.9420387052815, 5000.1);
+		Geodetic2DPoint p2 = makePoint(-81.9916466079043, 29.9420387052815, 0.0);
+        if (p1.equals(p2)) fail("different elevation but equals() == true");
+        if (p2.equals(p1)) fail("different elevation but equals() == true");
+		Geodetic2DPoint p3 = makePoint(-81.9916466079043, 29.9420387052815);
+        assertEquals("2d with elev=0 and 3d point same lat/lon", p2, p3);
+        assertEquals("2d with elev=0 and 3d point same lat/lon", p3, p2);
+		Geodetic2DPoint p4 = makePoint(-81.9916466079043, 29.9420387052815, 1e-6);
+        //assertEquals(p3, new Geodetic2DPoint(p4.getLongitude(), p4.getLatitude()));
+        assertEquals("3d with elev=1e-4 and 3d point same lat/lon", p2, p4);
+        assertEquals("3d with elev=1e-4 and 3d point same lat/lon", p4, p2);
+        assertEquals("3d with elev=1e-4 and 3d point same lat/lon", p3, p4);
+    }
+
 	public void testHashCode() {
 		assertEquals(a.hashCode(), b.hashCode());
 		assert(a.hashCode() != c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed
@@ -119,6 +137,18 @@ public class TestGeodetic3DPoint extends TestCase {
         }
     }
 
+    private static Geodetic2DPoint makePoint(double lon, double lat, double elev) {
+		return new Geodetic3DPoint(
+				new Longitude(lon, Angle.DEGREES),
+				new Latitude(lat, Angle.DEGREES),
+				elev);
+	}
+
+	private static Geodetic2DPoint makePoint(double lon, double lat) {
+		return new Geodetic2DPoint(
+				new Longitude(lon, Angle.DEGREES),
+				new Latitude(lat, Angle.DEGREES));
+	}
 
     /**
      * Main method for running class tests.
