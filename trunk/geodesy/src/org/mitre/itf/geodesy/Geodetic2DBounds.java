@@ -32,6 +32,10 @@ import org.slf4j.LoggerFactory;
  * and it may be grown around a set of points by successive calls to the include method.
  */
 public class Geodetic2DBounds implements Serializable {
+	private static final Angle ANGLE_225 = new Angle(225, Angle.DEGREES);
+
+	private static final Angle ANGLE_45 = new Angle(45, Angle.DEGREES);
+
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger log = LoggerFactory.getLogger(Geodetic2DBounds.class);
@@ -241,6 +245,37 @@ public class Geodetic2DBounds implements Serializable {
             // A precedes and overlaps B
             this.eastLon = eastB;
         } else log.error(OOPS);
+    }
+
+    /**
+     * Grows this Box by a consistent number of meters on each side.
+     * 
+     * @param meters the number of meters by which t grow the box.  Must not
+     *  be less than 0.
+     *  
+     * @throws IllegalArgumentException if meters is less than 0
+     */
+    public void grow(double meters) {
+    	if(meters < 0) {
+    		throw new IllegalArgumentException("meters cannot be null");
+    	}
+    	if(meters == 0) {
+    		return;
+    	}
+    	// Get the hypotenuse of the move...
+    	meters = Math.sqrt((meters * meters) * 2);
+    	Geodetic2DPoint ne = new Geodetic2DPoint(
+				getEastLon(), getNorthLat());
+		Geodetic2DPoint sw = new Geodetic2DPoint(
+				getWestLon(), getSouthLat());
+		Geodetic2DArc neArc = new Geodetic2DArc(ne, meters, ANGLE_45);
+		Geodetic2DArc swArc = new Geodetic2DArc(sw, meters, ANGLE_225);
+		Geodetic2DPoint neOut = neArc.getPoint2();
+		Geodetic2DPoint swOut = swArc.getPoint2();
+		setEastLon(neOut.getLongitude());
+		setWestLon(swOut.getLongitude());
+		setNorthLat(neOut.getLatitude());
+		setSouthLat(swOut.getLatitude());
     }
 
     /**

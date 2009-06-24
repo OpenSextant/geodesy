@@ -155,6 +155,31 @@ public class TestGeodetic2DBounds extends TestCase {
     }
 
     /**
+     * Test bounds that wraps Longitude at the International Date Line (IDL)
+     */
+    public void testGrow() {
+        Geodetic2DPoint west = new Geodetic2DPoint(new Longitude(30, Angle.DEGREES),
+                new Latitude(30, Angle.DEGREES));
+        Geodetic2DPoint east = new Geodetic2DPoint(new Longitude(31, Angle.DEGREES),
+                new Latitude(31, Angle.DEGREES));
+        Geodetic2DBounds bbox = new Geodetic2DBounds(west, east);
+        Geodetic2DPoint c = bbox.getCenter();
+        System.out.println(c + " -> " + bbox);
+        FrameOfReference fR = new FrameOfReference();
+        double oDist = fR.orthodromicDistance(west, east);
+        bbox.grow(1000);
+        Geodetic2DPoint nWest = new Geodetic2DPoint(bbox.westLon, bbox.southLat);
+		Geodetic2DPoint nEast = new Geodetic2DPoint(bbox.eastLon, bbox.northLat);
+		double nDist = fR.orthodromicDistance(nWest, nEast);
+        double diff = nDist - oDist;
+		System.out.println(oDist + " -> " + nDist + " : " + diff);
+		assertTrue(oDist < nDist);
+		double shouldBe = Math.sqrt((1000*1000*2)) * 2;
+		System.out.println(diff + " should be -> " + shouldBe);
+		assertTrue(Math.abs(diff - shouldBe) < 10);
+    }
+
+    /**
      * Main method for running class tests.
      *
      * @param args standard command line arguments - ignored.
