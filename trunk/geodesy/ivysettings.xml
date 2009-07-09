@@ -34,10 +34,9 @@
 			</filesystem>
 
 			<ibiblio name="mapsrv" namespace="m2" checkconsistency="false"
-				root="http://mapsrv.mitre.org/maven-proxy" m2compatible="true" />
+				root="http://mapsrv.mitre.org/artifactory/repo" m2compatible="true" />
 		</chain>
-		<ssh name="ssh" host="mapsrv">
-			<artifact pattern="/data/m2/repo-local/org/mitre/itf/[module]/[revision]/[artifact]-[revision].[ext]" />
-		</ssh>
+		<ibiblio name="mapsrv-deploy" namespace="m2" 
+			root="http://mapsrv/artifactory/libs-releases-local" m2compatible="true" />
 	</resolvers>
 </ivysettings>

@@ -131,11 +131,11 @@
 			<mapping conf="compile" scope="compile" />
 			<mapping conf="test" scope="test" />
 		</ivy:makepom>
-		<ivy:publish resolver="ssh" revision="${version}" update="true" >
+		<ivy:publish resolver="mapsrv-deploy" revision="${ivy.new.revision}" update="true" overwrite="true" >
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
-	</target>
+	</target>	
 	
 	<target name="sourcejar">
 		<jar destfile="${rel}/geodesy-sources.jar">
