@@ -1,8 +1,9 @@
 <ivy-module version="2.0">
 	<info organisation="org.mitre.itf" module="geodesy" />
 	<configurations>
-		<conf name="compile" />
-		<conf name="test" extends="compile"  />
+		<conf name="compile" description="This is this configuration that describes modules need to build our project"/>
+		<conf name="runtime" extends="compile" />
+		<conf name="test" extends="runtime" description="This is this configuration that describes modules need to run test on our project"/>		
 	</configurations>
 	<publications>
 		<artifact name="geodesy" ext="jar" />
@@ -12,6 +13,9 @@
 	</publications>
 	<dependencies defaultconf="compile->default" >
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6" />
+		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.6" conf="test->default"/>
+		<dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.5.6" conf="test->default"/>
+		<dependency org="log4j" name="log4j-osgi" rev="1.2.15" conf="test->default"/>		
 		<dependency org="junit" name="junit" rev="4.4" conf="test->default" />
 	</dependencies>
 </ivy-module>
