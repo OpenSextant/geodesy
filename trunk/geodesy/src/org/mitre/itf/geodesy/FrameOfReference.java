@@ -21,7 +21,7 @@ package org.mitre.itf.geodesy;
 import java.io.Serializable;
 
 /**
- * The FrameOfReference class is a contextul class to allow our geo-spatial point
+ * The FrameOfReference class is a contextual class to allow our geo-spatial point
  * objects to remain lightweight and context free by themselves, yet allow them to
  * be accurately converted between formats or compared when necessary. This class
  * holds the global and local reference points and mathematical modeling assumptions
