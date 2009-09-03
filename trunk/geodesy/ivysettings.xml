@@ -1,26 +1,29 @@
 <ivysettings>
-	<property name="repository.dir" value="${user.home}/.ivy2" />
-	<settings defaultResolver="chained" />
+	<!-- Create a ivy.properties file in your home dir and put a line in with your mapsrv user and passwd -->
+	<properties file="${user.home}/ivy.properties"/>
+	<property name="repository.dir" value="${user.home}/.ivy2"/>
+	<settings defaultResolver="chained"/>
+	<credentials host="maven-proxy" username="${mapsrv-user}" passwd="${mapsrv-passwd}"/>
 	<namespaces>
 		<namespace name="m2">
 			<rule>
 				<fromsystem>
-					<src org="servletapi" />
-					<dest org="javax.servlet" />
+					<src org="servletapi"/>
+					<dest org="javax.servlet"/>
 				</fromsystem>
 				<tosystem>
-					<src org="javax.servlet" />
-					<dest org="servletapi" />
+					<src org="javax.servlet"/>
+					<dest org="servletapi"/>
 				</tosystem>
 			</rule>
 			<rule>
 				<fromsystem>
-					<src org="com.sun.xml" />
-					<dest org="javax.xml" />
+					<src org="com.sun.xml"/>
+					<dest org="javax.xml"/>
 				</fromsystem>
 				<tosystem>
-					<src org="javax.xml" />
-					<dest org="com.sun.xml" />
+					<src org="javax.xml"/>
+					<dest org="com.sun.xml"/>
 				</tosystem>
 			</rule>
 		</namespace>
@@ -28,15 +31,16 @@
 	<resolvers>
 		<chain name="chained">
 			<filesystem name="libraries">
-				<ivy pattern="${repository.dir}/[organisation]/ivy-[revision].xml" />
+				<ivy pattern="${repository.dir}/[organisation]/ivy-[revision].xml"/>
 				<artifact
-					pattern="${repository.dir}/[organisation](-[module])/[artifact](-[type])-[revision].[ext]" />
+					pattern="${repository.dir}/[organisation](-[module])/[artifact](-[type])-[revision].[ext]"
+				/>
 			</filesystem>
 
 			<ibiblio name="mapsrv" namespace="m2" checkconsistency="false"
-				root="http://mapsrv.mitre.org/artifactory/repo" m2compatible="true" />
+				root="http://mapsrv.mitre.org/artifactory/repo" m2compatible="true"/>
 		</chain>
-		<ibiblio name="mapsrv-deploy" namespace="m2" 
-			root="http://mapsrv/artifactory/libs-releases-local" m2compatible="true" />
+		<ibiblio name="mapsrv-deploy" namespace="m2"
+			root="http://mapsrv/artifactory/libs-releases-local" m2compatible="true"/>
 	</resolvers>
 </ivysettings>
