@@ -38,7 +38,7 @@
 		<mkdir dir="${lib}" />
 		<property name="ivy.default.ivy.user.dir" value="${user.home}/.ivy2" />
 		<ivy:configure file="${basedir}/ivysettings.xml" />
-		<ivy:info file="${basedir}/ivy.xml" />
+		<ivy:resolve file="${basedir}/ivy.xml" />
 	</target>
 
 	<target name="init.proxy">
