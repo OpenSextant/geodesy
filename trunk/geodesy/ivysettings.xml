@@ -36,10 +36,10 @@
 					pattern="${repository.dir}/[organisation](-[module])/[artifact](-[type])-[revision].[ext]"
 				/>
 			</filesystem>
-			<ibiblio name="mapsrv" namespace="m2" checkconsistency="false"
+			<ibiblio name="maven-proxy" namespace="m2" checkconsistency="false"
 				root="http://maven-proxy/artifactory/repo" m2compatible="true"/>
 		</chain>
-		<ibiblio name="mapsrv-deploy" namespace="m2"
+		<ibiblio name="mapven-proxy-local" namespace="m2"
 			root="http://maven-proxy/artifactory/libs-releases-local" m2compatible="true"/>
 	</resolvers>
 </ivysettings>
