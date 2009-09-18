@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
-	<!-- Update before publishing. ivy:buildnumber should be usable here but
-		was failing for some reason. FIXME -->
-	<property name="version" value="1.9.6"/>
 	<property name="proxy.host" value="gatekeeper.mitre.org" />
 	<property name="proxy.port" value="80" />
 	<property name="proxy.user" value="" />
@@ -91,12 +88,14 @@
 
 	<target name="generate-eclipse-classpath" depends="generate-eclipse-classpath.clean, generate-eclipse-classpath.real" description="Generate the Eclipse classpath." />
 	
-	<target name="compile" depends="resolve">
+	<target name="compile" depends="init">
 		<javac source="1.5" target="1.5" classpathref="project.classpath" srcdir="${src}"
 			destdir="${build.classes}" />
 	</target>
 	
 	<target name="jar" depends="compile">
+		<!-- <ivy:buildnumber resolver="maven-proxy-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" /> -->
+		<property name="ivy.new.revision" value="1.9.6" />
 		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-8" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
 		<delete file="${rel}/jars/geodesy.jar"/>
@@ -105,7 +104,7 @@
 		        bundlename="ITF Geodesy"
 		        bundledescription="The Transfusion geodetic library."
 		        bundlesymbolicname="org.mitre.itf.geodesy"
-		        bundleVersion="${version}"
+		        bundleVersion="${ivy.new.revision}"
 			activator="none"
 			standardJVMPackages="1.5"
 			bundleVendor="The MITRE Corp."
@@ -115,23 +114,19 @@
 			</importClasspath>
 
 			<fileset dir="${build.classes}" />
-			<autoexportpackage prefix="org.mitre.itf.geodesy" version="${version}"/>
+			<autoexportpackage prefix="org.mitre.itf.geodesy" version="${ivy.new.revision}"/>
 		</bundle>
 	</target>
 	
 	<target name="publish" depends="jar, javadoc, sourcejar">
 		<!-- We probably shouldn't be specifying the revision
 		     here directly. -->
-		<ivy:resolve revision="${version}" file="${basedir}/ivy.xml" 
-			resolveid="ivyres" />
-		<ivy:deliver revision="${version}" resolveid="ivyres" 
-			deliverpattern="${rel}/ivy.xml" />
 		<ivy:makepom ivyfile="${basedir}/rel/ivy.xml" pomfile="${rel}/geodesy.pom" 
 			settingsref="ivy.instance">
 			<mapping conf="compile" scope="compile" />
 			<mapping conf="test" scope="test" />
 		</ivy:makepom>
-		<ivy:publish resolver="mapsrv-deploy" revision="${ivy.new.revision}" update="true" overwrite="true" >
+		<ivy:publish resolver="maven-proxy-local" revision="${ivy.new.revision}" overwrite="true">
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>

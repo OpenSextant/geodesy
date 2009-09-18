@@ -3,7 +3,8 @@
 	<properties file="${user.home}/ivy.properties"/>
 	<property name="repository.dir" value="${user.home}/.ivy2"/>
 	<settings defaultResolver="chained"/>
-	<credentials host="maven-proxy" username="${mapsrv-user}" passwd="${mapsrv-passwd}"/>
+	<credentials host="maven-proxy" realm="Artifactory Realm" username="${mapsrv-user}"
+		passwd="${mapsrv-passwd}"/>
 	<namespaces>
 		<namespace name="m2">
 			<rule>
@@ -36,10 +37,16 @@
 					pattern="${repository.dir}/[organisation](-[module])/[artifact](-[type])-[revision].[ext]"
 				/>
 			</filesystem>
-			<ibiblio name="maven-proxy" namespace="m2" checkconsistency="false"
-				root="http://maven-proxy/artifactory/repo" m2compatible="true"/>
+			<url name="maven-proxy" m2compatible="true">
+				<artifact
+					pattern="http://maven-proxy/artifactory/repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+				/>
+			</url>
 		</chain>
-		<ibiblio name="mapven-proxy-local" namespace="m2"
-			root="http://maven-proxy/artifactory/libs-releases-local" m2compatible="true"/>
+		<url name="maven-proxy-local" m2compatible="true">
+			<artifact
+				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+			/>
+		</url>
 	</resolvers>
 </ivysettings>
