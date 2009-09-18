@@ -37,11 +37,9 @@
 					pattern="${repository.dir}/[organisation](-[module])/[artifact](-[type])-[revision].[ext]"
 				/>
 			</filesystem>
-			<url name="maven-proxy" m2compatible="true">
-				<artifact
-					pattern="http://maven-proxy/artifactory/repo/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
-				/>
-			</url>
+			<ibiblio name="maven-proxy" namespace="m2" m2compatible="true"
+				root="http://maven-proxy/artifactory/repo/"
+				pattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>
 		</chain>
 		<url name="maven-proxy-local" m2compatible="true">
 			<artifact
