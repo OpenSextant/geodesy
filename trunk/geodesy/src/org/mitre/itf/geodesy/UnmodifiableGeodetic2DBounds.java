@@ -18,6 +18,10 @@ public class UnmodifiableGeodetic2DBounds extends Geodetic2DBounds {
 		super(bbox);
 	}
 
+	public UnmodifiableGeodetic2DBounds(Geodetic2DPoint seedPoint) {
+		super(seedPoint);
+	}
+
 	public void include(Geodetic2DPoint newPoint) {
 		throw new UnsupportedOperationException();
 	}

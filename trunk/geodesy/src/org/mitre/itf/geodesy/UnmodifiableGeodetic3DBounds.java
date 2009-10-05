@@ -18,6 +18,10 @@ public class UnmodifiableGeodetic3DBounds extends Geodetic3DBounds {
 		super(bbox);
 	}
 
+	public UnmodifiableGeodetic3DBounds(Geodetic3DPoint seedPoint) {
+		super(seedPoint);
+	}
+
 	public void include(Geodetic3DPoint newPoint) {
 		throw new UnsupportedOperationException();
 	}
