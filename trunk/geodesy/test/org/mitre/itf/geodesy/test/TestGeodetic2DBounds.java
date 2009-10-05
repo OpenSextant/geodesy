@@ -113,6 +113,15 @@ public class TestGeodetic2DBounds extends TestCase {
         Geodetic2DPoint outside = new Geodetic2DPoint(new Longitude(172, 54, 44),
                 new Latitude(89, 41, 54));
         assertFalse(bbox1.contains(outside));
+
+		Geodetic2DBounds readonlyCopy = new UnmodifiableGeodetic2DBounds(bbox1);
+		assertEquals(bbox1, readonlyCopy);
+		try {
+			readonlyCopy.include(outside);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+		}
+		assertEquals(bbox1, readonlyCopy);
     }
 
     public void testRandomBBox() {

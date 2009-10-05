@@ -70,7 +70,16 @@ public class TestGeodetic3DBounds extends TestCase {
         assertFalse(bbox1.contains(outside));
 
         Geodetic3DPoint ptTooHigh = new Geodetic3DPoint(cPt.getLongitude(), cPt.getLatitude(), maxElev * 2);
-        assertFalse(bbox1.contains(ptTooHigh));        
+        assertFalse(bbox1.contains(ptTooHigh));
+
+		Geodetic3DBounds readonlyCopy = new UnmodifiableGeodetic3DBounds(bbox1);
+		assertEquals(bbox1, readonlyCopy);
+		try {
+			readonlyCopy.include(outside);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+		}
+		assertEquals(bbox1, readonlyCopy);
     }    
 
     public void testRandomBBox() {
