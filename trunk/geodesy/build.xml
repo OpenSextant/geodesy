@@ -94,7 +94,7 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-		<!-- <ivy:buildnumber resolver="maven-proxy-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" /> -->
+		<!-- <ivy:buildnumber resolver="maven-proxy-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" />  -->
 		<property name="ivy.new.revision" value="1.9.7" />
 		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-8" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
@@ -118,14 +118,21 @@
 		</bundle>
 	</target>
 	
-	<target name="publish" depends="jar, javadoc, sourcejar">
-		<!-- We probably shouldn't be specifying the revision
-		     here directly. -->
+	<target name="pom" depends="jar">
+		<ivy:resolve revision="${ivy.new.revision}" file="${basedir}/ivy.xml" 
+			resolveid="ivyres" />
+		<ivy:deliver revision="${ivy.new.revision}" resolveid="ivyres" 
+			deliverpattern="${rel}/ivy.xml" />
 		<ivy:makepom ivyfile="${basedir}/rel/ivy.xml" pomfile="${rel}/geodesy.pom" 
 			settingsref="ivy.instance">
 			<mapping conf="compile" scope="compile" />
 			<mapping conf="test" scope="test" />
 		</ivy:makepom>
+	</target>
+	
+	<target name="publish" depends="pom, javadoc, sourcejar">
+		<!-- We probably shouldn't be specifying the revision
+		     here directly. -->
 		<ivy:publish resolver="maven-proxy-local" revision="${ivy.new.revision}" overwrite="true">
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
