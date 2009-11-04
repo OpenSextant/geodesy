@@ -32,9 +32,9 @@ import java.io.Serializable;
  * translated to Java from original Fortran published by NOAA.
  */
 public class Geodetic2DArc implements Serializable, Comparable {
-	private static final long serialVersionUID = 1L;
-	
-	private final static Ellipsoid WGS84 = Ellipsoid.getInstance("WGS 84");
+    private static final long serialVersionUID = 1L;
+
+    private final static Ellipsoid WGS84 = Ellipsoid.getInstance("WGS 84");
     private final static String NOCONVERGE = "Failed to converge for arc from ";
 
     // Tolerance factors from the strictest to the most relaxed
@@ -352,6 +352,19 @@ public class Geodetic2DArc implements Serializable, Comparable {
         D = ((E * CY * C + CZ) * SY * C + Y) * SA;
         lon2 = lon1 + X - (1.0 - C) * D * f;
         point2 = new Geodetic2DPoint(new Longitude(lon2), new Latitude(lat2));
+    }
+
+    /**
+     * The default constructor creates a degenerate Geodetic2DArc with both
+     * points at (0,0).
+     */
+    public Geodetic2DArc() {
+        Geodetic2DPoint pt = new Geodetic2DPoint();
+        this.ellip = WGS84;
+        init();
+
+        this.point1 = pt;
+        setPoint2(pt); // updates state (distance and azimuth)
     }
 
     /**
