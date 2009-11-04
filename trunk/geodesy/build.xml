@@ -95,7 +95,7 @@
 	
 	<target name="jar" depends="compile">
 		<!-- <ivy:buildnumber resolver="maven-proxy-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" /> -->
-		<property name="ivy.new.revision" value="1.9.6" />
+		<property name="ivy.new.revision" value="1.9.7" />
 		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-8" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
 		<delete file="${rel}/jars/geodesy.jar"/>

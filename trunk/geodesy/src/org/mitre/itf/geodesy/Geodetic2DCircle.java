@@ -1,0 +1,122 @@
+/******************************************************************************
+ * Geodetic2DCircle.java Nov 3, 2009 8:20:19 PM psilvey
+ *
+ * (C) Copyright MITRE Corporation 2009
+ *
+ * The program is provided "as is" without any warranty express or implied,
+ * including the warranty of non-infringement and the implied warranties of
+ * merchantibility and fitness for a particular purpose.  The Copyright
+ * owner will not be liable for any damages suffered by you as a result of
+ * using the Program.  In no event will the Copyright owner be liable for
+ * any special, indirect or consequential damages or lost profits even if
+ * the Copyright owner has been advised of the possibility of their
+ * occurrence.
+ *
+ *****************************************************************************/
+package org.mitre.itf.geodesy;
+
+/**
+ * The Geodetic2DCircle class represents an circle on the surface of the earth
+ * (itself modeled as an Ellipsoid). Similar to the Geodetic2DPoint class,
+ * instances of this object are lightweight in the sense that they represent
+ * circles in terms of simple parameters: center and radius. The center point
+ * is specified as a Geodetic2DPoint, and the radius in meters. Just as with
+ * the Geodetic2DPoint class, the reference Ellipsoid earth model is not
+ * explicitly carried with the objects, but may be needed for some uses of the
+ * circle.
+ */
+public class Geodetic2DCircle {
+    private Geodetic2DPoint center;
+    private double radius;
+
+    /**
+     * Default constructor makes a geodetic circle at the central meridian on
+     * the equator (0, 0), with a radius of 0.
+     */
+    public Geodetic2DCircle() {
+        this.center = new Geodetic2DPoint();
+        this.radius = 0.0;
+    }
+
+    /**
+     * This constructor takes center Geodetic2DPoint and the radius in meters.
+     *
+     * @param center Geodetic2DPoint of the center of this circle
+     * @param radius length in meters of the radius of this circle
+     */
+    public Geodetic2DCircle(Geodetic2DPoint center, double radius) {
+        this.center = center;
+        this.radius = radius;
+    }
+
+    /**
+     * Getter method for accessing the center of this circle object.
+     *
+     * @return Geodetic2DPoint at the center of this circle
+     */
+    public Geodetic2DPoint getCenter() {
+        return center;
+    }
+
+    /**
+     * Setter method to assign the center Geodetic2DPoint of this circle object.
+     *
+     * @param center Geodetic2DPoint to make the center of this circle
+     */
+    public void setCenter(Geodetic2DPoint center) {
+        this.center = center;
+    }
+
+    /**
+     * Getter method for accessing the radius of this circle object.
+     *
+     * @return double number of meters of the radius of this circle
+     */
+    public double getRadius() {
+        return radius;
+    }
+
+    /**
+     * Setter method to assign the radius of this circle object.
+     *
+     * @param radius double number of meters of this circle
+     */
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    /**
+     * This method returns a hash code for this Geodetic2DCircle object.
+     * Circles that have equal parameters have the same hash code, since
+     * they are considered equal objects.
+     *
+     * @return a hash code value for this object.
+     */
+    public int hashCode() {
+        return (center.hashCode() ^ Double.valueOf(radius).hashCode());
+    }
+
+    /**
+     * This method is used to compare this circle to another Geodetic2DCircle
+     * object. Circles that have equal parameters are considered equal objects.
+     *
+     * @param circle Geodetic2DCircle to compare to this one
+     * @return boolean indicating if this circle is equal to specified one
+     */
+    public boolean equals(Geodetic2DCircle circle) {
+        return ((this.radius == circle.radius) &&
+                (this.getCenter().equals(circle.getCenter())));
+    }
+
+    /**
+     * This method is used to compare this circle to another Geodetic2DCircle
+     * object. Circles that have equal parameters are considered equal objects.
+     *
+     * @param that Geodetic2DCircle to compare to this one
+     * @return boolean indicating if this circle is equal to specified one
+     */
+    public boolean equals(Object that) {
+        return that instanceof Geodetic2DCircle &&
+                equals((Geodetic2DCircle) that);
+    }
+}

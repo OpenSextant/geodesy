@@ -24,7 +24,7 @@ import java.io.Serializable;
  * The Geodetic2DEllipse class represents an ellipse on the surface of the earth
  * (itself modeled as an Ellipsoid). Similar to the Geodetic2DPoint class, instances
  * of this object are lightweight in the sense that they represent ellipses in terms
- * of simple parameters: centerPoint, semiMajorAxis, semiMinorAxis, and orientation.
+ * of simple parameters: center, semiMajorAxis, semiMinorAxis, and orientation.
  * The center point is specified as a Geodetic2DPoint, the axes are given in meters,
  * and the orientation is an Angle (clockwise positive from North to the semiMajor
  * axis). Just as with the Geodetic2DPoint class, the reference Ellipsoid earth model
@@ -42,6 +42,17 @@ public class Geodetic2DEllipse implements Serializable {
 
     private static final String NULL_ERROR = "Ellipse parameters can not be null";
     private static final String AXIS_ERROR = "Semi-major axis must be greater than semi-minor axis";
+
+    /**
+     * Default constructor makes a geodetic ellipse at the central meridian on the
+     * equator (0, 0), with 0 semi major and minor axes, and 0 degrees orientation.
+     */
+    public Geodetic2DEllipse() {
+        this.center = new Geodetic2DPoint();
+        this.semiMajorAxis = 0.0;
+        this.semiMinorAxis = 0.0;
+        this.orientation = new Angle();
+    }
 
     /**
      * The constructor takes a center point, semi major and minor axes in meters,
