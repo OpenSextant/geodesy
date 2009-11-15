@@ -33,9 +33,9 @@ import java.io.Serializable;
  * orientations differ by 180 degrees are equal if all the other parameters are equal.
  */
 public class Geodetic2DEllipse implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	private Geodetic2DPoint center;
+    private static final long serialVersionUID = 1L;
+
+    private Geodetic2DPoint center;
     private double semiMajorAxis;
     private double semiMinorAxis;
     private Angle orientation;
@@ -185,6 +185,7 @@ public class Geodetic2DEllipse implements Serializable {
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         // Normalize orientation in radians to between -PI and 0.0 inclusive
         double normAng = orientation.inRadians;
@@ -227,7 +228,19 @@ public class Geodetic2DEllipse implements Serializable {
      * @param that Geodetic2DEllipse to compare to this one
      * @return boolean indicating whether this ellipse is equal to the specified ellipse
      */
+    @Override
     public boolean equals(Object that) {
         return that instanceof Geodetic2DEllipse && equals((Geodetic2DEllipse) that);
+    }
+
+    /**
+     * The toString method formats the ellipse for printing.
+     *
+     * @return String representation of center point, axes, and orientation
+     */
+    @Override
+    public String toString() {
+        return "(" + center + "," + semiMajorAxis + "m by " +
+                semiMinorAxis + "m at " + orientation + ")";
     }
 }

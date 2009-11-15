@@ -534,10 +534,53 @@ public class Geodetic2DArc implements Serializable, Comparable {
      * @return a negative integer, zero, or a positive integer as this object is less than,
      *         equal to, or greater than the specified object.
      */
+    @Override
     public int compareTo(Object o) {
         Geodetic2DArc that = (Geodetic2DArc) o;
         Double thisLen = this.getDistanceInMeters();
         Double thatLen = that.getDistanceInMeters();
         return thisLen.compareTo(thatLen);
+    }
+
+    /**
+     * This method returns a hash code for this Geodetic2DArc object.
+     *
+     * @return a hash code value for this object.
+     */
+    @Override
+    public int hashCode() {
+        return (point1.hashCode() ^ point2.hashCode());
+    }
+
+    /**
+     * This method is used to compare this arc to another Geodetic2DArc object.
+     *
+     * @param arc Geodetic2DArc to compare to this one
+     * @return boolean indicating whether this arc is equal to the specified arc
+     */
+    public boolean equals(Geodetic2DArc arc) {
+        return (point1.equals(arc.getPoint1()) && point2.equals(arc.getPoint2()));
+    }
+
+    /**
+     * This method is used to compare this arc to another Geodetic2DArc object.
+     *
+     * @param that Geodetic2DArc to compare to this one
+     * @return boolean indicating whether this arc is equal to the specified object
+     */
+    @Override
+    public boolean equals(Object that) {
+        return that instanceof Geodetic2DArc && equals((Geodetic2DArc) that);
+    }
+
+    /**
+     * The toString method formats the arc for printing.
+     *
+     * @return String representation of points, distance, and heading
+     */
+    @Override
+    public String toString() {
+        return "(" + point2 + " is " + distanceInMeters + "m from " +
+                point1 + " at heading " + forwardAzimuth + ")";
     }
 }

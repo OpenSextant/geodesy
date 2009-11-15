@@ -92,6 +92,7 @@ public class Geodetic2DCircle {
      *
      * @return a hash code value for this object.
      */
+    @Override
     public int hashCode() {
         return (center.hashCode() ^ Double.valueOf(radius).hashCode());
     }
@@ -115,8 +116,19 @@ public class Geodetic2DCircle {
      * @param that Geodetic2DCircle to compare to this one
      * @return boolean indicating if this circle is equal to specified one
      */
+    @Override
     public boolean equals(Object that) {
         return that instanceof Geodetic2DCircle &&
                 equals((Geodetic2DCircle) that);
+    }
+
+    /**
+     * The toString method formats the circle for printing.
+     *
+     * @return String representation of center point + radius
+     */
+    @Override
+    public String toString() {
+        return "(within " + radius + " meters of " + center + ")";
     }
 }
