@@ -34,7 +34,7 @@
 			<filesystem name="libraries">
 				<ivy pattern="${repository.dir}/[organisation]/ivy-[revision].xml"/>
 				<artifact
-					pattern="${repository.dir}/[organisation](-[module])/[artifact](-[type])-[revision].[ext]"
+					pattern="${repository.dir}/[organisation](-[module])/[artifact]-[revision](-[type]).[ext]"
 				/>
 			</filesystem>
 			<ibiblio name="maven-proxy" namespace="m2" m2compatible="true"
@@ -43,7 +43,7 @@
 		</chain>
 		<url name="maven-proxy-local" m2compatible="true">
 			<artifact
-				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision](-[type]).[ext]"
 			/>
 		</url>
 	</resolvers>

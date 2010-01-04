@@ -8,8 +8,8 @@
 	<publications>
 		<artifact name="geodesy" ext="jar" />
 		<artifact name="geodesy" ext="pom" />
-		<artifact name="geodesy-sources" type="sources" ext="jar" />
-		<artifact name="geodesy-javadoc" type="javadoc" ext="jar" />
+		<artifact name="geodesy" type="sources" ext="jar" />
+		<artifact name="geodesy" type="javadoc" ext="jar" />
 	</publications>
 	<dependencies defaultconf="compile->default" >
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6" />
