@@ -3,13 +3,15 @@
 	<configurations>
 		<conf name="compile" description="This is this configuration that describes modules need to build our project"/>
 		<conf name="runtime" extends="compile" />
-		<conf name="test" extends="runtime" description="This is this configuration that describes modules need to run test on our project"/>		
+		<conf name="test" extends="runtime" description="This is this configuration that describes modules need to run test on our project"/>
+		<conf name="pubmain" description="Publishing configuration for main artifacts" />
+		<conf name="pubextra" description="Publishing configuration for sources and javadocs" />		
 	</configurations>
 	<publications>
-		<artifact name="geodesy" ext="jar" />
-		<artifact name="geodesy" ext="pom" />
-		<artifact name="geodesy" type="sources" ext="jar" />
-		<artifact name="geodesy" type="javadoc" ext="jar" />
+		<artifact name="geodesy" ext="jar" conf="pubmain" />
+		<artifact name="geodesy" ext="pom" conf="pubmain"  />
+		<artifact name="geodesy" type="sources" ext="jar" conf="pubextra" />
+		<artifact name="geodesy" type="javadoc" ext="jar" conf="pubextra" />
 	</publications>
 	<dependencies defaultconf="compile->default" >
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6" />

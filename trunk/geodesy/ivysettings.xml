@@ -43,8 +43,13 @@
 		</chain>
 		<url name="maven-proxy-local" m2compatible="true">
 			<artifact
-				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision](-[type]).[ext]"
+				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
 			/>
 		</url>
+		<url name="maven-proxy-local-extra" m2compatible="true">
+			<artifact
+				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision]-[type].[ext]"
+			/>
+		</url>		
 	</resolvers>
 </ivysettings>

@@ -134,10 +134,13 @@
 	<target name="publish" depends="pom, javadoc, sourcejar">
 		<!-- We probably shouldn't be specifying the revision
 		     here directly. -->
-		<ivy:publish resolver="maven-proxy-local" revision="${ivy.new.revision}" overwrite="true">
+		<ivy:publish resolver="maven-proxy-local" revision="${ivy.new.revision}" conf="pubmain" overwrite="true">
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
+		<ivy:publish resolver="maven-proxy-local-extra" revision="${ivy.new.revision}" conf="pubextra" publishivy="false" overwrite="true">
+			<artifacts pattern="rel/[artifact]-[type].[ext]" />
+		</ivy:publish>		
 	</target>	
 	
 	<target name="sourcejar">
