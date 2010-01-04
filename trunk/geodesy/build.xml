@@ -21,8 +21,8 @@
 	<path id="project.classpath">
 		<fileset dir="${lib}">
 			<include name="**/*.jar" />
-			<exclude name="**/*-sources-*.jar" />
-			<exclude name="**/*-javadoc-*.jar" />
+			<exclude name="**/*-sources.jar" />
+			<exclude name="**/*-javadoc.jar" />
 		</fileset>
 	</path>
 
