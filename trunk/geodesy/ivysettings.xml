@@ -36,10 +36,16 @@
 				<artifact
 					pattern="${repository.dir}/[organisation](-[module])/[artifact]-[revision](-[type]).[ext]"
 				/>
+				<artifact
+					pattern="${repository.dir}/[organisation](-[module])/[artifact]-[revision].[ext]"
+				/>				
 			</filesystem>
 			<ibiblio name="maven-proxy" namespace="m2" m2compatible="true"
 				root="http://maven-proxy/artifactory/repo/"
 				pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[type]).[ext]"/>
+			<ibiblio name="maven-proxy" namespace="m2" m2compatible="true"
+				root="http://maven-proxy/artifactory/repo/"
+				pattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>				
 		</chain>
 		<url name="maven-proxy-local" m2compatible="true">
 			<artifact
