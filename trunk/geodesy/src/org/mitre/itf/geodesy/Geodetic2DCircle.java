@@ -15,6 +15,8 @@
  *****************************************************************************/
 package org.mitre.itf.geodesy;
 
+import java.util.ArrayList;
+
 /**
  * The Geodetic2DCircle class represents an circle on the surface of the earth
  * (itself modeled as an Ellipsoid). Similar to the Geodetic2DPoint class,
@@ -83,6 +85,26 @@ public class Geodetic2DCircle {
      */
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    /**
+     * Convenience method to iterate over boundary points of circle at nPoints
+     * resolution.
+     *
+     * @param nPoints int number of points on boundary to use (1st is due South)
+     * @return Iterable collection of nPoints Geodetic2DPoints on circle boundary
+     */
+    public Iterable<Geodetic2DPoint> boundary(int nPoints) {
+        ArrayList<Geodetic2DPoint> ptList = new ArrayList<Geodetic2DPoint>(nPoints);
+        Angle compassDirection = new Angle(-Math.PI); // Start from South direction
+        Angle inc = new Angle(2.0 * Math.PI / (double) nPoints); // degree increments
+        Geodetic2DArc arc = new Geodetic2DArc(center, radius, compassDirection);
+        for (int i = 0; i < nPoints; i++) {
+            ptList.add(arc.getPoint2());
+            compassDirection = compassDirection.add(inc);
+            arc.setForwardAzimuth(compassDirection);
+        }
+        return ptList;
     }
 
     /**

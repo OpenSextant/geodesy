@@ -27,7 +27,7 @@ import java.io.Serializable;
  * a constructor that takes the two points and then calculates the distance and
  * azimuth, as well as a constructor that takes the first point, distance, and
  * azimuth and computes the second point. There are variations that assume the
- * WGS-84 Ellipsoid and ones that allow the user to specify which Ellipoid to use.
+ * WGS-84 Ellipsoid and ones that allow the user to specify which Ellipsoid to use.
  * This code was adapted from the open source GeoTools project, having been
  * translated to Java from original Fortran published by NOAA.
  */

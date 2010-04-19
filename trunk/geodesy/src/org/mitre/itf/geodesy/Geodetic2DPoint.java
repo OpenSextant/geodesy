@@ -27,10 +27,10 @@ import java.util.Random;
  * Prime Meridian. To be correctly interpreted, one needs a particular Ellipsoid model of
  * the earth (see FrameOfReference class for ways to define and use this in coordinate
  * conversions). Note that Geodetic Latitude is defined as the angle of incidence with
- * the equitorial plane of a vector that is normal to a plane tangent to the ellipsoid at
+ * the equatorial plane of a vector that is normal to a plane tangent to the ellipsoid at
  * the surface point. Such a vector does not in general pass through the center of the
  * Ellipsoid. Geodetic Latitude is different from the GeocentricPoint Latitude, which is
- * defined as the angle from the equitorial plane of a vector that passes through the center
+ * defined as the angle from the equatorial plane of a vector that passes through the center
  * of the ellipsoid and the point on the surface (the two kinds of latitude are the same if
  * the ellipsoid is a perfect sphere). This class is extended as Geodetic3DPoint to include
  * height (i.e. altitude, elevation, depth) above or below the Ellipsoid surface.  When
@@ -76,7 +76,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * @throws IllegalArgumentException error if syntax is invalid
      */
     public Geodetic2DPoint(String geoStr) throws IllegalArgumentException {
-        // First look for and remove enclosing paretheses
+        // First look for and remove enclosing parentheses
         geoStr = geoStr.trim().toUpperCase();
         int n = geoStr.length() - 1;
         if ((geoStr.charAt(0) == '(') && (geoStr.charAt(n) == ')'))

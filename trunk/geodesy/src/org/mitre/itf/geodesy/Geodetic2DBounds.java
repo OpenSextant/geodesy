@@ -33,10 +33,7 @@ import org.slf4j.LoggerFactory;
  * grown around a set of points by successive calls to the include method.
  */
 public class Geodetic2DBounds implements Serializable {
-    private static final Angle ANGLE_225 = new Angle(225, Angle.DEGREES);
-    private static final Angle ANGLE_45 = new Angle(45, Angle.DEGREES);
     private static final long serialVersionUID = 1L;
-
     private static final Logger log =
             LoggerFactory.getLogger(Geodetic2DBounds.class);
 
@@ -123,28 +120,30 @@ public class Geodetic2DBounds implements Serializable {
     /**
      * This constructor takes a geodetic center point and radius in meters, and
      * constructs a new Geodetic2DBounds bounding box that inscribes (contains)
-     * the specified circle.
+     * the specified circle, constructed by iterating around the boundary of the
+     * circle at the specified number of points of resolution.
      *
-     * @param center         Geodetic2DPoint at the center of the inscribed circle
-     * @param radiusInMeters radius (in meters) of the inscribed circle
-     * @throws NullPointerException     if center is null
-     * @throws IllegalArgumentException error if circle position or size is unacceptable
+     * @param center Geodetic2DPoint at the center of the inscribed circle
+     * @param radius double radius (in meters) of the inscribed circle
+     * @param nPoints int number of points to include from circle boundary
      */
-    public Geodetic2DBounds(Geodetic2DPoint center, double radiusInMeters)
-            throws IllegalArgumentException {
-        Geodetic2DBounds bbox = new Geodetic2DBounds(center);
-        Angle compassDirection = new Angle(-Math.PI); // Start from South direction
-        Angle inc = new Angle(Math.PI / 2.0);         // 90 degree increments
-        Geodetic2DArc arc = new Geodetic2DArc(center, radiusInMeters, compassDirection);
-        for (int i = 0; i < 4; i++) {
-            bbox.include(arc.getPoint2());
-            compassDirection = compassDirection.add(inc);
-            arc.setForwardAzimuth(compassDirection);
-        }
-        westLon = bbox.westLon;
-        eastLon = bbox.eastLon;
-        southLat = bbox.southLat;
-        northLat = bbox.northLat;
+    public Geodetic2DBounds(Geodetic2DPoint center, double radius, int nPoints) {
+        this(center);
+        Geodetic2DCircle circle = new Geodetic2DCircle(center, radius); 
+        for (Geodetic2DPoint pt : circle.boundary(nPoints)) this.include(pt);
+    }
+
+    /**
+     * This constructor takes a geodetic center point and radius in meters, and
+     * constructs a new Geodetic2DBounds bounding box that inscribes (contains)
+     * the specified circle, constructed by iterating around the compass points
+     * South, West, North, and East on the boundary of the specified circle.
+
+     * @param center Geodetic2DPoint at the center of the inscribed circle
+     * @param radius double radius (in meters) of the inscribed circle
+     */
+    public Geodetic2DBounds(Geodetic2DPoint center, double radius) {
+        this(center, radius, 4);
     }
 
     /**
@@ -155,7 +154,7 @@ public class Geodetic2DBounds implements Serializable {
      * @param circle Geodetic2DCircle to be inscribed in bounding box
      */
     public Geodetic2DBounds(Geodetic2DCircle circle) {
-        this(circle.getCenter(), circle.getRadius());
+        this(circle.getCenter(), circle.getRadius(), 8);
     }
 
     /**
@@ -278,8 +277,9 @@ public class Geodetic2DBounds implements Serializable {
     }
 
     /**
-     * This method grows this Geodetic2DBounds bounding box by a fixed
-     * number of meters on each side.
+     * This method grows this Geodetic2DBounds by extending its bounds by the
+     * specified number of meters in each of the east, west, north, and south
+     * directions.
      *
      * @param meters amount by which to grow the box.  Must be >= 0.
      * @throws IllegalArgumentException if meters is less than 0
@@ -287,22 +287,24 @@ public class Geodetic2DBounds implements Serializable {
     public void grow(double meters) {
         if (meters == 0) return;
         if (meters < 0)
-            throw new IllegalArgumentException("meters cannot be null");
-
-        // Get the hypotenuse of the move...
-        meters = Math.sqrt((meters * meters) * 2);
-        Geodetic2DPoint ne = new Geodetic2DPoint(
-                getEastLon(), getNorthLat());
-        Geodetic2DPoint sw = new Geodetic2DPoint(
-                getWestLon(), getSouthLat());
-        Geodetic2DArc neArc = new Geodetic2DArc(ne, meters, ANGLE_45);
-        Geodetic2DArc swArc = new Geodetic2DArc(sw, meters, ANGLE_225);
-        Geodetic2DPoint neOut = neArc.getPoint2();
-        Geodetic2DPoint swOut = swArc.getPoint2();
-        setEastLon(neOut.getLongitude());
-        setWestLon(swOut.getLongitude());
-        setNorthLat(neOut.getLatitude());
-        setSouthLat(swOut.getLatitude());
+            throw new IllegalArgumentException("meters must be positive");
+        Longitude eastLon = this.getEastLon();
+        Longitude westLon = this.getWestLon();
+        Latitude northLat = this.getNorthLat();
+        Latitude southLat = this.getSouthLat();
+        // Extend this bbox the specified number of meters from each corner point
+        Geodetic2DPoint ne = new Geodetic2DPoint(eastLon, northLat);
+        for (Geodetic2DPoint pt : new Geodetic2DCircle(ne, meters).boundary(8))
+            this.include(pt);
+        Geodetic2DPoint nw = new Geodetic2DPoint(westLon, northLat);
+        for (Geodetic2DPoint pt : new Geodetic2DCircle(nw, meters).boundary(8))
+            this.include(pt);
+        Geodetic2DPoint se = new Geodetic2DPoint(eastLon, southLat);
+        for (Geodetic2DPoint pt : new Geodetic2DCircle(se, meters).boundary(8))
+            this.include(pt);
+        Geodetic2DPoint sw = new Geodetic2DPoint(westLon, southLat);
+        for (Geodetic2DPoint pt : new Geodetic2DCircle(sw, meters).boundary(8))
+            this.include(pt);
     }
 
     /**
@@ -363,9 +365,22 @@ public class Geodetic2DBounds implements Serializable {
         double southLatRad = this.southLat.inRadians;
         double northLatRad = this.northLat.inRadians;
         double centLatRad = southLatRad + ((northLatRad - southLatRad) / 2.0);
-        // Note that Longitude constructor will re-normalize angle if > 360°
+        // Note that Longitude constructor will re-normalize angle if > 360 deg
         return new Geodetic2DPoint(
                 new Longitude(centLonRad), new Latitude(centLatRad));
+    }
+
+    /**
+     * This method is used to calculate the diagonal distance of this bounding box,
+     * which is the distance from the southwest corner to the northeast corner,
+     * given in meters.
+     *
+     * @return length in meters from southwest to northeast corners of this bbox
+     */
+    public double getDiagonal() {
+        Geodetic2DPoint ne = new Geodetic2DPoint(eastLon, northLat);
+        Geodetic2DPoint sw = new Geodetic2DPoint(westLon, southLat);
+        return (new Geodetic2DArc(sw, ne).getDistanceInMeters());
     }
 
     /**

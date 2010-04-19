@@ -26,6 +26,7 @@ import org.mitre.itf.geodesy.*;
 import java.util.Random;
 
 public class TestGeodetic2DBounds extends TestCase {
+    private static final String DEGSYM = Character.toString('\u00B0');
 
     private void evaluateBBox(Geodetic2DBounds bbox, double radius) {
         FrameOfReference f = new FrameOfReference();
@@ -42,7 +43,7 @@ public class TestGeodetic2DBounds extends TestCase {
         diag1b = arc.getDistanceInMeters();
         System.out.println("Diagonal by distance method 2: " + diag1b);
 
-        diag2 = 2.0 * Math.sqrt((radius * radius) + (radius * radius));
+        diag2 = 2.0 * Math.sqrt(2.0 * radius * radius);
         diff = Math.abs(diag2 - diag1a);
         err = Math.max((diff / diag2), (diff / diag1a));
         // Look for large errors
@@ -90,20 +91,16 @@ public class TestGeodetic2DBounds extends TestCase {
     }
 
     public void testBBox() {
-        // bbox1: (161° 54' 44" E, 85° 41' 54" S) .. (99° 8' 8" E, 79° 39' 57" N)
-        // bbox2: (91° 4' 4" E, 89° 57' 12" S) .. (0° 13' 54" W, 87° 50' 13" N)
-        // together??: (161° 54' 44" E, 89° 57' 12" S) .. (99° 8' 8" E, 87° 50' 13" N)
-
-        Geodetic2DPoint west = new Geodetic2DPoint("(161° 54' 44\" E, 85° 41' 54\" S)");
-        Geodetic2DPoint east = new Geodetic2DPoint("(99° 8' 8\" E, 79° 39' 57\" N)");
+        Geodetic2DPoint west = new Geodetic2DPoint("(161" + DEGSYM + " 54' 44\" E, 85" + DEGSYM + " 41' 54\" S)");
+        Geodetic2DPoint east = new Geodetic2DPoint("(99" + DEGSYM + " 8' 8\" E, 79" + DEGSYM + " 39' 57\" N)");
         Geodetic2DBounds bbox1 = new Geodetic2DBounds(west, east);
 
         Geodetic2DPoint c = bbox1.getCenter();
         assertTrue(east.getLatitude().inDegrees() >= c.getLatitude().inDegrees());
         assertTrue(west.getLongitude().inRadians() >= c.getLongitude().inRadians());
 
-        west = new Geodetic2DPoint("(91° 4' 4\" E, 89° 57' 12\" S)");
-        east = new Geodetic2DPoint("(0° 13' 54\" W, 87° 50' 13\" N)");
+        west = new Geodetic2DPoint("(91" + DEGSYM + " 4' 4\" E, 89" + DEGSYM + " 57' 12\" S)");
+        east = new Geodetic2DPoint("(0" + DEGSYM + " 13' 54\" W, 87" + DEGSYM + " 50' 13\" N)");
         Geodetic2DBounds bbox2 = new Geodetic2DBounds(west, east);
 
         bbox1.include(bbox2);
@@ -164,6 +161,29 @@ public class TestGeodetic2DBounds extends TestCase {
     }
 
     /**
+     * Test that growing a bounding box around a random point increases it's
+     * diameter by at least two times the specified amount of growth.
+     */
+    public void testGrow2() {
+        Random r = new Random(17L);
+        Geodetic2DPoint c = new Geodetic2DPoint(r);
+        Geodetic2DBounds bbox = new Geodetic2DBounds(c);
+
+        double r1, r2;
+
+        r1 = bbox.getDiagonal() / 2.0;
+        System.out.println(bbox.getCenter() + " " + r1 + " meters radius");
+        double g = 1000.0;
+        for (int i = 1; i < 10; i++) {
+            bbox.grow(g);
+            r2 = bbox.getDiagonal() / 2.0;
+            System.out.println(bbox.getCenter() + " " + r2 + " meters radius");
+            assertTrue(r2 >= (r1 + g));
+            r1 = r2;
+        }
+    }
+
+    /**
      * Test bounds that wraps Longitude at the International Date Line (IDL)
      */
     public void testGrow() {
@@ -181,11 +201,9 @@ public class TestGeodetic2DBounds extends TestCase {
 		Geodetic2DPoint nEast = new Geodetic2DPoint(bbox.eastLon, bbox.northLat);
 		double nDist = fR.orthodromicDistance(nWest, nEast);
         double diff = nDist - oDist;
-		System.out.println(oDist + " -> " + nDist + " : " + diff);
 		assertTrue(oDist < nDist);
 		double shouldBe = Math.sqrt((1000*1000*2)) * 2;
-		System.out.println(diff + " should be -> " + shouldBe);
-		assertTrue(Math.abs(diff - shouldBe) < 10);
+		assertTrue(diff <= shouldBe);
     }
 
     /**
