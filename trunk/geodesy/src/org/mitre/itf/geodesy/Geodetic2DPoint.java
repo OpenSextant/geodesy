@@ -98,18 +98,16 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
     }
 
     /**
-     * This constructor generates a new Geodetic2DPoint whose location is drawn from a uniform
-     * random distribution of longitude and latitude values.  Note that this produces higher
-     * densities of points near the poles, since the longitude lines converge there.
+     * This constructor generates a new Geodetic2DPoint drawn from a distribution
+     * that is uniform over the surface of a sphere. See the following web site
+     * for a proof: "http://mathworld.wolfram.com/SpherePointPicking.html"
      *
      * @param r Random object to draw samples from
      */
     public Geodetic2DPoint(Random r) {
-        // Generate a random Geodetic point
-        double lonDeg = (r.nextDouble() * 360.0) - 180.0;  // lonDeg
-        lon = new Longitude(lonDeg, Angle.DEGREES);
-        double latDeg = (r.nextDouble() * 180.0) - 90.0;  // latDeg
-        lat = new Latitude(latDeg, Angle.DEGREES);
+        // Generate a random point, uniformly distributed over spherical surface
+        lon = new Longitude(2.0 * Math.PI * r.nextDouble());
+        lat = new Latitude(Math.acos((2.0 * r.nextDouble()) - 1.0) - (Math.PI / 2.0));
     }
 
     /**
