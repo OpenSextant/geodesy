@@ -40,7 +40,7 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      * bounding box limits accordingly.  Note that the source coordinate components are
      * used by reference (i.e. they are not cloned).  The first coordinate is used to set
      * the west Longitude even if its value is greater than the east, so boxes that span
-     * the international date line can be accomodated by this convention of listing lons
+     * the international date line can be accommodated by this convention of listing lons
      * in reverse order.  On the other hand, latitude values are normalized so that south
      * is always less than north. Min and Max elevation are set accordingly.
      *
@@ -83,6 +83,26 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
         super(seedBBox);
         minElev = seedBBox.minElev;
         maxElev = seedBBox.maxElev;
+    }
+
+    /**
+     * This constructor takes a {@code Geodetic2DBounds} as a seed and constructs a new
+     * bounding box by cloning its values in addition to the min/max elevation bounds.
+     *
+     * @param seedBBox Initial bounding box to use as limits of bounding box
+     * @param minElev min elevation (in meters)
+     * @param maxElev max elevation (in meters)
+     */
+    public Geodetic3DBounds(Geodetic2DBounds seedBBox, double minElev, double maxElev) {
+        super(seedBBox);
+        if (minElev > maxElev) {
+            // min/max elevations in reverse order. swap values.
+            this.maxElev = minElev;
+            this.minElev = maxElev;
+        } else {
+            this.minElev = minElev;
+            this.maxElev = maxElev;
+        }
     }
 
     /**
