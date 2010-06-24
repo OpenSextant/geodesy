@@ -17,7 +17,7 @@ import junit.textui.TestRunner;
 
 public class TestLatLonStrings extends TestCase {
 
-	String[] testStringsEtrex = {
+	private static final String[] testStringsEtrex = {
     		/* DD-MM.MMMH,DDD-MM.MMMH) */
 			
 			"36-22.123,048-05.881",
@@ -36,7 +36,7 @@ public class TestLatLonStrings extends TestCase {
 			"36-22.1233s,048-05.88166666666666666666666666666666w"
 	};
 	
-    String[] testStrings = {
+    private static final String[] testStrings = {
  
     		/*Lat/Lon hddd.ddddd	*/ "S26.25333 E27.92333",
     		/*Lat/Lon hddd°mm.mmm*/	"N33 56.539 W118 24.471",
@@ -155,11 +155,10 @@ public class TestLatLonStrings extends TestCase {
      */
     public void testLatLonParser() {
        	System.out.print("\n\n LatLonParser Test \n\n");
-    	String latLon = new String();
     	LatLonParser parser = new LatLonParser();
     	for (String testString : testStrings) {
     		try {
-    			latLon = parser.parseString(testString);
+    			String latLon = parser.parseString(testString);
     			System.out.print(testString + " ----> " + latLon + "\n");
     		} catch (IllegalArgumentException e) {
     			System.err.println(testString  + "Illegal Argument Exception");
@@ -174,7 +173,7 @@ public class TestLatLonStrings extends TestCase {
     public void testLatLonParserGeodetic2DPoint() {
     	
     	System.out.print("\n\n LatLonParserGeodetic2DPoint Test \n\n");
-    	String latLon = new String();
+    	String latLon;
     	
     	LatLonParser parser = new LatLonParser();
     	Geodetic2DPoint point;
