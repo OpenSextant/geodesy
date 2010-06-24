@@ -15,10 +15,7 @@
  ***************************************************************************/
 package org.mitre.itf.geodesy.test;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.File;
+import java.io.*;
 import java.util.Random;
 
 import junit.framework.JUnit4TestAdapter;
@@ -111,14 +108,25 @@ public class TestAngle {
 
 	@Test
 	public void testDegreeSymbol() throws IOException {
+		InputStreamReader reader = null;
 		final InputStream stream = getStream("DEGREE_SYMBOL.txt");
-		final InputStreamReader reader = new InputStreamReader(stream, "ISO-8859-1");
-		final StringBuilder buff = new StringBuilder();
-		for (int c = reader.read(); c != -1; c = reader.read()) {
-			buff.append((char) c);
+		try {
+			reader = new InputStreamReader(stream, "ISO-8859-1");
+			final StringBuilder buff = new StringBuilder();
+			for (int c = reader.read(); c != -1; c = reader.read()) {
+				buff.append((char) c);
+			}
+			final String file_degree = buff.toString().trim();
+			Assert.assertEquals(Angle.DEGSYM, file_degree);
+		} finally {
+			if (reader != null)
+				try {
+					reader.close();
+				} catch (IOException e) { }
+			try {
+				stream.close();
+			} catch (IOException e) { }
 		}
-		final String file_degree = buff.toString().trim();
-		Assert.assertEquals(Angle.DEGSYM, file_degree);
 	}
 
     private InputStream getStream(String filename) throws IOException {
