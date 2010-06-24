@@ -33,14 +33,15 @@ import org.slf4j.LoggerFactory;
  * grown around a set of points by successive calls to the include method.
  */
 public class Geodetic2DBounds implements Serializable {
+	
     private static final long serialVersionUID = 1L;
     private static final Logger log =
             LoggerFactory.getLogger(Geodetic2DBounds.class);
 
-    public Longitude westLon;
-    public Latitude southLat;
-    public Longitude eastLon;
-    public Latitude northLat;
+    private Longitude westLon;
+    private Latitude southLat;
+    private Longitude eastLon;
+    private Latitude northLat;
 
     /**
      * The default constructor returns a degenerate bounding box containing
