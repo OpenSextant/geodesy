@@ -27,13 +27,13 @@ public class Latitude extends Angle {
 	
 	private static final long serialVersionUID = 1L;
 
-    private final static double PI_OVER_2 = Math.PI / 2.0;
+    private static final double PI_OVER_2 = Math.PI / 2.0;
 
     // Base initializer is extended to perform additional range restriction test
     protected void init(double value, int unitType) {
         super.init(value, unitType);
         // Latitudes are Angles restricted between -90 and +90 degrees
-        if ((this.inRadians < -PI_OVER_2) || (PI_OVER_2 < this.inRadians))
+        if (this.inRadians < -PI_OVER_2 || PI_OVER_2 < this.inRadians)
             throw new IllegalArgumentException("Latitude value exceeds pole value");
     }
 
