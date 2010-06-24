@@ -11,6 +11,8 @@ package org.mitre.itf.geodesy;
  */
 public class UnmodifiableGeodetic2DBounds extends Geodetic2DBounds {
 
+	private static final long serialVersionUID = 1L;
+
 	// TODO: fields (westLon, southLat, etc.) are public
 	// which allow direct modification of its internal state.
 

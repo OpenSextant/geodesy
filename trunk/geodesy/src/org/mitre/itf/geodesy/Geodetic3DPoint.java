@@ -31,6 +31,9 @@ import java.text.DecimalFormat;
  * aircraft (tested up to 26km).
  */
 public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
+
+	private static final long serialVersionUID = 1L;
+
     private double elevation;
 
     /**

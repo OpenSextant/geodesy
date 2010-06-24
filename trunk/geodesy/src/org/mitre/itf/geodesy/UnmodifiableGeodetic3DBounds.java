@@ -11,6 +11,8 @@ package org.mitre.itf.geodesy;
  */
 public class UnmodifiableGeodetic3DBounds extends Geodetic3DBounds {
 
+	private static final long serialVersionUID = 1L;
+
 	// TODO: Geodetic3DBounds still has its fields (minElev + maxElev) public
 	// which allow direct modification of its internal state. Should make these private.
 	

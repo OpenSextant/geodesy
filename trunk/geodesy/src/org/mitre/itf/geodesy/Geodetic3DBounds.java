@@ -23,6 +23,9 @@ package org.mitre.itf.geodesy;
  * min and max elevation values, in meters.
  */
 public class Geodetic3DBounds extends Geodetic2DBounds {
+	
+	private static final long serialVersionUID = 1L;
+
     public double minElev;
     public double maxElev;
 

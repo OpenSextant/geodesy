@@ -20,10 +20,13 @@ package org.mitre.itf.geodesy;
 
 /**
  * The Latitude class extends Angle to restrict its value to be between -90&deg and +90&deg,
- * and to provide parsing and formatting with hemisphere indicator suffix ('N' or 'S')
+ * and to provide parsing and formatting with hemisphere indicator suffix ('N' or 'S')                 ser
  * instead of numeric sign.
  */
 public class Latitude extends Angle {
+	
+	private static final long serialVersionUID = 1L;
+
     private final static double PI_OVER_2 = Math.PI / 2.0;
 
     // Base initializer is extended to perform additional range restriction test

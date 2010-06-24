@@ -26,6 +26,8 @@ package org.mitre.itf.geodesy;
  */
 public class Longitude extends Angle {
 
+	private static final long serialVersionUID = 1L;
+
     /**
      * This constructor takes longitude angle value and units designator.
      *

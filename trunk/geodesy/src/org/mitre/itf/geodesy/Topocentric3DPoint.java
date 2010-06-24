@@ -34,6 +34,9 @@ import java.text.DecimalFormat;
  * This class is lightweight and simple in the interest of efficient storage and processing.
  */
 public class Topocentric3DPoint extends Topocentric2DPoint implements GeoPoint {
+	
+	private static final long serialVersionUID = 1L;
+	
     private double elevation;
 
     /**
