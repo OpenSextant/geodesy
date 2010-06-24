@@ -240,8 +240,8 @@ public class TestGeodetic2DBounds extends TestCase {
         FrameOfReference fR = new FrameOfReference();
         double oDist = fR.orthodromicDistance(west, east);
         bbox.grow(1000);
-        Geodetic2DPoint nWest = new Geodetic2DPoint(bbox.westLon, bbox.southLat);
-		Geodetic2DPoint nEast = new Geodetic2DPoint(bbox.eastLon, bbox.northLat);
+        Geodetic2DPoint nWest = new Geodetic2DPoint(bbox.getWestLon(), bbox.getSouthLat());
+		Geodetic2DPoint nEast = new Geodetic2DPoint(bbox.getEastLon(), bbox.getNorthLat());
 		double nDist = fR.orthodromicDistance(nWest, nEast);
         double diff = nDist - oDist;
 		assertTrue(oDist < nDist);
