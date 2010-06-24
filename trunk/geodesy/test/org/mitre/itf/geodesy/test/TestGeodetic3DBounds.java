@@ -86,10 +86,10 @@ public class TestGeodetic3DBounds extends TestCase {
         /*
         * sometimes this test fails if random bbox wraps world
         * so we run test multiple times where a single successful run
-        * means the test passed. If fails 4 consecutive times then got a real problem.
+        * means the test passed. If fails 8 consecutive times then got a real problem.
         */
         Exception ex = null;
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 8; i++) {
             try {
                 realTestRandomBBox();
                 return; // test successful
