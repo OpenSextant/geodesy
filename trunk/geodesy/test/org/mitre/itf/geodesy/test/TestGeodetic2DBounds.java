@@ -99,9 +99,9 @@ public class TestGeodetic2DBounds extends TestCase {
         assertTrue(east.getLatitude().inDegrees() >= c.getLatitude().inDegrees());
         assertTrue(west.getLongitude().inRadians() >= c.getLongitude().inRadians());
 
-        west = new Geodetic2DPoint("(91" + DEGSYM + " 4' 4\" E, 89" + DEGSYM + " 57' 12\" S)");
-        east = new Geodetic2DPoint("(0" + DEGSYM + " 13' 54\" W, 87" + DEGSYM + " 50' 13\" N)");
-        Geodetic2DBounds bbox2 = new Geodetic2DBounds(west, east);
+        Geodetic2DPoint west2 = new Geodetic2DPoint("(91" + DEGSYM + " 4' 4\" E, 89" + DEGSYM + " 57' 12\" S)");
+        Geodetic2DPoint east2 = new Geodetic2DPoint("(0" + DEGSYM + " 13' 54\" W, 87" + DEGSYM + " 50' 13\" N)");
+        Geodetic2DBounds bbox2 = new Geodetic2DBounds(west2, east2);
 
         bbox1.include(bbox2);
         System.out.println();
@@ -109,7 +109,7 @@ public class TestGeodetic2DBounds extends TestCase {
         
         Geodetic2DPoint outside = new Geodetic2DPoint(new Longitude(172, 54, 44),
                 new Latitude(89, 41, 54));
-        assertFalse(bbox1.contains(outside));
+        assertFalse(bbox1.contains(outside));		
 
 		Geodetic2DBounds readonlyCopy = new UnmodifiableGeodetic2DBounds(bbox1);
 		assertEquals(bbox1, readonlyCopy);
@@ -117,6 +117,43 @@ public class TestGeodetic2DBounds extends TestCase {
 			readonlyCopy.include(outside);
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
+			readonlyCopy.setEastLon(east.getLongitude());
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
+			readonlyCopy.setWestLon(west.getLongitude());
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
+			readonlyCopy.setNorthLat(east.getLatitude());
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
+			readonlyCopy.setSouthLat(east.getLatitude());
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
+			readonlyCopy.include(bbox1);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
+			readonlyCopy.grow(10);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
 		}
 		assertEquals(bbox1, readonlyCopy);
     }
@@ -184,7 +221,7 @@ public class TestGeodetic2DBounds extends TestCase {
     }
 
     /**
-     * Test bounds that wraps Longitude at the International Date Line (IDL)
+     * Test bounds that grow
      */
     public void testGrow() {
         Geodetic2DPoint west = new Geodetic2DPoint(new Longitude(30, Angle.DEGREES),
@@ -192,8 +229,14 @@ public class TestGeodetic2DBounds extends TestCase {
         Geodetic2DPoint east = new Geodetic2DPoint(new Longitude(31, Angle.DEGREES),
                 new Latitude(31, Angle.DEGREES));
         Geodetic2DBounds bbox = new Geodetic2DBounds(west, east);
+
+		// test zero growth
+		Geodetic2DBounds bboxCopy = new Geodetic2DBounds(bbox);
+		bboxCopy.grow(0);
+		assertEquals(bbox, bboxCopy);
+		
         Geodetic2DPoint c = bbox.getCenter();
-        System.out.println(c + " -> " + bbox);
+		System.out.println(c + " -> " + bbox);
         FrameOfReference fR = new FrameOfReference();
         double oDist = fR.orthodromicDistance(west, east);
         bbox.grow(1000);
