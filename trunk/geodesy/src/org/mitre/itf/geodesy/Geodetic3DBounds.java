@@ -133,8 +133,8 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      * @param bbox additional Geodetic3DBounds bounding box to include in this bounding box.
      */
     public void include(Geodetic3DBounds bbox) {
-        this.include(new Geodetic3DPoint(bbox.getWestLon(), bbox.southLat, bbox.minElev));
-        this.include(new Geodetic3DPoint(bbox.getEastLon(), bbox.northLat, bbox.maxElev));
+        this.include(new Geodetic3DPoint(bbox.getWestLon(), bbox.getSouthLat(), bbox.minElev));
+        this.include(new Geodetic3DPoint(bbox.getEastLon(), bbox.getNorthLat(), bbox.maxElev));
     }
 
     /**
@@ -176,8 +176,8 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
         // If longitudes wrap, adjust east to be greater than west before calc
         if (westLonRad > eastLonRad) eastLonRad += Angle.TWO_PI;
         double centLonRad = westLonRad + ((eastLonRad - westLonRad) / 2.0);
-        double southLatRad = this.southLat.inRadians;
-        double northLatRad = this.northLat.inRadians;
+        double southLatRad = this.getSouthLat().inRadians;
+        double northLatRad = this.getNorthLat().inRadians;
         double centLatRad = southLatRad + ((northLatRad - southLatRad) / 2.0);
         double centElev = minElev + ((maxElev - minElev) / 2.0);
         // Note that Longitude constructor will re-normalize angle if > 360°
