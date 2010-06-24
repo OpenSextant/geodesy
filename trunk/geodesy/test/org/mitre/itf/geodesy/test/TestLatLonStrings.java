@@ -137,17 +137,15 @@ public class TestLatLonStrings extends TestCase {
      */
     public void testLatLonParserEtrex() {
        	System.out.print("\n\n LatLonParser Test (Etrex unique format)\n\n");
-    	String latLon = new String();
     	LatLonParser parser = new LatLonParser();
     	for (String testStringEtrex : testStringsEtrex) {
     		try {
-    			latLon = parser.parseEtrexString(testStringEtrex);
+    			String latLon = parser.parseEtrexString(testStringEtrex);
     			System.out.print(testStringEtrex + " ----> " + latLon + "\n");
     		} catch (IllegalArgumentException e) {
     			System.err.println(testStringEtrex + "Illegal Argument Exception");
     		}
     	}
- 
     }
     
     /**
