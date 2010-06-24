@@ -37,7 +37,7 @@ public class TestGeocentricPoint extends TestCase {
 	}
 
     public void testRandomEquals() {
-		FrameOfReference f = new FrameOfReference();
+		// FrameOfReference f = new FrameOfReference();
 		for (int i = 0; i < 1000; i++) {
             GeocentricPoint a1 = randomGeocentricPoint();
 			GeocentricPoint a2 = new GeocentricPoint(a1.getX(), a1.getY(), a1.getZ());
