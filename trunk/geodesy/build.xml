@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
-	<property name="ivy.new.revision" value="1.9.12" />
+	<property name="ivy.new.revision" value="1.9.13" />
 	
 	<property name="proxy.host" value="gatekeeper.mitre.org" />
 	<property name="proxy.port" value="80" />
