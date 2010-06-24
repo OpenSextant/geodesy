@@ -60,6 +60,14 @@ public class TestGeodetic3DPoint extends TestCase {
 			// but break contract in hashCode such that a.equals(b) -> true but hashCode(a) may not equal hashCode(b)
 			assertEquals(a1, a2);
 			assertEquals(a1.hashCode(), a2.hashCode());
+
+			// test symmetric equals tests a.equals(b) -> b.equals(a)
+			Geodetic2DPoint pt2 = new Geodetic2DPoint(a1.getLongitude(), a1.getLatitude());
+			assertFalse(pt2.equals(a1));
+			assertFalse(a1.equals(pt2));
+			a1.setElevation(0);
+			assertTrue(pt2.equals(a1));
+			assertTrue(a1.equals(pt2));
 		}
     }
 
