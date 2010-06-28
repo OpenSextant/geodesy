@@ -97,14 +97,19 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
 
 	/**
      * This method is used to test whether two points are equal in the sense that have
-     * the same angular coordinate values and elevations, to within epsilon. See also the
-     * static method proximallyEquals in the FrameOfReference class.
+     * the same angular coordinate values and elevations, to within epsilon. See also
+     * {@code proximallyEquals} method in the {@link FrameOfReference} class for
+	 * additional equality tests.
      *
      * @param that Geodetic3DPoint point to compare against this one.
-     * @return true if specified Geodetic3DPoint point is equal in value to this
-     *         Geodetic3DPoint. If point is a Geodetic2DPoint then 0 elevation is assumed. 
+     * @return <tt>true</tt> if specified Geodetic3DPoint point is equal in value to this
+     *			Geodetic3DPoint. If point is a {@link Geodetic2DPoint} then 0 elevation
+	 * 			is used for comparison.
      */
     public boolean equals(Object that) {
+		if (this == that) {
+	    	return true;
+		}
         if (that instanceof Geodetic3DPoint)
 			return this.eq((Geodetic3DPoint) that);
 		if (that instanceof Geodetic2DPoint) {
