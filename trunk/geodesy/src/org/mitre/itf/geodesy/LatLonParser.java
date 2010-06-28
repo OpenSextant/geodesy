@@ -565,7 +565,7 @@ public class LatLonParser {
 					if (coordinateStack.size() > signStack.size()) {
 						signStack.push(noSign);
 					} else if (signStack.size() > coordinateStack.size()) {
-						throw new IllegalArgumentException("ERROR: multiple sign characters");
+						throw new IllegalArgumentException("ERROR: multiple sign characters", e);
 					}
 				}
 			}
@@ -623,7 +623,7 @@ public class LatLonParser {
                             outString.append(' ').append(coord.toStringPrefix());
 						}
 					} catch (EmptyStackException e) {
-						throw new IllegalArgumentException("ERROR: not enough coordinate stack entries");
+						throw new IllegalArgumentException("ERROR: not enough coordinate stack entries", e);
 					}
 				}
 				if (i == 0) {
@@ -657,13 +657,12 @@ public class LatLonParser {
 					}
 
 				} catch (EmptyStackException e) {
-					throw new IllegalArgumentException("ERROR: not enough coordinate stack entries");
+					throw new IllegalArgumentException("ERROR: not enough coordinate stack entries", e);
 				}
 				if (i == 0) {
 					outString.append(',');  // put a separator between the output coordinates
 				}
 			}
-
 		} else {
 			throw new IllegalArgumentException("ERROR - irregular coordinate count:  " + stackCount);
 		}
