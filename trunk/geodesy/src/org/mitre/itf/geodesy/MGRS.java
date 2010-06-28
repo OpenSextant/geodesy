@@ -186,7 +186,7 @@ public class MGRS implements GeoPoint, Serializable {
     private Geodetic2DPoint urCorner;       // Upper-Right corner of most precise containing cell
     private Geodetic2DBounds bbox;          // Bounding box of MGRS cell (contains precise coordinate)
 
-    private DecimalFormat FMT = new DecimalFormat("00000"); // Instance Formatter for eastings & northings
+    private final DecimalFormat FMT = new DecimalFormat("00000"); // Instance Formatter for eastings & northings
 
     // Initialize this MGRS object from String notation
     // If argument 'strict' is true, exception will be thrown for non optimal projection encodings
