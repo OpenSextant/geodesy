@@ -30,7 +30,9 @@ import java.util.Set;
  * defined ones that are common or in historic use by geographic information and mapping
  * systems. There is an accessor method to get the list of available cached Ellipsoid
  * names, and there are accessor methods for the commonly used mathematical parameters
- * of an Ellipsoid model.
+ * of an Ellipsoid model. <p/>
+ * 
+ * TODO: implement equals() and hashCode() methods.
  */
 public class Ellipsoid implements Serializable {
 	private static final long serialVersionUID = 1L;

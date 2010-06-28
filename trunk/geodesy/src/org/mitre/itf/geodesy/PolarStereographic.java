@@ -29,7 +29,9 @@ import java.io.Serializable;
 /**
  * The PolarStereographic class implements a map projection of the same name, and is used by
  * the Universal Polar Stereographic (UPS) coordinate encoding system for points near the
- * North or South Poles.
+ * North or South Poles.<p/>
+ *
+ * TODO: implement equals() and hashCode() methods.
  */
 public class PolarStereographic implements Serializable {
 	private static final long serialVersionUID = 1L;

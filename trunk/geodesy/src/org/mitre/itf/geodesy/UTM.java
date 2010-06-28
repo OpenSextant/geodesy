@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
  * defined only in terms of the Ellipsoid data model against which projections are made.
  * The default constructor uses the WGS 84 ellipsoid.<p/>
  *
- * TODO: implement equals() and hashCode() methods..<p/>
+ * TODO: implement equals() and hashCode() methods.<p/>
  *
  * Notes:
  * <pre>
