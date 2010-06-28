@@ -57,6 +57,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
      * Default constructor makes a geodetic point at the central meridian on the equator (0, 0, 0).
      */
     public Geodetic3DPoint() {
+        super();
     }
 
     /**
