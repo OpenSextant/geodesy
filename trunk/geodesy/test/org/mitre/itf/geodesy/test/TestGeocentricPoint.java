@@ -2,7 +2,7 @@ package org.mitre.itf.geodesy.test;
 
 import junit.framework.TestCase;
 import org.mitre.itf.geodesy.GeocentricPoint;
-import org.mitre.itf.geodesy.FrameOfReference;
+//import org.mitre.itf.geodesy.FrameOfReference;
 
 import java.util.Random;
 
