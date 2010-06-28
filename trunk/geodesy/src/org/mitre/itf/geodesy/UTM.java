@@ -22,9 +22,16 @@ import java.util.HashMap;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
-/*
- * Universal Transverse Mercator (UTM)
+/**
+ * The UTM (Universal Transverse Mercator) class contains methods to parse and format between UTM
+ * coordinate strings and their geodetic (longitude and latitude) equivalents.  A UTM object is
+ * defined only in terms of the Ellipsoid data model against which projections are made.
+ * The default constructor uses the WGS 84 ellipsoid.<p/>
  *
+ * TODO: implement equals() and hashCode() methods..<p/>
+ *
+ * Notes:
+ * <pre>
  * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6° wide.
  *
  * Longitude of Origin: Central meridian (CM) of each projection zone (3°, 9°, 15°, 21°, 27°,
@@ -70,13 +77,7 @@ import java.text.DecimalFormat;
  *	accommodate Svalbard. To compensate for these 12° wide zones, zones 31 and 37 are widened
  *	to 9° and zones 32, 34, and 36 are eliminated. Thus the W and E boundaries of zones are
  *	31: 0 - 9 E, 33: 9 - 21 E, 35: 21 - 33 E and 37: 33 - 42 E.
- */
-
-/**
- * The UTM (Universal Transverse Mercator) class contains methods to parse and format between UTM
- * coordinate strings and their geodetic (longitude and latitude) equivalents.  A UTM object is
- * defined only in terms of the Ellipsoid data model against which projections are made.
- * The default constructor uses the WGS 84 ellipsoid.
+ * </pre>
  */
 public class UTM implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -445,7 +446,7 @@ public class UTM implements Serializable {
     // *************************** End of Static Definitions ********************************
 
     // Instance Variables
-    private TransverseMercator tm;  // Transverse Mercator projection object (keeper of ellipsoid)
+    private final TransverseMercator tm;  // Transverse Mercator projection object (keeper of ellipsoid)
     private int lonZone;            // UTM Longitudinal Zone number (1 to 60)
     private char latBand;           // UTM Lat Band char('C' to 'X', not including 'I' or 'O')
     private char hemisphere;        // Hemisphere char ('N' for Northern, 'S' for Southern)
