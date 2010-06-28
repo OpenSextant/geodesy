@@ -29,18 +29,18 @@ import java.util.Set;
  * can create additional named Ellipsoids if needed, or retrieve one of the statically
  * defined ones that are common or in historic use by geographic information and mapping
  * systems. There is an accessor method to get the list of available cached Ellipsoid
- * names, and there are accessor methods for the commonly used mathematical paramters
+ * names, and there are accessor methods for the commonly used mathematical parameters
  * of an Ellipsoid model.
  */
 public class Ellipsoid implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
-    private double a;       // Radius in m of circle on equitorial plane (parameter "a")
-    private double b;       // Distance from ellipsoid center to a pole (parameter "b")
-    private double f;       // Flattening ratio f = (a - b) / a
-    private double es;      // Eccentricity of ellipsoid, squared
-    private double ebs;     // Second Eccentricity of ellipsoid, squared
+	private final String name;
+    private final double a;       // Radius in m of circle on equitorial plane (parameter "a")
+    private final double b;       // Distance from ellipsoid center to a pole (parameter "b")
+    private final double f;       // Flattening ratio f = (a - b) / a
+    private final double es;      // Eccentricity of ellipsoid, squared
+    private final double ebs;     // Second Eccentricity of ellipsoid, squared
 
     // Cache of frequently used singleton Ellipsoids (comment out if not needed by app)
     private static HashMap<String, Ellipsoid> namedEllipsoids;
