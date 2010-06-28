@@ -205,6 +205,9 @@ public class Geodetic2DEllipse implements Serializable {
      * @return boolean indicating whether this ellipse is equal to the specified ellipse
      */
     public boolean equals(Geodetic2DEllipse ellipse) {
+        if (this == ellipse) {
+            return true;
+        }
         boolean result = false;
         if (this.getCenter().equals(ellipse.getCenter())) {
             if ((this.semiMajorAxis == ellipse.semiMajorAxis) &&

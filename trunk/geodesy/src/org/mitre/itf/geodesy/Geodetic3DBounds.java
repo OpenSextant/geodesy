@@ -217,7 +217,7 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      * @return true if specified Geodetic3DBounds is spatially equivalent to this one
      */
     public boolean equals(Geodetic3DBounds that) {
-        return super.equals(that) && this.maxElev == that.maxElev && this.minElev == that.minElev;
+        return this == that || super.equals(that) && this.maxElev == that.maxElev && this.minElev == that.minElev;
     }
 
     /**
