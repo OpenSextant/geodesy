@@ -56,7 +56,7 @@ public class PolarStereographic implements Serializable {
 
     // Polar Stereographic projection Parameters
     private double Polar_Origin_Lat = PI_OVER_2;        // Latitude of true scale (init at N Pole)
-    private boolean Southern_Hemisphere = false;        // Depends on sign of latitude of true scale at construction
+    private final boolean Southern_Hemisphere;          // Depends on sign of latitude of true scale at construction
     private boolean True_Scale_At_Pole = true;          // Calculation method differs when true scale is at pole
     private double Polar_Origin_Long = 0.0;             // Longitude down from pole (northings decrease along)
 
@@ -148,7 +148,7 @@ public class PolarStereographic implements Serializable {
 
         double latRad = lat.inRadians;
         double lonRad = lon.inRadians;
-        if (((latRad < 0.0) && !Southern_Hemisphere) || ((latRad > 0.0) && Southern_Hemisphere)) {
+        if ((latRad < 0.0 && !Southern_Hemisphere) || (latRad > 0.0 && Southern_Hemisphere)) {
             throw new IllegalArgumentException("Latitude in different hemisphere " +
                     "from Polar Stereographic origin");
         }
