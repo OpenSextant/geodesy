@@ -53,7 +53,7 @@ public class TransverseMercator implements Serializable {
             "more than 9 degrees from the Central Meridian";
 
     // Instance variables
-    private boolean distortionWarningException;
+    private final boolean distortionWarningException;
     private Ellipsoid ellipsoid = Ellipsoid.getInstance("WGS 84");
 
     // Ellipsoid Parameters, default to WGS 84
