@@ -18,6 +18,7 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import java.util.Map;
 import java.util.HashMap;
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -26,9 +27,9 @@ import java.text.DecimalFormat;
  * The UTM (Universal Transverse Mercator) class contains methods to parse and format between UTM
  * coordinate strings and their geodetic (longitude and latitude) equivalents.  A UTM object is
  * defined only in terms of the Ellipsoid data model against which projections are made.
- * The default constructor uses the WGS 84 ellipsoid.<p/>
+ * The default constructor uses the WGS 84 ellipsoid. <p/>
  *
- * TODO: implement equals() and hashCode() methods.<p/>
+ * TODO: implement equals() and hashCode() methods. <p/>
  *
  * Notes:
  * <pre>
@@ -111,9 +112,9 @@ public class UTM implements Serializable {
 
     // Initialize min northings for lat bands
     // These tables are used to help assign and validate MGRS square identifiers for northings
-    private static final HashMap<Character, Integer> MIN_NORTHINGS =
+    private static final Map<Character, Integer> MIN_NORTHINGS =
             new HashMap<Character, Integer>();
-    private static final HashMap<Character, Integer> MAX_NORTHINGS =
+    private static final Map<Character, Integer> MAX_NORTHINGS =
             new HashMap<Character, Integer>();
 
     static {

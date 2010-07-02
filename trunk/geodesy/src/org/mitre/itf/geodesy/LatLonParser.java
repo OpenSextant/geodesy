@@ -20,6 +20,7 @@
 package org.mitre.itf.geodesy;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.StringTokenizer;
 
@@ -91,12 +92,12 @@ public class LatLonParser {
     //  Used to efficiently determine if a detected token is one of the valid separator
     //  delimiters  (sign delimiters are not included)
     //
-    private static HashSet<String> separatorSet = new HashSet<String>();
+    private static final Set<String> separatorSet = new HashSet<String>();
 
     //
     //  Used to efficiently determine if a detected token is one of the valid sign delimiters
     //
-    private static HashSet<String> signSet = new HashSet<String>();
+    private static final Set<String> signSet = new HashSet<String>();
 
     static {
 
