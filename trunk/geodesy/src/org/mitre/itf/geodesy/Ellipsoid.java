@@ -20,6 +20,7 @@
 package org.mitre.itf.geodesy;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -45,7 +46,7 @@ public class Ellipsoid implements Serializable {
     private final double ebs;     // Second Eccentricity of ellipsoid, squared
 
     // Cache of frequently used singleton Ellipsoids (comment out if not needed by app)
-    private static HashMap<String, Ellipsoid> namedEllipsoids;
+    private static final Map<String, Ellipsoid> namedEllipsoids;
 
     static {
         namedEllipsoids = new HashMap<String, Ellipsoid>();
