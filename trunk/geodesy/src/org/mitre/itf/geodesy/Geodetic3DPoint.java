@@ -78,6 +78,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
         this.elevation = elevation;
     }
 
+    // using 1e-3 meters for elevation equality gives a precision up to 1 millimeter
     private static final double DELTA = 1e-3;
 
     /**
