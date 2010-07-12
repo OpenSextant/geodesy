@@ -86,8 +86,13 @@ public class TestGeodetic3DPoint extends TestCase {
 		// test equality with any possible round off errors
 		Geodetic3DPoint a2 = new Geodetic3DPoint(new Longitude(Math.toRadians(a.getLongitude().inDegrees())),
 									new Latitude(Math.toRadians(a.getLatitude().inDegrees())), a.getElevation());
-
 		assertEquals(a, a2);
+		assertEquals(a.hashCode(), a2.hashCode());
+
+		// approximate equals test for elevations up to 3 decimal places
+		Geodetic3DPoint a3 = new Geodetic3DPoint(a.getLongitude(), a.getLatitude(), a.getElevation() + 10e-6);
+		assertEquals(a, a3);
+		assertEquals(a.hashCode(), a3.hashCode());
 	}
 
     /**
