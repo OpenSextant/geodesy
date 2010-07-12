@@ -89,23 +89,23 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
      * @return a hash code value for this object.
      */
     public int hashCode() {
-        // Note we're using approximate equals vs absolute equals on floating point number
-        // so must ignore beyond ~6 decimal places in computing the hashCode, otherwise
+        // Note we're using approximate equals vs absolute equals on floating point numbers
+        // so we ignore beyond ~3 decimal places in computing the hashCode, otherwise
         // we break the equals-hashCode contract. Changing EPSILON or equals(Geodetic3DPoint)
         // may require changing the logic used here also.
-        return lon.hashCode() ^ lat.hashCode() ^ ((int) (elevation * 10e+6));
+        return lon.hashCode() ^ lat.hashCode() ^ ((int) (elevation / DELTA));
     }
 
-	/**
+   /**
      * This method is used to test whether two points are equal in the sense that have
      * the same angular coordinate values and elevations, to within epsilon. See also
      * {@code proximallyEquals} method in the {@link FrameOfReference} class for
-	 * additional equality tests.
+     * additional equality tests.
      *
      * @param that Geodetic3DPoint point to compare against this one.
      * @return <tt>true</tt> if specified Geodetic3DPoint point is equal in value to this
      *			Geodetic3DPoint. If point is a {@link Geodetic2DPoint} then 0 elevation
-	 * 			is used for comparison.
+     * 			is used for comparison.
      */
     public boolean equals(Object that) {
 		if (this == that) {
