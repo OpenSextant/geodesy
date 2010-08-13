@@ -120,12 +120,30 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
     }
 
     /**
+     * Get Longitude in decimal degrees.
+     *
+     * @return Longitude in decimal degrees.
+     */
+    public double getLongitudeAsDegrees() {
+        return lon.inDegrees();
+    }
+
+    /**
      * This accessor method returns the Latitude component of this Geodetic2DPoint.
      *
      * @return Latitude of this Geodetic2DPoint point
      */
     public Latitude getLatitude() {
         return lat;
+    }
+
+    /**
+     * Get Latitude in decimal degrees.
+     *
+     * @return Latitude in decimal degrees.
+     */
+    public double getLatitudeAsDegrees() {
+        return lat.inDegrees();
     }
 
     /**
