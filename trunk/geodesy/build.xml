@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
-	<property name="ivy.new.revision" value="1.9.13" />
+	<property name="ivy.new.revision" value="1.9.15" />
 	
 	<property name="proxy.host" value="gatekeeper.mitre.org" />
 	<property name="proxy.port" value="80" />
@@ -92,7 +92,7 @@
 	
 	<target name="compile" depends="resolve">
 		<javac source="1.5" target="1.5" classpathref="project.classpath" srcdir="${src}"
-			destdir="${build.classes}" />
+			debug="true" destdir="${build.classes}" />
 	</target>
 	
 	<target name="jar" depends="compile">
