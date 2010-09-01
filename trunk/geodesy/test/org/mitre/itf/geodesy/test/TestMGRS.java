@@ -28,8 +28,8 @@ import org.junit.Assert;
 import java.util.Random;
 
 public class TestMGRS {
-    final static Class thisClass = TestMGRS.class;
-    final static Logger log = LoggerFactory.getLogger(thisClass);
+    private final static Class thisClass = TestMGRS.class;
+    private final static Logger log = LoggerFactory.getLogger(thisClass);
 
     /**
      * This method does an exhaustive test of possible MGRS square values
