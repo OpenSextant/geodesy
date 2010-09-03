@@ -20,8 +20,12 @@ package org.mitre.itf.geodesy.test;
 
 import junit.framework.TestCase;
 import org.mitre.itf.geodesy.Angle;
+import org.mitre.itf.geodesy.Geodetic2DArc;
+import org.mitre.itf.geodesy.Geodetic2DBounds;
 import org.mitre.itf.geodesy.Geodetic2DEllipse;
 import org.mitre.itf.geodesy.Geodetic2DPoint;
+import org.mitre.itf.geodesy.Latitude;
+import org.mitre.itf.geodesy.Longitude;
 
 public class TestGeodetic2DEllipse extends TestCase {
 
@@ -45,6 +49,38 @@ public class TestGeodetic2DEllipse extends TestCase {
 		assertEquals(geo, geo2);
 		assertEquals(geo.hashCode(), geo2.hashCode());
 		assertFalse(ellipse.equals(geo));
+	}
+	
+	public void testBounds() {
+		Geodetic2DPoint center = new Geodetic2DPoint(
+				"0\u00B0 0' 0\" N, 0\u00B0 0' 0\" W");
+
+		Geodetic2DEllipse ellipse = new Geodetic2DEllipse(center, 4000, 1000, new Angle(0, Angle.DEGREES));
+		
+		Geodetic2DBounds bounds = new Geodetic2DBounds(ellipse);
+		assertEquals(2000.0, calculateEWDistance(bounds), 60.0);
+		assertEquals(8000.0, calculateNSDistance(bounds), 60.0);
+	}
+
+	private double calculateNSDistance(Geodetic2DBounds bounds) {
+		Longitude centerlon = new Longitude(
+				bounds.getEastLon().inDegrees() + bounds.getWestLon().inDegrees() / 2.0,
+				Angle.DEGREES);
+		return calculateDistance(centerlon, bounds.getNorthLat(), centerlon, bounds.getSouthLat());
+	}
+	
+	private double calculateEWDistance(Geodetic2DBounds bounds) {
+		Latitude centerlat = new Latitude(
+				bounds.getNorthLat().inDegrees() + bounds.getSouthLat().inDegrees() / 2.0,
+				Angle.DEGREES);
+		return calculateDistance(bounds.getEastLon(), centerlat, bounds.getWestLon(), centerlat);
+	}
+	
+	private double calculateDistance(Longitude lon2, Latitude lat2, Longitude lon1, Latitude lat1) {
+		Geodetic2DPoint point1 = new Geodetic2DPoint(lon1, lat1);
+		Geodetic2DPoint point2 = new Geodetic2DPoint(lon2, lat2);
+		Geodetic2DArc arc = new Geodetic2DArc(point1, point2);
+		return arc.getDistanceInMeters();
 	}
 	
 }

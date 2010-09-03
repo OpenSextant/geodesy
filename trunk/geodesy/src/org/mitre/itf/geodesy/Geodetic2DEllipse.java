@@ -19,6 +19,10 @@
 package org.mitre.itf.geodesy;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The Geodetic2DEllipse class represents an ellipse on the surface of the earth
@@ -39,7 +43,8 @@ public class Geodetic2DEllipse implements Serializable {
     private double semiMajorAxis;
     private double semiMinorAxis;
     private Angle orientation;
-
+    private transient WeakReference<List<Geodetic2DPoint>> boundary = null;
+    
     private static final String NULL_ERROR = "Ellipse parameters can not be null";
     private static final String AXIS_ERROR = "Semi-major axis must be greater than semi-minor axis";
 
@@ -77,6 +82,73 @@ public class Geodetic2DEllipse implements Serializable {
         this.orientation = orientation;
     }
 
+    
+    /**
+     * Get the boundary list for the ellipse
+     * @param count the number of slices that the list should include, non zero
+     * and should be a multiple of four for best results.
+     * @return the boundary iterator
+     */
+    public Iterable<Geodetic2DPoint> boundary(int count) {
+    	List<Geodetic2DPoint> blist;
+    	if (boundary != null) {
+    		blist = boundary.get();
+    		if (blist != null && blist.size() == count) {
+    			return blist;
+    		}
+    	}
+    	blist = Collections.unmodifiableList(makeBoundary(count));
+    	boundary = new WeakReference<List<Geodetic2DPoint>>(blist);
+    	return blist;
+    }
+    
+    /**
+     * Make a boundary list for a given count
+     * @param count the number of slices in the boundary list
+     * @return the boundary list, never <code>null</code> or empty
+     */
+    private List<Geodetic2DPoint> makeBoundary(int count) {
+    	// omega is the ellipse orientation angle (final rotation adjustment)
+        Angle omega = new Angle(getOrientation().inRadians());
+        // theta is the normalized circular sweep angle that
+        // varys from -180 to +180 degrees
+        Angle theta = new Angle(-Math.PI);
+        // delta is the variable angular increment value
+        Angle delta;
+
+        // Use polar coordinate equation for an ellipse, where e is the
+        // eccentricity.  Angle (theta) sweeps around the circle, and r
+        // changes as a function of it
+        double t, r;
+        double a = getSemiMajorAxis();
+        double b = getSemiMinorAxis();
+        double e = Math.sqrt(1.0 - ((b * b) / (a * a)));
+
+        // nominal delta in degrees (average angle for n steps around circle)
+        double nDelta = 360.0 / count;
+        Angle nominalDelta = new Angle(nDelta, Angle.DEGREES);
+
+        // We compute r as a function of theta,
+        // then rotate by ellipse orientation amount
+        Geodetic2DArc arc = new Geodetic2DArc(getCenter(), 0.0, omega);
+        Angle stepAngle = new Angle(0.0, Angle.DEGREES);
+        List<Geodetic2DPoint> rval = new ArrayList<Geodetic2DPoint>();
+        for (int step = 0; step < count; step++) {
+            // y cycles from -1 to +1 to -1 from 0 deg to 180 deg, repeats
+            double y = ((1.0 - Math.cos(stepAngle.inRadians() * 2.0)) - 1.0);
+            // delta varies from 0 to 2 * nominal delta
+            // to make small steps near major axis and larger ones near minor
+            delta = new Angle(nDelta + (nDelta * y), Angle.DEGREES);
+            theta = theta.add(delta);
+            t = Math.cos(theta.inRadians());
+            r = b / (Math.sqrt(1.0 - (e * e * t * t)));
+            arc.setDistanceAndAzimuth(r, theta.add(omega));
+            rval.add(arc.getPoint2());
+            stepAngle = stepAngle.add(nominalDelta);
+        }
+        return rval;
+    }
+    
     /**
      * This method returns the Geodetic2DPoint at the center of this ellipse.
      *

@@ -19,6 +19,7 @@
 package org.mitre.itf.geodesy;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,8 +158,36 @@ public class Geodetic2DBounds implements Serializable {
     public Geodetic2DBounds(Geodetic2DCircle circle) {
         this(circle.getCenter(), circle.getRadius(), 8);
     }
+    
+    /**
+     * Ctor to create a bounding box around an ellipse. 
+     * @param ellipse the ellipse, never <code>null</code>
+     */
+    public Geodetic2DBounds(Geodetic2DEllipse ellipse) {
+    	this(ellipse, 12);
+    }
 
     /**
+     * Ctor to create a bounding box around an ellipse. The method used is to 
+     * divide the ellipse into n points and calculate the min and max lat and
+     * lon values for the ellipse. It is recommended that a count should be used
+     * that is divisible by 4 in order to ensure that 4 of the points will land
+     * along the two axis of the ellipse.
+     * 
+     * @param ellipse the ellipse, never <code>null</code>
+     * @param count the number of slices to divide the ellipse up into when 
+     * finding the min and max points of the ellipse.
+     */
+    public Geodetic2DBounds(Geodetic2DEllipse ellipse, int count) {
+    	eastLon = westLon = ellipse.getCenter().getLongitude();
+    	northLat = southLat = ellipse.getCenter().getLatitude();
+    	Iterable<Geodetic2DPoint> points = ellipse.boundary(count);
+    	for(Geodetic2DPoint point : points) {
+    		include(point);
+    	}
+	}
+
+	/**
      * This method is used to extend this bounding box to include a new point.
      * If the new point is already inside the existing bounding box, no change
      * will result. The bounding box is always extended by the smallest amount
