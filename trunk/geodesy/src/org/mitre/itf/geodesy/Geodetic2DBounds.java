@@ -21,6 +21,7 @@ package org.mitre.itf.geodesy;
 import java.io.Serializable;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,8 +37,7 @@ import org.slf4j.LoggerFactory;
 public class Geodetic2DBounds implements Serializable {
 	
     private static final long serialVersionUID = 1L;
-    private static final Logger log =
-            LoggerFactory.getLogger(Geodetic2DBounds.class);
+    private static final Logger log = LoggerFactory.getLogger(Geodetic2DBounds.class);
 
     private Longitude westLon;
     private Latitude southLat;
@@ -384,8 +384,9 @@ public class Geodetic2DBounds implements Serializable {
      * This method is used to determine the geodetic point that lies at the
      * center of this bounding box.
      *
-     * @return Geodetic2DPoint that lies at the center of this Geodetic2DBounds
+     * @return Geodetic2DPoint that lies at the center of this Geodetic2DBounds, never null
      */
+	@NonNull
     public Geodetic2DPoint getCenter() {
         double westLonRad = this.westLon.inRadians;
         double eastLonRad = this.eastLon.inRadians;
@@ -418,6 +419,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @return Value of property westLon.
      */
+	@NonNull
     public Longitude getWestLon() {
         return this.westLon;
     }
@@ -425,9 +427,11 @@ public class Geodetic2DBounds implements Serializable {
     /**
      * Setter for property westLon.
      *
-     * @param westLon New value of property westLon.
+     * @param westLon New value of property westLon, never null
+	 * @throws IllegalArgumentException if westLKon is null 
      */
     public void setWestLon(final Longitude westLon) {
+		if (westLon == null) throw new IllegalArgumentException();
         this.westLon = westLon;
     }
 
@@ -436,6 +440,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @return Value of property eastLon.
      */
+	@NonNull
     public Longitude getEastLon() {
         return this.eastLon;
     }
@@ -443,9 +448,11 @@ public class Geodetic2DBounds implements Serializable {
     /**
      * Setter for property eastLon.
      *
-     * @param eastLon New value of property eastLon.
+     * @param eastLon New value of property eastLon, never null
+	 * @throws IllegalArgumentException if eastLon is null
      */
     public void setEastLon(final Longitude eastLon) {
+		if (eastLon == null) throw new IllegalArgumentException();
         this.eastLon = eastLon;
     }
 
@@ -454,6 +461,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @return Value of property southLat.
      */
+	@NonNull
     public Latitude getSouthLat() {
         return this.southLat;
     }
@@ -461,9 +469,11 @@ public class Geodetic2DBounds implements Serializable {
     /**
      * Setter for property southLat.
      *
-     * @param southLat New value of property southLat.
+     * @param southLat New value of property southLat, never null
+	 * @throws IllegalArgumentException if southLat is null
      */
     public void setSouthLat(final Latitude southLat) {
+		if (southLat == null) throw new IllegalArgumentException();
         this.southLat = southLat;
     }
 
@@ -472,6 +482,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @return Value of property northLat.
      */
+	@NonNull
     public Latitude getNorthLat() {
         return this.northLat;
     }
@@ -479,9 +490,11 @@ public class Geodetic2DBounds implements Serializable {
     /**
      * Setter for property northLat.
      *
-     * @param northLat New value of property northLat.
+     * @param northLat New value of property northLat, never null
+	 * @throws IllegalArgumentException if northLat is null
      */
     public void setNorthLat(final Latitude northLat) {
+		if (northLat == null) throw new IllegalArgumentException();
         this.northLat = northLat;
     }
 
