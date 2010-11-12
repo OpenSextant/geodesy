@@ -26,6 +26,9 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
 	
 	private static final long serialVersionUID = 1L;
 
+    // using 1e-3 meters for elevation equality gives a precision up to 1 millimeter
+    private static final double DELTA = 1e-3;
+
     public double minElev;
     public double maxElev;
 
@@ -34,8 +37,8 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      */
     public Geodetic3DBounds() {
         super();
-        minElev = 0.0;
-        maxElev = 0.0;
+        //minElev = 0.0;
+        //maxElev = 0.0;
     }
 
     /**
@@ -124,6 +127,21 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
     }
 
     /**
+     * This method is used to extend this bounding box to include a new point. If the new
+     * point is already inside the existing bounding box, no change will result. The bounding
+     * box is always extended by the smallest amount necessary to include the new point.
+     * Sometimes this will cause the bounding box to wrap around the international date line.
+     *
+     * @param newPoint new Geodetic2DPoint point to include in this bounding box.
+     */
+    public void include(Geodetic2DPoint newPoint) {
+        if (newPoint instanceof Geodetic3DPoint)
+            include((Geodetic3DPoint)newPoint);
+        else
+            super.include(newPoint);
+    }
+
+    /**
      * This method is used to extend this bounding box to include another bounding box. If the
      * newly specified bounding box is inside the existing bounding box, no change will result.
      * This bounding box is always extended by the smallest amount necessary to include the new
@@ -138,6 +156,22 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
     }
 
     /**
+     * This method is used to extend this bounding box to include another bounding box. If the
+     * newly specified bounding box is inside the existing bounding box, no change will result.
+     * This bounding box is always extended by the smallest amount necessary to include the new
+     * bounding box. Sometimes this will cause this bounding box to wrap around the international
+     * date line.
+     *
+     * @param bbox additional Geodetic2DBounds bounding box to include in this bounding box.
+     */
+	public void include(Geodetic2DBounds bbox) {
+		if (bbox instanceof Geodetic3DBounds)
+            include((Geodetic3DBounds)bbox);
+        else
+            super.include(bbox);
+	}
+
+    /**
      * This predicate method determines whether the specified geodetic point is
      * contained within this bounding box.
      *
@@ -147,6 +181,20 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
     public boolean contains(Geodetic3DPoint testPoint) {
         double testElev = testPoint.getElevation();
         return (super.contains(testPoint) && (minElev <= testElev) && (testElev <= maxElev));
+    }
+
+    /**
+     * This predicate method determines whether the specified geodetic point is
+     * contained within this bounding box.
+     *
+     * @param testPoint Geodetic2DPoint to test for containment within this bounding box
+     * @return true if specified point is within this Geodetic3DBounds, false otherwise.
+     */
+    public boolean contains(Geodetic2DPoint testPoint) {
+        if (testPoint instanceof Geodetic3DPoint)
+            return contains((Geodetic3DPoint)testPoint);
+        else
+            return super.contains(testPoint);
     }
 
     /**
@@ -162,6 +210,20 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
         return (super.contains(testBox) &&
                 (minElev <= testMinElev) && (testMinElev <= maxElev) &&
                 (minElev <= testMaxElev) && (testMaxElev <= maxElev));
+    }
+
+    /**
+     * This predicate method determines whether the specified geodetic bounding box is
+     * contained within this bounding box.
+     *
+     * @param testBox Geodetic2DBounds to test for containment within this bounding box
+     * @return true if the specified box is contained within this bounding box
+     */
+    public boolean contains(Geodetic2DBounds testBox) {
+        if (testBox instanceof Geodetic3DBounds)
+            return contains((Geodetic3DBounds)testBox);
+        else
+            return super.contains(testBox);
     }
 
     /**
@@ -207,8 +269,10 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      *         <code>false</code> otherwise.
      */
     public boolean equals(Object that) {
-        return (that instanceof Geodetic3DBounds) && equals((Geodetic3DBounds) that);
-    }
+		if (that instanceof Geodetic3DBounds)
+			return equals((Geodetic3DBounds) that);
+		return that instanceof Geodetic2DBounds && equals((Geodetic2DBounds) that);
+	}
 
     /**
      * The equals method tests for bounding box coordinate numeric equality
@@ -217,7 +281,24 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      * @return true if specified Geodetic3DBounds is spatially equivalent to this one
      */
     public boolean equals(Geodetic3DBounds that) {
-        return this == that || super.equals(that) && this.maxElev == that.maxElev && this.minElev == that.minElev;
+        return this == that || equals(that, that.minElev, that.maxElev);
+    }
+
+	/**
+     * The equals method tests for bounding box coordinate numeric equality
+     *
+     * @param that Geodetic3DBounds object to compare to this one
+     * @return true if specified Geodetic3DBounds is spatially equivalent to this one
+     */
+    public boolean equals(Geodetic2DBounds that) {
+	if (that instanceof Geodetic3DBounds)
+		return equals((Geodetic3DBounds) that);
+	return equals(that, 0, 0);
+    }
+
+    private boolean equals(Geodetic2DBounds that, double minElev, double maxElev) {
+	return super.equals(that) && Math.abs(this.maxElev - maxElev) < DELTA &&
+			Math.abs(this.minElev - minElev) < DELTA;
     }
 
     /**

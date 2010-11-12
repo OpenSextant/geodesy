@@ -27,20 +27,26 @@ import java.util.Random;
 
 public class TestGeodetic3DBounds extends TestCase {
 
+	private static final double MIN_ELEV = 100;
+	private static final double MAX_ELEV = 2500;
+
+	private final Geodetic3DPoint west = new Geodetic3DPoint(new Longitude(161, 54, 44),
+			new Latitude(-85, 41, 54), MIN_ELEV);
+	
+	private final Geodetic3DPoint east = new Geodetic3DPoint(new Longitude(99, 8, 8),
+            new Latitude(79, 39, 57), MAX_ELEV);
+
     public void testBBox() {
         // bbox1: (161° 54' 44" E, 85° 41' 54" S) .. (99° 8' 8" E, 79° 39' 57" N)
         // bbox2: (91° 4' 4" E, 89° 57' 12" S) .. (0° 13' 54" W, 87° 50' 13" N)
         // together??: (161° 54' 44" E, 89° 57' 12" S) .. (99° 8' 8" E, 87° 50' 13" N)
 
-        double minElev = 100;
-        double maxElev = 110;
+		double minElev = MIN_ELEV;
+		double maxElev = MAX_ELEV;
 
-        Geodetic3DPoint west = new Geodetic3DPoint(new Longitude(161, 54, 44),
-                new Latitude(-85, 41, 54), minElev);
-        Geodetic3DPoint east = new Geodetic3DPoint(new Longitude(99, 8, 8),
-            new Latitude(79, 39, 57), maxElev);
         Geodetic3DBounds bbox1 = new Geodetic3DBounds(west, east);
 
+		assertTrue(bbox1.toString().indexOf("161") > 0);
         assertTrue(bbox1.contains(east));
 
         Geodetic3DPoint cPt = bbox1.getCenter();
@@ -74,13 +80,59 @@ public class TestGeodetic3DBounds extends TestCase {
 
 		Geodetic3DBounds readonlyCopy = new UnmodifiableGeodetic3DBounds(bbox1);
 		assertEquals(bbox1, readonlyCopy);
+		assertTrue(bbox1.equals((Geodetic2DBounds)readonlyCopy));
 		try {
 			readonlyCopy.include(outside);
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {
 		}
 		assertEquals(bbox1, readonlyCopy);
-    }    
+		assertEquals(bbox1.hashCode(), readonlyCopy.hashCode());
+    }
+
+	public void testContains() {
+        // bbox: (161° 54' 44" E, 85° 41' 54" S) .. (99° 8' 8" E, 79° 39' 57" N)
+
+        //double minElev = 100;
+        //double maxElev = 2500;
+        Geodetic3DBounds bbox = new Geodetic3DBounds(west);
+		Geodetic2DPoint pt = west;
+		assertEquals(bbox.maxElev, west.getElevation(), 1e-5);
+		assertEquals(bbox.minElev, west.getElevation(), 1e-5);
+		assertTrue(bbox.contains(pt)); // test as 3-d point
+		pt = new Geodetic2DPoint(west.getLongitude(), west.getLatitude());
+		assertTrue(bbox.contains(pt)); // tested as 2-d point in this context
+		pt = new Geodetic3DPoint(west.getLongitude(), west.getLatitude(), MIN_ELEV + MAX_ELEV);
+		assertFalse(bbox.contains(pt)); // tested as 3-d point with wrong elevation
+
+		bbox.include((Geodetic2DPoint)east); // should include as 3d point
+		assertTrue(bbox.contains((Geodetic2DPoint)east)); // test as 3-d point
+		assertEquals(bbox.maxElev, MAX_ELEV, 1e-5);
+		assertEquals(bbox.minElev, MIN_ELEV, 1e-5);
+
+		Geodetic3DBounds bbox2 = new Geodetic3DBounds();
+		final Geodetic2DBounds bounds2d = bbox; // handle as 2-d bbox
+		bbox2.include(bounds2d); // should include as 3D bbox
+		assertEquals(bbox.maxElev, MAX_ELEV, 1e-5);
+		assertEquals(bbox.minElev, MIN_ELEV, 1e-5);
+		assertTrue(bbox2.contains(bounds2d)); // should test as 3-d point
+
+		bbox2 = new Geodetic3DBounds(bounds2d, 50.0, 50000.0);
+		assertEquals(bbox2.maxElev, 50000.0, 1e-5);
+		assertTrue(bbox2.contains(bbox));
+	}
+
+	public void test2dEquals() {
+		Geodetic3DBounds bbox = new Geodetic3DBounds(east);
+		bbox.maxElev = 0.0;
+		bbox.minElev = 0.0;
+		Geodetic2DBounds bounds2d = new Geodetic2DBounds(bbox);
+		assertTrue(bbox.contains(bounds2d)); // should test as 2-d point
+		assertTrue(bbox.equals(bounds2d));   // should test as 2-d point
+
+		bbox.include(new Geodetic2DPoint(west.getLongitude(), west.getLatitude()));
+		assertTrue(bbox.contains(bounds2d));
+	}
 
     public void testRandomBBox() {
         /*
