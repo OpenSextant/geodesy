@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
+	<property name="previous.revision" value="1.9.15" />
 	<property name="ivy.new.revision" value="1.9.16" />
 	
 	<property name="proxy.host" value="gatekeeper.mitre.org" />
@@ -14,6 +15,7 @@
 	<property name="src" value="${basedir}/src" />
 	<property name="build" value="${basedir}/build" />
 	<property name="build.classes" value="${build}/classes" />
+	<property name="build.previous" value="${build}/previous"/>
 	<property name="test" value="${basedir}/test" />
 	<property name="test.classes" value="${build}/test" />
 	<property name="testoutput" value="${basedir}/testOutput" />
@@ -97,7 +99,7 @@
 	
 	<target name="jar" depends="compile">
 		<!-- <ivy:buildnumber resolver="maven-proxy-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" />  -->
-		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-8" conf="default" inline="true"/>
+		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-11" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
 		<delete file="${rel}/jars/geodesy.jar"/>
 		<bundle file="${rel}/jars/geodesy.jar"
@@ -181,9 +183,39 @@
 				<path refid="project.classpath" />
 			</classpath>
 			<formatter type="plain" />
+			<formatter type="xml"/>
 			<batchtest fork="yes" todir="${testoutput}">
 				<fileset dir="${test}"/>
 			</batchtest>
 		</junit>
 	</target>
+
+	<target name="api-compatibility" depends="jar" description="Compare the latest build to the previous version to detect API changes.">
+		<ivy:cachepath pathid="clirr.path" organisation="net.sf.clirr" module="clirr-core" revision="0.6-mitre" conf="default" inline="true"/>
+		<taskdef resource="clirrtask.properties" classpathref="clirr.path" />
+
+		<fail unless="previous.revision" message="The previous.revision property was not set, could not load the last release for API comparison."/>
+		<ivy:retrieve inline="true" conf="default" organisation="org.mitre.itf" module="geodesy" revision="${previous.revision}" sync="true" pattern="${build.previous}/[organization].[artifact]-[revision].[ext]" />
+		<property name="previous.jar" value="org.mitre.itf.geodesy-${previous.revision}.jar"/>
+		<fail message="Could not find previous revision at ${build.previous}/${previous.jar}">
+			<condition>
+				<not>
+					<available file="${build.previous}/${previous.jar}"/>
+				</not>
+			</condition>
+		</fail>
+
+                <delete file="${build}/clirr.xml"/>
+		<clirr failOnBinError="false" failOnSrcError="false">
+		        <origclasspath>
+				<fileset dir="${build.previous}">
+					<exclude name="${previous.jar}"/>
+				</fileset>
+			</origclasspath>
+		        <newclasspath refid="project.classpath"/>
+		        <origFiles dir="${build.previous}" includes="${previous.jar}"/>
+		        <newFiles dir="${rel}/jars/" includes="geodesy.jar"/>
+		        <formatter type="xml" outfile="${build}/clirr.xml"/>
+                </clirr>
+        </target>
 </project>
