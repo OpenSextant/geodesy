@@ -17,7 +17,8 @@
 		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6" />
 		<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.5.6" conf="test->default"/>
 		<dependency org="org.slf4j" name="jcl-over-slf4j" rev="1.5.6" conf="test->default"/>
-		<dependency org="log4j" name="log4j-osgi" rev="1.2.15" conf="test->default"/>		
+		<dependency org="findbugs" name="annotations" rev="1.0.0" />
+		<dependency org="log4j" name="log4j-osgi" rev="1.2.15" conf="test->default"/>
 		<dependency org="junit" name="junit" rev="4.4" conf="test->default" />
 	</dependencies>
 </ivy-module>
