@@ -19,7 +19,6 @@
 package org.mitre.itf.geodesy;
 
 import java.io.Serializable;
-import java.util.List;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import org.slf4j.Logger;
