@@ -758,20 +758,22 @@ public class MGRS implements GeoPoint, Serializable {
      * @return MGRS coordinate string at the specified precision level
      * @throws IllegalArgumentException - exception if precision is out of range (0..5)
      */
-    public synchronized String toString(int precisionDigits) throws IllegalArgumentException {
+    public String toString(int precisionDigits) throws IllegalArgumentException {
         if ((precisionDigits < 0) || (5 < precisionDigits))
             throw new IllegalArgumentException("Precision must be an integer in the range 0..5");
 
         StringBuilder mgrsStr = new StringBuilder();
-        // Include UTM lon Zone if this square is not in a polar region
-        if (utmCoord(pointInCell.getLatitude())) mgrsStr.append(lonZone);
-        // Include the 3 letter MGRS square identifiers
-        mgrsStr.append(latBand);
-        mgrsStr.append(xSquare);
-        mgrsStr.append(ySquare);
-        // Add the correct easting and northing values truncated at the specified precision
-        mgrsStr.append(FMT.format(easting).substring(0, precisionDigits));
-        mgrsStr.append(FMT.format(northing).substring(0, precisionDigits));
+		synchronized (this) {
+			// Include UTM lon Zone if this square is not in a polar region
+			if (utmCoord(pointInCell.getLatitude())) mgrsStr.append(lonZone);
+			// Include the 3 letter MGRS square identifiers
+			mgrsStr.append(latBand);
+			mgrsStr.append(xSquare);
+			mgrsStr.append(ySquare);
+			// Add the correct easting and northing values truncated at the specified precision
+			mgrsStr.append(FMT.format(easting).substring(0, precisionDigits));
+			mgrsStr.append(FMT.format(northing).substring(0, precisionDigits));
+		}
         return mgrsStr.toString();
     }
 
