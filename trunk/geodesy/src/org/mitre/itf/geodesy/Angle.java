@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * 
  * @author Paul Silvey
  */
-public class Angle implements Serializable {
+public class Angle implements Serializable, Comparable<Angle> {
 	private static final long serialVersionUID = 1L;
 
 	// Instance variable holds angular value in normalized radians (-PI .. +PI)
@@ -487,5 +487,11 @@ public class Angle implements Serializable {
 	@Override
     public String toString() {
         return this.toString(0);
+    }
+
+    @Override
+    public int compareTo(Angle that) {
+        return (this.inRadians < that.inRadians) ? -1 :
+                (this.inRadians > that.inRadians) ? +1 : 0;
     }
 }
