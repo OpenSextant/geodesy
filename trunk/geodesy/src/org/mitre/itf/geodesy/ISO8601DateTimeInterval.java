@@ -19,7 +19,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
+public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
+        implements Comparable<ISO8601DateTimePoint> {
     private static final String INVALID_ORDER = "invalid time order";
 
     private long endTime;
@@ -36,7 +37,7 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
      * Constructor using the specified start and end times
      *
      * @param startTime long start time for interval
-     * @param endTime long end time for interval
+     * @param endTime   long end time for interval
      * @throws IllegalArgumentException if points are not in correct time order
      */
     public ISO8601DateTimeInterval(long startTime, long endTime)
@@ -142,6 +143,29 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
         int result = super.hashCode();
         result = 31 * result + (int) (this.endTime ^ (this.endTime >>> 32));
         return result;
+    }
+
+    /**
+     * Returns the value 0 if this ISO8601DateTimeInterval is equal to the argument
+     * ISO8601DateTimePoint; a value less than 0 if this ISO8601DateTimeInterval
+     * is starts before or is starts equal but ends before the argument
+     * ISO8601DateTimePoint; and a value greater than 0 if this
+     * ISO8601DateTimeInterval starts after or starts equal but ends after
+     * the argument ISO8601DateTimePoint (signed comparison of long start times,
+     * resolved on equals by signed comparison of long end times).
+     *
+     * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimeInterval
+     * @return 0, -1, or +1 depending if this interval is <, ==, or > that
+     */
+    public int compareTo(ISO8601DateTimePoint that) {
+        int result = (this.startTime == that.startTime) ?
+                0 : (this.startTime < that.startTime) ? -1 : +1;
+        if (result == 0) {
+            long et = (that instanceof ISO8601DateTimeInterval) ?
+                    ((ISO8601DateTimeInterval) that).endTime : that.startTime;
+            return (this.endTime == et) ?
+                    0 : (this.endTime < et) ? -1 : +1;
+        } else return result;
     }
 
     /**

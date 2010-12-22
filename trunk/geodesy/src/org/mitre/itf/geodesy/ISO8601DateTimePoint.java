@@ -120,10 +120,13 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
 
     /**
      * Returns the value 0 if this ISO8601DateTimePoint is equal to the argument
-     * ISO8601DateTimePoint; a value less than 0 if this ISO8601DateTimePoint is
-     * numerically less than the argument ISO8601DateTimePoint; and a value greater
-     * than 0 if this ISO8601DateTimePoint is numerically greater than the argument
+     * ISO8601DateTimePoint; a value less than 0 if this ISO8601DateTimePoint
+     * starts before the argument ISO8601DateTimePoint; and a value greater
+     * than 0 if this ISO8601DateTimePoint starts after the argument
      * ISO8601DateTimePoint (signed comparison of long start times).
+     *
+     * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimePoint
+     * @return 0, -1, or +1 depending if this point is <, ==, or > that
      */
     @Override
     public int compareTo(ISO8601DateTimePoint that) {
