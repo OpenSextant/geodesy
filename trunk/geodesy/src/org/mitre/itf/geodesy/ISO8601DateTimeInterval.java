@@ -109,11 +109,12 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
     }
 
     /**
-     * Getter method for this interval's end time
+     * Getter method for this intervals's end time (uses Long wrapper class to allow
+     * extensions to return null if time in undefined)
      *
      * @return long end time
      */
-    public long getEndTime() {
+    public Long getEndTime() {
         return this.endTime;
     }
 
