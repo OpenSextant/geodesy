@@ -24,7 +24,18 @@ import org.mitre.itf.geodesy.ISO8601DateTimePoint;
 import java.util.Random;
 
 public class TestISO8601DateTime extends TestCase {
-    final static Random rand = new Random();
+    private final static Random rand = new Random();
+
+    private final static String[] partials = {
+                "1970",
+                "1970-01",
+                "1970-01-01",
+                "1970-01-01T00",
+                "1970-01-01T00:00",
+                "1970-01-01T00:00:00",
+                "1970-01-01T00:00:00.000",
+                "1970-01-01T00:00:00.000Z"
+        };
 
     @Test
     public static void testTimePoint() throws Exception {
@@ -42,18 +53,12 @@ public class TestISO8601DateTime extends TestCase {
             assertEquals(isoDateTime, t2.toString());
         }
 
-        String[] partials = {
-                "1970",
-                "1970-01",
-                "1970-01-01",
-                "1970-01-01T00",
-                "1970-01-01T00:00",
-                "1970-01-01T00:00:00",
-                "1970-01-01T00:00:00.000",
-                "1970-01-01T00:00:00.000Z"
-        };
+        ISO8601DateTimePoint lastTime = null;
         for (String isoStr : partials) {
             t1 = new ISO8601DateTimePoint(isoStr);
+            // all times should be equivalent
+            if (lastTime != null) assertEquals(lastTime, t1);
+            lastTime = t1;
             System.out.println(isoStr + " means " + t1.toString());
         }
     }
@@ -83,16 +88,6 @@ public class TestISO8601DateTime extends TestCase {
             assertEquals(isoDateTime, t2.toString());
         }
 
-        String[] partials = {
-                "1970",
-                "1970-01",
-                "1970-01-01",
-                "1970-01-01T00",
-                "1970-01-01T00:00",
-                "1970-01-01T00:00:00",
-                "1970-01-01T00:00:00.000",
-                "1970-01-01T00:00:00.000Z"
-        };
         for (String isoStr : partials) {
             t1 = new ISO8601DateTimeInterval(isoStr);
             System.out.println(isoStr + " means " + t1.toString());
