@@ -86,10 +86,10 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
     }
 
     /**
-     * Getter method for this pont's start time (uses Long wrapper class to allow
-     * extensions to return null if time in undefined)
+     * Getter method for this point's start time (uses Long wrapper class to allow
+     * extensions to return null if time is undefined)
      *
-     * @return long start time
+     * @return Long start time in milliseconds
      */
     public Long getStartTime() {
         return this.startTime;
