@@ -49,11 +49,11 @@ public class TestEllipsoid extends TestCase {
         // Note: for Angle construtor parsing, degree symbol can be encoded in either
         // ISO-8859-1 (Latin-1) or unicode, but toString formatting always uses unicode
         Geodetic2DPoint London =
-                new Geodetic2DPoint("51° 28' 15.19\" N, 0° 27' 33.41\" W");
+                new Geodetic2DPoint("51 deg 28' 15.19\" N, 0 deg 27' 33.41\" W");
 		Geodetic2DPoint Boston =
                 new Geodetic2DPoint("42\u00B0 22' 11.77\" N, 71\u00B0 1' 40.30\" W");
         Geodetic2DPoint Honolulu =
-                new Geodetic2DPoint("21° 19' 55.36\" N, 157° 55' 11.08\" W");
+                new Geodetic2DPoint("21 deg 19' 55.36\" N, 157 deg 55' 11.08\" W");
         Geodetic2DPoint Sydney =
                 new Geodetic2DPoint("33\u00B0 56' 43.70\" S, 151\u00B0 10' 51.43\" E");
 

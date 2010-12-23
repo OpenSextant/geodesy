@@ -96,8 +96,8 @@ public class TestGeoPoint extends TestCase {
 			south or west resuling in angle deg = -0 being used in floating point
 			calculations and sign being incorrectly assigned.
 
-				(0° 46' 41.23530" W, 6° 18' 6.01751" N) parsed with wrong sign on longitude:
-				(0° 46' 41.23530" E, 6° 18' 6.01751" N)
+				(0 deg 46' 41.23530" W, 6 deg 18' 6.01751" N) parsed with wrong sign on longitude:
+				(0 deg 46' 41.23530" E, 6 deg 18' 6.01751" N)
 				a1 lon-lat (rads) = -0.013580771984344651 0.10998491659692418
 				a3 lon-lat (rads) =  0.013580771974469753 0.1099849165873849
 
@@ -107,8 +107,8 @@ public class TestGeoPoint extends TestCase {
 				round off error adjustment in equals() is true in nearly all cases.
 
 			Here's cases that fails if only using 5 decimal places for seconds where Angle.EPISON = 1e-7:
-				(60° 41' 16.04803" E, 0° 0' 12.67506" N)
-				(60° 41' 16.04803" E, 0° 0' 12.67506" N)
+				(60 deg 41' 16.04803" E, 0 deg 0' 12.67506" N)
+				(60 deg 41' 16.04803" E, 0 deg 0' 12.67506" N)
 				a1 lon-lat (rads) = 1.0592017708190238 6.145040119951688E-5
 				a3 lon-lat (rads) = 1.0592017707968808 6.145042496884236E-5
 				a1 != a3
@@ -150,17 +150,17 @@ public class TestGeoPoint extends TestCase {
         int prevLen = 0;
 
         String base = p.toString();
-        String prefix = base.substring(0, base.indexOf(' '));   // e.g. "75°"
+        String prefix = base.substring(0, base.indexOf(' '));   // e.g. "75 deg"
         String suffix = base.substring(base.length() - 2);      // e.g. "N)"
 
         /*
         length of string should increase two digits for each fractional # of digits in lat & lon
-        (75° 10' 31" E, 89° 17' 7" N)
-        (75° 10' 31.5" E, 89° 17' 7.2" N)
-        (75° 10' 31.46" E, 89° 17' 7.18" N)
-        (75° 10' 31.455" E, 89° 17' 7.177" N)
-        (75° 10' 31.4551" E, 89° 17' 7.1768" N)
-        (75° 10' 31.45508" E, 89° 17' 7.17678" N)
+        (75 deg 10' 31" E, 89 deg 17' 7" N)
+        (75 deg 10' 31.5" E, 89 deg 17' 7.2" N)
+        (75 deg 10' 31.46" E, 89 deg 17' 7.18" N)
+        (75 deg 10' 31.455" E, 89 deg 17' 7.177" N)
+        (75 deg 10' 31.4551" E, 89 deg 17' 7.1768" N)
+        (75 deg 10' 31.45508" E, 89 deg 17' 7.17678" N)
          ...
          */
         for(int i=0; i < 6; i++) {

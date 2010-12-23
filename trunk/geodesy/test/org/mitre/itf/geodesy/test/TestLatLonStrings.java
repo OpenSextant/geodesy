@@ -39,12 +39,12 @@ public class TestLatLonStrings extends TestCase {
     private static final String[] testStrings = {
  
     		/*Lat/Lon hddd.ddddd	*/ "S26.25333 E27.92333",
-    		/*Lat/Lon hddd°mm.mmm*/	"N33 56.539 W118 24.471",
-    		/*Lat/Lon hddd°mm'ss.s" */ "N30 56 12.3 W118 24 12.3",
-    		"77°02'06.00\"38°53'20.76\"",
-    		"W77°02'06.00\"38°53'20.76\"",
-    		"77°02'06.00\"38°53'20.76\"N",
-    		"77°02'06.00\"N38°53'20.76\"",    		
+    		/*Lat/Lon hddd degmm.mmm*/	"N33 56.539 W118 24.471",
+    		/*Lat/Lon hddd degmm'ss.s" */ "N30 56 12.3 W118 24 12.3",
+    		"77d02m06.00\"38dd53m20.76\"",
+    		"W77d02m06.00\"38d53m20.76\"",
+    		"77d02m06.00\"38d53m20.76\"N",
+    		"77d02m06.00\"N38d53m20.76\"",
     		
     		"-314/61239",
     		"+38 -77",
@@ -57,7 +57,7 @@ public class TestLatLonStrings extends TestCase {
     		"38+ 77",
     		"38 -77",
     		
-    		"W77°02'06.00\"38°53'20.76\"N",
+    		"W77d02'06.00\"38d53'20.76\"N",
     		"-38.889097 77.035000",
     		"38.889097 -77.035000",
     		"-0770206.00+385320.76",
@@ -115,7 +115,7 @@ public class TestLatLonStrings extends TestCase {
     		"0770206.00W N385320.76",
     		"N385320.76 W0770206.00",
     		"385320.76N0770206.00W",
-    		"W77°02'06.00\"38°53'20.76\"N",
+    		"W77d02'06.00\"38d53'20.76\"N",
     		"385320.76 N;0770206.00 W",
 
     		"38d53m20.76sS 77d2m6.00sW",
@@ -143,7 +143,7 @@ public class TestLatLonStrings extends TestCase {
     			String latLon = parser.parseEtrexString(testStringEtrex);
     			System.out.print(testStringEtrex + " ----> " + latLon + "\n");
     		} catch (IllegalArgumentException e) {
-    			System.err.println(testStringEtrex + "Illegal Argument Exception");
+    			System.err.println(testStringEtrex + " Illegal Argument Exception");
     		}
     	}
     }
@@ -159,7 +159,7 @@ public class TestLatLonStrings extends TestCase {
     			String latLon = parser.parseString(testString);
     			System.out.print(testString + " ----> " + latLon + "\n");
     		} catch (IllegalArgumentException e) {
-    			System.err.println(testString  + "Illegal Argument Exception");
+    			System.err.println(testString  + " Illegal Argument Exception");
     		}
     	}
  

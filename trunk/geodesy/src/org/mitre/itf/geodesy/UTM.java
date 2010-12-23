@@ -1,4 +1,4 @@
-/****************************************************************************************
+/************************************************************************************
  *  UTM.java
  *
  *  Created: Dec 21, 2006
@@ -7,15 +7,15 @@
  *
  *  (C) Copyright MITRE Corporation 2007
  *
- *  The program is provided "as is" without any warranty express or implied, including 
- *  the warranty of non-infringement and the implied warranties of merchantibility and 
- *  fitness for a particular purpose.  The Copyright owner will not be liable for any 
- *  damages suffered by you as a result of using the Program.  In no event will the 
- *  Copyright owner be liable for any special, indirect or consequential damages or 
- *  lost profits even if the Copyright owner has been advised of the possibility of 
- *  their occurrence.
+ * The program is provided "as is" without any warranty express or implied, including
+ * the warranty of non-infringement and the implied warranties of merchantability and
+ * fitness for a particular purpose.  The Copyright owner will not be liable for any
+ * damages suffered by you as a result of using the Program. In no event will the
+ * Copyright owner be liable for any special, indirect or consequential damages or
+ * lost profits even if the Copyright owner has been advised of the possibility of
+ * their occurrence.
  *
- ***************************************************************************************/
+ ***********************************************************************************/
 package org.mitre.itf.geodesy;
 
 import java.util.Map;
@@ -24,22 +24,20 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
- * The UTM (Universal Transverse Mercator) class contains methods to parse and format between UTM
- * coordinate strings and their geodetic (longitude and latitude) equivalents.  A UTM object is
- * defined only in terms of the Ellipsoid data model against which projections are made.
- * The default constructor uses the WGS 84 ellipsoid. <p/>
- *
- * TODO: implement equals() and hashCode() methods. <p/>
+ * The UTM (Universal Transverse Mercator) class contains methods to parse and format
+ * between UTM coordinate strings and their geodetic (longitude and latitude)
+ * equivalents. A UTM object is defined only in terms of the Ellipsoid data model
+ * against which projections are made. The default constructor uses the WGS 84
+ * ellipsoid.
  *
  * Notes:
- * <pre>
- * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6° wide.
+ * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6 deg wide.
  *
- * Longitude of Origin: Central meridian (CM) of each projection zone (3°, 9°, 15°, 21°, 27°,
- * 33°, 39°, 45°, 51°, 57°, 63°, 69°, 75°, 81°, 87°, 93°, 99°, 105°, 111°, 117°, 123°, 129°,
- * 135°, 141°, 147°, 153°, 159°, 165°, 171°, 177°, E and W).
+ * Longitude of Origin: Central meridian (CM) of each projection zone (degrees of 3,
+ * 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93, 99, 105, 111, 117, 123,
+ * 129, 135, 141, 147, 153, 159, 165, 171, 177, E and W).
  *
- * Latitude of Origin: 0° (the Equator).
+ * Latitude of Origin: 0 deg (the Equator).
  *
  * Unit: Meter.
  *
@@ -50,35 +48,38 @@ import java.text.DecimalFormat;
  *
  * Scale Factor at the Central Meridian: 0.9996.
  *
- * Latitude Limits of System: From 80°S to 84°N.
+ * Latitude Limits of System: From 80 deg S to 84 deg N.
  *
  *  Overlap: On large-scale maps and trig lists, the data for each zone, datum, or
- *  ellipsoid overlaps the adjacent zone, datum, or ellipsoid a minimum of 40 kilometers. The
- *  UTM grid extends to 80°30'S and 84°30'N, providing a 30-minute overlap with the UPS grid.
+ *  ellipsoid overlaps the adjacent zone, datum, or ellipsoid a minimum of 40
+ *  kilometers. The UTM grid extends to 80.5 deg S and 84.5 deg N, providing a
+ *  30-minute overlap with the UPS grid.
  *
- *	Limits of Projection Zones: The zones are bounded by meridians, the longitudes of which
- *	are multiples of 6° east and west of the prime meridian.
+ *	Limits of Projection Zones: The zones are bounded by meridians, the longitudes
+ *  of which are multiples of 6 deg east and west of the prime meridian.
  *
- *	Universal Transverse Mercator (UTM) coordinates define two dimensional, horizontal,
- *	positions. The sixty UTM zone numbers designate 6 degree wide longitudinal strips
- *	extending from 80 degrees South latitude to 84 degrees North latitude. UTM zone characters
- *	are letters which designate 8 degree zones extending north and south from the equator.
- *	Beginning at 80° south and proceeding northward, twenty bands are lettered C through X,
- *	omitting I and O. These bands are all 8° wide except for band X which is 12° wide (between
- *	72-84 N).
+ *	Universal Transverse Mercator (UTM) coordinates define two dimensional,
+ *  horizontal, positions. The sixty UTM zone numbers designate 6 degree wide
+ *  longitudinal strips extending from 80 degrees South latitude to 84 degrees North
+ *  latitude. UTM zone characters are letters which designate 8 degree zones
+ *  extending north and south from the equator. Beginning at 80 deg south and
+ *  proceeding northward, twenty bands are lettered C through X, omitting I and O.
+ *  These bands are all 8 deg wide except for band X which is 12 deg wide (between
+ *	72-84 deg N).
  *
- *	There are special UTM zones between 0 degrees and 36 degrees longitude above 72 degrees
- *	latitude and a special zone 32 between 56 degrees and 64 degrees north latitude:
+ *	There are special UTM zones between 0 degrees and 36 degrees longitude above 72
+ *  degrees latitude and a special zone 32 between 56 degrees and 64 degrees north
+ *  latitude:
  *
- *	UTM Zone 32 has been widened to 9° (at the expense of zone 31) between latitudes 56° and
- *	64° (band V) to accommodate southwest Norway. Thus zone 32 it extends westwards to 3°E in
- *	the North Sea.
+ *	UTM Zone 32 has been widened to 9 deg (at the expense of zone 31) between
+ *  latitudes 56 deg and 64 deg (band V) to accommodate southwest Norway. Thus zone
+ *  32 it extends westwards to 3 deg E in the North Sea.
  *
- *	Similarly, between 72° and 84° (band X), zones 33 and 35 have been widened to 12° to
- *	accommodate Svalbard. To compensate for these 12° wide zones, zones 31 and 37 are widened
- *	to 9° and zones 32, 34, and 36 are eliminated. Thus the W and E boundaries of zones are
- *	31: 0 - 9 E, 33: 9 - 21 E, 35: 21 - 33 E and 37: 33 - 42 E.
- * </pre>
+ *	Similarly, between 72 deg and 84 deg (band X), zones 33 and 35 have been widened
+ *  to 12 deg to accommodate Svalbard. To compensate for these 12 deg wide zones,
+ *  zones 31 and 37 are widened to 9 deg and zones 32, 34, and 36 are eliminated.
+ *  Thus the W and E boundaries of zones are 31: 0 - 9 deg E, 33: 9 - 21 deg E,
+ *  35: 21 - 33 deg E and 37: 33 - 42 deg E.
  */
 public class UTM implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -127,7 +128,7 @@ public class UTM implements Serializable {
 
             // min Northings are inclusive (northing must be greater than or equal to this min)
             // min Northings for Northern Hemisphere are along a central meridian, but for
-            // the Southern Hemisphere, they occur at the edges of a lonZone (+/- 3° from CM)
+            // the Southern Hemisphere, they occur at the edges of a lonZone (+/- 3 deg from CM)
             lon = (latBand < 'N') ? edgeLon : centLon;
             Latitude minLat = new Latitude(UTM.minLatDegrees(latBand), Angle.DEGREES);
             double minNorthing = new UTM(new Geodetic2DPoint(lon, minLat)).getNorthing();
@@ -135,7 +136,7 @@ public class UTM implements Serializable {
 
             // max Northings are exclusive (northing must be less than this max)
             // max Northings for Southern Hemisphere are along a central meridian, but for
-            // the Northern Hemisphere, they occur at the edges of a lonZone (typically +/- 3°
+            // the Northern Hemisphere, they occur at the edges of a lonZone (typically +/- 3 deg
             // from CM). Special case at equator for southern hemisphere latBand 'M' is
             // FALSE_NORTHING
             double maxNorthing;
@@ -264,12 +265,12 @@ public class UTM implements Serializable {
         // validate that latitude is within proper range (allow half degree overlap with UPS)
         if ((latDeg < -80.5) || (84.5 < latDeg))
             throw new IllegalArgumentException("Latitude value '" + latDeg +
-                    "' is out of legal range (-80° to 84°) for UTM");
+                    "' is out of legal range (-80 deg to 84 deg) for UTM");
 
         // Round value to correct for accumulation of numerical error in UTM projection
         latDeg = Math.floor(Math.round(latDeg * ROUNDING_POS) * ROUNDING_NEG);
 
-        // Restrict calculated index to 20 8°-wide bands between -80° and +80°
+        // Restrict calculated index to 20 8 deg-wide bands between -80 deg and +80 deg
         int i;
         if (latDeg < -80.0) i = 0;                  // correct for extra 'C' band range
         else if (80.0 <= latDeg) i = 19;            // correct for extra 'X' band range
@@ -312,7 +313,7 @@ public class UTM implements Serializable {
         int i = (int) latBand - (int) 'C';
         if (latBand > 'N') i -= 2;
         else if (latBand > 'H') i -= 1;             // adjust for missing 'I' and 'O'
-        double w = (latBand == 'X') ? 12.0 : 8.0;   // Band 'X' has extra 4.0° N
+        double w = (latBand == 'X') ? 12.0 : 8.0;   // Band 'X' has extra 4.0 deg N
         return ((8.0 * (i - 10.0)) + w);
     }
 
@@ -730,6 +731,40 @@ public class UTM implements Serializable {
      */
     public double getNorthing() {
         return northing;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UTM utm = (UTM) o;
+
+        if (Double.compare(utm.easting, easting) != 0) return false;
+        if (hemisphere != utm.hemisphere) return false;
+        if (latBand != utm.latBand) return false;
+        if (lonZone != utm.lonZone) return false;
+        if (Double.compare(utm.northing, northing) != 0) return false;
+        if (lonLat != null ? !lonLat.equals(utm.lonLat) : utm.lonLat != null) return false;
+        if (tm != null ? !tm.equals(utm.tm) : utm.tm != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = tm != null ? tm.hashCode() : 0;
+        result = 31 * result + lonZone;
+        result = 31 * result + (int) latBand;
+        result = 31 * result + (int) hemisphere;
+        temp = easting != +0.0d ? Double.doubleToLongBits(easting) : 0L;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = northing != +0.0d ? Double.doubleToLongBits(northing) : 0L;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (lonLat != null ? lonLat.hashCode() : 0);
+        return result;
     }
 
     /**

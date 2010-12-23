@@ -378,7 +378,7 @@ public class MGRS implements GeoPoint, Serializable {
                 }
             }
             if (!found) {
-                // One legal case is S Polar region along lon 180° exactly, where xSquare
+                // One legal case is S Polar region along lon 180 deg exactly, where xSquare
                 // should be an 'A' even though it is not found by the above search method
                 if (west && (xSquare == 'A') && (easting == 0)) {
                     gridEasting = 0;

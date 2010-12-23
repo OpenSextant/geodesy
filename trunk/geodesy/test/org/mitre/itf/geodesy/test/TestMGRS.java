@@ -113,62 +113,62 @@ public class TestMGRS {
      */
     @Test
     public void testLandmarks() {
-        // washington_monument == "18SUJ2348306479" -> (77° 2' 6.87" W, 38° 53' 22.07" N)
+        // washington_monument == "18SUJ2348306479" -> (77Â° 2' 6.87" W, 38Â° 53' 22.07" N)
         String MGRS_washington_monument = "18SUJ2348306479";
         Geodetic2DPoint Geod_washington_monument = new Geodetic2DPoint(
                 new Longitude(-77, 2, 6.87), new Latitude(38, 53, 22.07));
 
-        // statue_of_liberty == "18TWL8073104699" -> (74° 2' 40.41" W, 40° 41' 21.25" N)
+        // statue_of_liberty == "18TWL8073104699" -> (74Â° 2' 40.41" W, 40Â° 41' 21.25" N)
         String MGRS_statue_of_liberty = "18TWL 80731\t04699";
         Geodetic2DPoint Geod_statue_of_liberty = new Geodetic2DPoint(
                 new Longitude(-74, 2, 40.41), new Latitude(40, 41, 21.25));
 
-        // toronto_cn_tower == "17TPJ3008533438" -> (79° 23' 13.67" W, 43° 38' 33.22" N)
+        // toronto_cn_tower == "17TPJ3008533438" -> (79Â° 23' 13.67" W, 43Â° 38' 33.22" N)
         String MGRS_toronto_cn_tower = "17T PJ3008533438";
         Geodetic2DPoint Geod_toronto_cn_tower = new Geodetic2DPoint(
                 new Longitude(-79, 23, 13.67), new Latitude(43, 38, 33.22));
 
-        // eiffel_tower == "31UDQ4825211938' -> (2° 17' 40.21" E, 48° 51' 29.69" N)
+        // eiffel_tower == "31UDQ4825211938' -> (2Â° 17' 40.21" E, 48Â° 51' 29.69" N)
         String MGRS_eiffel_tower = "31UDQ48252 11938";
         Geodetic2DPoint Geod_eiffel_tower = new Geodetic2DPoint(
                 new Longitude(2, 17, 40.21), new Latitude(48, 51, 29.69));
 
-        // great_pyramid == "36RUU1965817595" -> (31° 7' 50.78" E, 29° 58' 33.58" N)
+        // great_pyramid == "36RUU1965817595" -> (31Â° 7' 50.78" E, 29Â° 58' 33.58" N)
         String MGRS_great_pyramid = "36RUU\r1965817595";
         Geodetic2DPoint Geod_great_pyramid = new Geodetic2DPoint(
                 new Longitude(31, 7, 50.78), new Latitude(29, 58, 33.58));
 
-        // christo_redentor == "23KPQ8345460723" -> (43° 12' 38.60" W, 22° 57' 5.69" S)
+        // christo_redentor == "23KPQ8345460723" -> (43Â° 12' 38.60" W, 22Â° 57' 5.69" S)
         String MGRS_christo_redentor = "23KPQ8345460723";
         Geodetic2DPoint Geod_christo_redentor = new Geodetic2DPoint(
                 new Longitude(-43, 12, 38.60), new Latitude(-22, 57, 5.69));
 
-        // pearl_harbor == "4QFJ0886462894" -> (157° 56' 59.94" W, 21° 21' 53.55" N)
+        // pearl_harbor == "4QFJ0886462894" -> (157Â° 56' 59.94" W, 21Â° 21' 53.55" N)
         String MGRS_pearl_harbor = "4Q FJ 08864 62894";
         Geodetic2DPoint Geod_pearl_harbor = new Geodetic2DPoint(
                 new Longitude(-157, 56, 59.94), new Latitude(21, 21, 53.55));
 
-        // taj_mahal == "44RKR0691109266" -> (78° 2' 31.57" E, 27° 10' 29.69" N)
+        // taj_mahal == "44RKR0691109266" -> (78Â° 2' 31.57" E, 27Â° 10' 29.69" N)
         String MGRS_taj_mahal = "44R\tKR0691109266";
         Geodetic2DPoint Geod_taj_mahal = new Geodetic2DPoint(
                 new Longitude(78, 2, 31.57), new Latitude(27, 10, 29.69));
 
-        // sydney_opera == "56HLH3488352274" -> (151° 12' 54.39" E, 33° 51' 24.96" S)
+        // sydney_opera == "56HLH3488352274" -> (151Â° 12' 54.39" E, 33Â° 51' 24.96" S)
         String MGRS_sydney_opera = "56HLH3488352274";
         Geodetic2DPoint Geod_sydney_opera = new Geodetic2DPoint(
                 new Longitude(151, 12, 54.39), new Latitude(-33, 51, 24.96));
 
-        // roundoff_case == "31WCM5330500467" -> (0° 0' 0.00" E, 64° 0' 0.00" S)
+        // roundoff_case == "31WCM5330500467" -> (0Â° 0' 0.00" E, 64Â° 0' 0.00" S)
         String MGRS_roundoff_case = "31WCM5330500467";
         Geodetic2DPoint Geod_roundoff_case = new Geodetic2DPoint(
                 new Longitude(0, 0, 0.00), new Latitude(64, 0, 0.00));
 
-        // sPolarTest == "ATN2097136228" -> (85° 40' 30.00" W, 85° 40' 30.00" S)
+        // sPolarTest == "ATN2097136228" -> (85Â° 40' 30.00" W, 85Â° 40' 30.00" S)
         String MGRS_sPolarTest = "ATN2097136228";
         Geodetic2DPoint Geod_sPolarTest = new Geodetic2DPoint(
                 new Longitude(-85, 40, 30.25), new Latitude(-85, 40, 30.00));
 
-        // nPolarTest == "ZGG7902863771" -> (85° 40' 30.00" E, 85° 40' 30.00" N)
+        // nPolarTest == "ZGG7902863771" -> (85Â° 40' 30.00" E, 85Â° 40' 30.00" N)
         String MGRS_nPolarTest = "ZGG7902863771";
         Geodetic2DPoint Geod_nPolarTest = new Geodetic2DPoint(
                 new Longitude(85, 40, 29.79), new Latitude(85, 40, 30.00));

@@ -35,7 +35,7 @@ public class TestUTM extends TestCase {
         int lonZone;
         char latBand = 'N';
         double lonDeg;
-        // Test Lon Zones by longitude degrees (1° increment lons at lat band 'N')
+        // Test Lon Zones by longitude degrees (1Â° increment lons at lat band 'N')
         for (lonDeg = -180.0; lonDeg < +180.0; lonDeg += 1.0) {
             lonZone = UTM.getLonZone(lonDeg, latBand);
             assertTrue((UTM.minLonDegrees(lonZone, latBand) <= lonDeg) &&
@@ -68,7 +68,7 @@ public class TestUTM extends TestCase {
         char latBand;
         double latDeg;
         // Test the latitude band char mappings and band ranges
-        // (note that 84° is considered in band 'X', hence use of '<=' for max)
+        // (note that 84Â° is considered in band 'X', hence use of '<=' for max)
         for (latDeg = -90.0; latDeg < 90.0; latDeg += 1.0) {
             try {
                 latBand = UTM.getLatBand(latDeg);
@@ -96,13 +96,13 @@ public class TestUTM extends TestCase {
      */
     public void testProjections() {
         // Test Case : Tononto's CNN Tower
-        //   WGS 84 Geodetic2DPoint (lon-lat): (79° 23' 13.70" W, 43° 38' 33.24" N)
+        //   WGS 84 Geodetic2DPoint (lon-lat): (79Â° 23' 13.70" W, 43Â° 38' 33.24" N)
         //   Zone 17, Band T (hemisphere 'N'), 630084m east, 4833439m north
         Geodetic2DPoint g1, g2;
         UTM u1, u2;
         int fractDig = 2; // Fractional digits to print in toString conversions
 
-        // utm.toGeodetic(17, 'N', 630084.30, 4833438.55) => (79° 23' 13.70" W, 43° 38' 33.24" N)
+        // utm.toGeodetic(17, 'N', 630084.30, 4833438.55) => (79Â° 23' 13.70" W, 43Â° 38' 33.24" N)
         //  MGRS? 17TPJ 30084 33439
         g1 = new Geodetic2DPoint(
                 new Longitude(-79, 23, 13.700468),
@@ -118,7 +118,7 @@ public class TestUTM extends TestCase {
         assertTrue(u1.toString(fractDig).equals(u2.toString(fractDig)));
 
         // Another test case
-        //   NAD 83 Geodetic2DPoint (lon-lat): (97° 44' 25.19" W, 30° 16' 28.82" N)
+        //   NAD 83 Geodetic2DPoint (lon-lat): (97Â° 44' 25.19" W, 30Â° 16' 28.82" N)
         //   UTM equivalent: Zone 14 R 621160.98, 3349893.53
         g1 = new Geodetic2DPoint(new Longitude(-97, 44, 25.19), new Latitude(30, 16, 28.82));
         u1 = new UTM(g1);

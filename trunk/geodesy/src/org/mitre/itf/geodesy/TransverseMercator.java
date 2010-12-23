@@ -200,7 +200,7 @@ public class TransverseMercator implements Serializable {
 
         // Invalid longitude if greater than 90 degrees from central meridian
         if (Math.abs(dlam) > PI_OVER_2)
-            throw new IllegalArgumentException("Longitude is more than 90° from central meridian");
+            throw new IllegalArgumentException("Longitude is more than 90 deg from central meridian");
 
         // Warn if distortion will occur (when Longitude is more than 9 degrees from the Central Meridian)
         if (Math.abs(dlam) > MAX_DELTA_LON) {

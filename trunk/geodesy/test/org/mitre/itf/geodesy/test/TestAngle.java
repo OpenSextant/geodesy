@@ -58,7 +58,7 @@ public class TestAngle {
             Assert.assertTrue(s1.toString(fractDig).equals(s2.toString(fractDig)));
         }
 
-        Angle z000 = new Angle();   // default constructor makes 0° angle
+        Angle z000 = new Angle();   // default constructor makes 0 deg angle
         // Some common positive angles (testing add method)
         Angle p045 = new Angle(45.0, Angle.DEGREES);
         Angle p090 = p045.add(p045);
@@ -76,7 +76,7 @@ public class TestAngle {
 
 //        System.out.println("\rString constructor parse tests:");
 //        String[] parseTests = new String[]{
-//                "77.5 degrees", "77°:15 min", "1.4r", "-23 deg, 15 min", "3.141592654 radians",
+//                "77.5 degrees", "77 deg:15 min", "1.4r", "-23 deg, 15 min", "3.141592654 radians",
 //                "-180deg, 15:23.2", "1:2:5", "4 23 15", "60 61", "25:25.3:56"
 //        };
 //        for (String s : parseTests) {

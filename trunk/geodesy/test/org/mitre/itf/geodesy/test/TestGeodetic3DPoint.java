@@ -123,7 +123,7 @@ public class TestGeodetic3DPoint extends TestCase {
         int prevLen = 0;
 
         String base = p.toString();
-        String prefix = base.substring(0, base.indexOf(' '));      // e.g. "75°"
+        String prefix = base.substring(0, base.indexOf(' '));      // e.g. "75 deg"
         char letter = base.charAt(base.indexOf(')') - 1);          // e.g. "S"
 
         // System.out.println("base=" + base + " pre=" + prefix + " letter=" + letter);
@@ -131,12 +131,12 @@ public class TestGeodetic3DPoint extends TestCase {
         for(int i=0; i < 6; i++) {
             /*
            length of string should increase two digits for each fractional # of digits in lat & lon
-           0 (133° 47' 15" W, 73° 17' 33" S) @ 733484m
-           1 (133° 47' 14.8" W, 73° 17' 32.7" S) @ 733484.0m
-           2 (133° 47' 14.81" W, 73° 17' 32.67" S) @ 733484.00m
-           3 (133° 47' 14.806" W, 73° 17' 32.675" S) @ 733484.000m
-           4 (133° 47' 14.8060" W, 73° 17' 32.6749" S) @ 733484.0000m
-           5 (133° 47' 14.80597" W, 73° 17' 32.67487" S) @ 733484.00000m
+           0 (133 deg 47' 15" W, 73 deg 17' 33" S) @ 733484m
+           1 (133 deg 47' 14.8" W, 73 deg 17' 32.7" S) @ 733484.0m
+           2 (133 deg 47' 14.81" W, 73 deg 17' 32.67" S) @ 733484.00m
+           3 (133 deg 47' 14.806" W, 73 deg 17' 32.675" S) @ 733484.000m
+           4 (133 deg 47' 14.8060" W, 73 deg 17' 32.6749" S) @ 733484.0000m
+           5 (133 deg 47' 14.80597" W, 73 deg 17' 32.67487" S) @ 733484.00000m
             ...
             */
             String s = p.toString(i);

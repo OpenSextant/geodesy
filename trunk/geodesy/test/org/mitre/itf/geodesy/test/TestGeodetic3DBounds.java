@@ -37,9 +37,9 @@ public class TestGeodetic3DBounds extends TestCase {
             new Latitude(79, 39, 57), MAX_ELEV);
 
     public void testBBox() {
-        // bbox1: (161° 54' 44" E, 85° 41' 54" S) .. (99° 8' 8" E, 79° 39' 57" N)
-        // bbox2: (91° 4' 4" E, 89° 57' 12" S) .. (0° 13' 54" W, 87° 50' 13" N)
-        // together??: (161° 54' 44" E, 89° 57' 12" S) .. (99° 8' 8" E, 87° 50' 13" N)
+        // bbox1: (161 deg 54' 44" E, 85 deg 41' 54" S) .. (99 deg 8' 8" E, 79 deg 39' 57" N)
+        // bbox2: (91 deg 4' 4" E, 89 deg 57' 12" S) .. (0 deg 13' 54" W, 87 deg 50' 13" N)
+        // together??: (161 deg 54' 44" E, 89 deg 57' 12" S) .. (99 deg 8' 8" E, 87 deg 50' 13" N)
 
 		double minElev = MIN_ELEV;
 		double maxElev = MAX_ELEV;
@@ -91,7 +91,7 @@ public class TestGeodetic3DBounds extends TestCase {
     }
 
 	public void testContains() {
-        // bbox: (161° 54' 44" E, 85° 41' 54" S) .. (99° 8' 8" E, 79° 39' 57" N)
+        // bbox: (161 deg 54' 44" E, 85 deg 41' 54" S) .. (99 deg 8' 8" E, 79 deg 39' 57" N)
 
         //double minElev = 100;
         //double maxElev = 2500;
@@ -196,9 +196,9 @@ public class TestGeodetic3DBounds extends TestCase {
         }
         somehow the east/west lon get switched or we're wrapping the world
         example: west lon = -61 east lin = -81
-            (61° 53' 58" W, 89° 37' 35" S) .. (81° 9' 34" W, 89° 33' 41" N) .. (1802.0m, 997780.0m)
-            center=(108° 28' 14" E, 0° 1' 57" S) @ 499791m
-            (64° 49' 50" W, 80° 39' 21" S) @ 853675m
+            (61 deg 53' 58" W, 89 deg 37' 35" S) .. (81 deg 9' 34" W, 89 deg 33' 41" N) .. (1802.0m, 997780.0m)
+            center=(108 deg 28' 14" E, 0 deg 1' 57" S) @ 499791m
+            (64 deg 49' 50" W, 80 deg 39' 21" S) @ 853675m
          */
     }
 

@@ -15,7 +15,6 @@
  ***********************************************************************************/
 package org.mitre.itf.geodesy;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -30,11 +29,11 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
     protected static final String INVALID_POINT = "invalid time point";
 
     protected final static TimeZone UTC_TIMEZONE = TimeZone.getTimeZone("UTC");
-    protected final static String dtSuffix = "-01-01T00:00:00.000GMT-00:00";
-    protected final static SimpleDateFormat DF;
+    protected final static String dtSuffix = "-01-01T00:00:00.000Z";
+    protected final static SafeDateFormat DF;
 
     static {
-        DF = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
+        DF = new SafeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         DF.setTimeZone(UTC_TIMEZONE);
     }
 
@@ -66,8 +65,6 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
     public ISO8601DateTimePoint(String isoDateTimeStr) {
         try {
             String toParse = isoDateTimeStr;
-            if (toParse.endsWith("Z"))
-                toParse = toParse.substring(0, toParse.length() - 1);
             int eoy = toParse.indexOf("-");
             if (eoy < 0) eoy = toParse.length();
             int n = toParse.length();
@@ -86,21 +83,20 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
     }
 
     /**
-     * Getter method for this point's start time (uses Long wrapper class to allow
-     * extensions to return null if time is undefined)
+     * Getter method for this point's start time in milliseconds
      *
-     * @return Long start time in milliseconds
+     * @return long start time
      */
-    public Long getStartTime() {
+    public long getStartTimeInMillis() {
         return this.startTime;
     }
 
     /**
-     * Setter method for this point's start time
+     * Setter method for this point's start time in milliseconds
      *
      * @param startTime long start time
      */
-    public void setStartTime(long startTime) {
+    public void setStartTimeInMillis(long startTime) {
         this.startTime = startTime;
     }
 
@@ -119,11 +115,8 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
     }
 
     /**
-     * Returns the value 0 if this ISO8601DateTimePoint is equal to the argument
-     * ISO8601DateTimePoint; a value less than 0 if this ISO8601DateTimePoint
-     * starts before the argument ISO8601DateTimePoint; and a value greater
-     * than 0 if this ISO8601DateTimePoint starts after the argument
-     * ISO8601DateTimePoint (signed comparison of long start times).
+     * Return int indicating whether this ISO8601DateTimePoint is equal to (0),
+     * is before (-1), or is after (+1) the specified ISO8601DateTimePoint argument.
      *
      * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimePoint
      * @return 0, -1, or +1 depending if this point is <, ==, or > that
@@ -142,6 +135,6 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
      */
     @Override
     public String toString() {
-        return DF.format(new Date(this.startTime)).replace("UTC", "Z");
+        return DF.format(new Date(this.startTime));
     }
 }

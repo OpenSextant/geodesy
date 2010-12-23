@@ -531,7 +531,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * negative integer, zero, or a positive integer as this arc's length is less than,
      * equal to, or greater than the length of the specified arc.
      *
-     * @param o the Geodetic2DArc to compare lengths with this one
+     * @param that Geodetic2DArc to compare lengths with this one
      * @return a negative integer, zero, or a positive integer as this object is less than,
      *         equal to, or greater than the specified object.	  
      */

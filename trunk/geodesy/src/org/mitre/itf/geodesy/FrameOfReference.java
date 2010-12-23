@@ -30,7 +30,7 @@ import java.io.Serializable;
  * of origin, along with methods to convert points between Geodetic, Geocentric, and
  * Topocentric point formats, given this FrameOfReference. The default Ellipsoid is
  * WGS-84, and the default Topocentric point of origin is where the equator meets the
- * prime meridian (0° E, 0° N). All of the point types are objects, and there are
+ * prime meridian (0 deg E, 0 deg N). All of the point types are objects, and there are
  * three different kinds of equivalence tests that may be applied to them. As objects
  * with unique handles, they will only be '=' if they map to the same address in
  * memory (i.e. are the exact same object in the Java Virtual Machine). If they have

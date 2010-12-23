@@ -110,10 +110,10 @@ public class UPS implements Serializable {
         double latDeg = lat.inDegrees();
         if ((0.0 <= latDeg) && (latDeg < MIN_NORTH_LATDEG)) {
             throw new IllegalArgumentException("Latitude value '" + latDeg +
-                    "' is out of legal range (+83.5° to +90°) for UPS Northern Hemisphere");
+                    "' is out of legal range (+83.5 deg to +90 deg) for UPS Northern Hemisphere");
         } else if ((MAX_SOUTH_LATDEG < latDeg) && (latDeg < 0.0)) {
             throw new IllegalArgumentException("Latitude value '" + latDeg +
-                    "' is out of legal range (-79.5° to -90°) for UPS Southern Hemisphere");
+                    "' is out of legal range (-79.5 deg to -90 deg) for UPS Southern Hemisphere");
         }
     }
 

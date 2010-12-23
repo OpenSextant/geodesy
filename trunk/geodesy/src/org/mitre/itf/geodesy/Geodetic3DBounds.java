@@ -242,7 +242,7 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
         double northLatRad = this.getNorthLat().inRadians;
         double centLatRad = southLatRad + ((northLatRad - southLatRad) / 2.0);
         double centElev = minElev + ((maxElev - minElev) / 2.0);
-        // Note that Longitude constructor will re-normalize angle if > 360°
+        // Note that Longitude constructor will re-normalize angle if > 360 deg
         return new Geodetic3DPoint(new Longitude(centLonRad), new Latitude(centLatRad), centElev);
     }
 

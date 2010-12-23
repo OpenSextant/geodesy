@@ -156,7 +156,7 @@ public class Longitude extends Angle {
         String result = super.toString(fractDigOfSec);
         char dirFromMeridian = this.getDirectionFromPrimeMeridian();
         if (result.charAt(0) == '-') result = result.substring(1);
-        // Normalize rounded +180° values to be -180° by display convention
+        // Normalize rounded +180 deg values to be -180 deg by display convention
         if ((result.substring(0, 3).equals("180")) && (dirFromMeridian == 'E'))
             dirFromMeridian = 'W';
         return result + " " + dirFromMeridian;

@@ -42,7 +42,7 @@ public class TestTransverseMercator extends TestCase {
         TransverseMercator tm = new TransverseMercator(false);
 
         // Longitude tests vary central meridian around the globe at the Equator
-        // and test for a consistent offset at 1° east of the central meridian.
+        // and test for a consistent offset at 1Â° east of the central meridian.
         // Eastings should all be nearly 111325.18096 m, and Northings 0 m.
         lat = new Latitude(0.0, Angle.DEGREES);
         for (int cm = -181; cm <= +180; cm++) {
@@ -53,7 +53,7 @@ public class TestTransverseMercator extends TestCase {
             assertEquals(en.getNorthing(), 0.0);
         }
 
-        // Latitude tests vary the Latitude from -90° to +88° by steps of 1°
+        // Latitude tests vary the Latitude from -90Â° to +88Â° by steps of 1Â°
         // Northings should differ from previous value by no less than 110574m and
         // by no more than 111693m. This is just a sanity range check, since precisely
         // correct values would require a table to compare against
@@ -71,8 +71,8 @@ public class TestTransverseMercator extends TestCase {
 
         // Random point tests project and unproject to test for equality in transform
         // This is based on default Central Meridian (at the Prime Meridian), so
-        // Longitude values are restricted to be within 5° of the Prime Meridian, and
-        // Latitude values are restricted to be between -89° and +89°.  Accuracy should
+        // Longitude values are restricted to be within 5Â° of the Prime Meridian, and
+        // Latitude values are restricted to be between -89Â° and +89Â°.  Accuracy should
         // be to hundreths of an arc second (2 fractional digits in toString format).
         Geodetic2DPoint p1, p2;
         Random r = new Random();

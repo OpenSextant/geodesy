@@ -19,8 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
-        implements Comparable<ISO8601DateTimePoint> {
+public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
     private static final String INVALID_ORDER = "invalid time order";
 
     private long endTime;
@@ -61,18 +60,16 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
                         new ISO8601DateTimeInterval(isoDateTimeStr.substring(0, i));
                 ISO8601DateTimeInterval tSeg2 =
                         new ISO8601DateTimeInterval(isoDateTimeStr.substring(i + 2));
-                long startTime1 = tSeg1.getStartTime();
-                long startTime2 = tSeg2.getStartTime();
-                long endTime1 = tSeg1.getEndTime();
-                long endTime2 = tSeg2.getEndTime();
+                long startTime1 = tSeg1.getStartTimeInMillis();
+                long startTime2 = tSeg2.getStartTimeInMillis();
+                long endTime1 = tSeg1.getEndTimeInMillis();
+                long endTime2 = tSeg2.getEndTimeInMillis();
                 if ((startTime1 > startTime2) || (endTime1 > endTime2))
                     throw new IllegalArgumentException(INVALID_ORDER);
                 this.startTime = startTime1;
                 this.endTime = endTime2;
             } else {
                 String toParse = isoDateTimeStr;
-                if (toParse.endsWith("Z"))
-                    toParse = toParse.substring(0, toParse.length() - 1);
                 int eoy = toParse.indexOf("-");
                 if (eoy < 0) eoy = toParse.length();
                 int n = toParse.length();
@@ -110,21 +107,20 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
     }
 
     /**
-     * Getter method for this intervals's end time (uses Long wrapper class to allow
-     * extensions to return null if time in undefined)
+     * Getter method for this intervals's end time in milliseconds
      *
      * @return long end time
      */
-    public Long getEndTime() {
+    public long getEndTimeInMillis() {
         return this.endTime;
     }
 
     /**
-     * Setter method for this interval's end time
+     * Setter method for this interval's end time in milliseconds
      *
      * @param endTime long end time
      */
-    public void setEndTime(long endTime) {
+    public void setEndTimeInMillis(long endTime) {
         this.endTime = endTime;
     }
 
@@ -146,13 +142,9 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
     }
 
     /**
-     * Returns the value 0 if this ISO8601DateTimeInterval is equal to the argument
-     * ISO8601DateTimePoint; a value less than 0 if this ISO8601DateTimeInterval
-     * is starts before or is starts equal but ends before the argument
-     * ISO8601DateTimePoint; and a value greater than 0 if this
-     * ISO8601DateTimeInterval starts after or starts equal but ends after
-     * the argument ISO8601DateTimePoint (signed comparison of long start times,
-     * resolved on equals by signed comparison of long end times).
+     * Return int indicating whether this ISO8601DateTimeInterval is equal to (0),
+     * starts before or starts equal but ends before (-1), or starts after or starts
+     * equal and ends after (+1) the specified ISO8601DateTimePoint argument.
      *
      * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimeInterval
      * @return 0, -1, or +1 depending if this interval is <, ==, or > that
@@ -163,9 +155,10 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
         if (result == 0) {
             long et = (that instanceof ISO8601DateTimeInterval) ?
                     ((ISO8601DateTimeInterval) that).endTime : that.startTime;
-            return (this.endTime == et) ?
+            result = (this.endTime == et) ?
                     0 : (this.endTime < et) ? -1 : +1;
-        } else return result;
+        }
+        return result;
     }
 
     /**
@@ -177,7 +170,7 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint
      */
     @Override
     public String toString() {
-        return DF.format(new Date(this.startTime)).replace("UTC", "Z") +
-                "--" + DF.format(new Date(this.endTime)).replace("UTC", "Z");
+        return DF.format(new Date(this.startTime)) +
+                "--" + DF.format(new Date(this.endTime));
     }
 }
