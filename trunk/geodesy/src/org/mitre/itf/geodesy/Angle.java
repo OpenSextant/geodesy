@@ -47,23 +47,23 @@ public class Angle implements Serializable, Comparable<Angle> {
     double inRadians;
 
     // Constant values
-    final static double TWO_PI = 2.0 * Math.PI;  // 360 degrees
+    static final double TWO_PI = 2.0 * Math.PI;  // 360 degrees
 
 	/**
 	 * Unicode degree symbol 
 	 * <br>
 	 * This is used by {@link #toString()}.
 	 */
-    public final static String DEGSYM = Character.toString('\u00B0'); //
+    public static final String DEGSYM = Character.toString('\u00B0'); //
 
     /**
      * unitType parameter for constructor specifying angle is in decimal radians
      */
-    public final static int RADIANS = 0;
+    public static final int RADIANS = 0;
     /**
      * unitType parameter for constructor specifying angle is in decimal degrees
      */
-    public final static int DEGREES = 1;
+    public static final int DEGREES = 1;
 
     /*
      * Reduce angle in radians to normalized range form [-PI .. +PI)
