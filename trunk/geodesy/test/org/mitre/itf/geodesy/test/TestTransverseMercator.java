@@ -73,7 +73,7 @@ public class TestTransverseMercator extends TestCase {
         // This is based on default Central Meridian (at the Prime Meridian), so
         // Longitude values are restricted to be within 5° of the Prime Meridian, and
         // Latitude values are restricted to be between -89° and +89°.  Accuracy should
-        // be to hundreths of an arc second (2 fractional digits in toString format).
+        // be to hundredths of an arc second (2 fractional digits in toString format).
         Geodetic2DPoint p1, p2;
         Random r = new Random();
         int fractDig = 2;
@@ -85,7 +85,7 @@ public class TestTransverseMercator extends TestCase {
             p1 = new Geodetic2DPoint(lon, lat);
             en = tm.toTransverseMercator(lon, lat);
             p2 = tm.toGeodetic(en.getEasting(), en.getNorthing());
-            assertTrue(p1.toString(fractDig).equals(p2.toString(fractDig)));
+			assertEquals("Geodetic2DPoint.toString()", p1.toString(fractDig), p2.toString(fractDig));
         }
 
     }
