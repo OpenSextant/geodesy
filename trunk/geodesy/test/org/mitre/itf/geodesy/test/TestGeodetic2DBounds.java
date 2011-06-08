@@ -158,6 +158,12 @@ public class TestGeodetic2DBounds extends TestCase {
 		assertEquals(bbox1, readonlyCopy);
     }
 
+	public void testNullBBoxCompare() {
+        Geodetic2DBounds bbox1 = new Geodetic2DBounds();
+		Geodetic2DBounds bbox2 = null;
+		assertFalse(bbox1.equals(bbox2));
+	}
+
     public void testRandomBBox() {
         Random r = new Random();
         FrameOfReference f = new FrameOfReference();
