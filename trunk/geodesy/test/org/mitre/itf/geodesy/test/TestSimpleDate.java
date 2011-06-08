@@ -21,21 +21,22 @@ public class TestSimpleDate extends TestCase {
 		df.setTimeZone(TimeZone.getTimeZone("UTC"));
 		current = Thread.currentThread();
 		// System.out.format("now = %x%n", System.currentTimeMillis());
-		for (int i=0; i < 30; i++) {
+		for (int i=0; i < 20; i++) {
 			Thread t = new Thread(new Runner(i));
 			t.setDaemon(true);
 			t.start();
 		}
 
 		// run thread tests for 10 seconds
+		// if SimpleDateFormat used instead of SafeDateFormat then fails after few iterations
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// e.printStackTrace();
+			// one of the test threads probably failed the test
 		}
 		// System.out.println("running = " + running);
 		assertTrue("format returned non-consistent result", running);
-		running = false;
+		running = false; // kill running threads
 	}
 
 	private class Runner implements Runnable {
@@ -61,6 +62,7 @@ public class TestSimpleDate extends TestCase {
 					System.out.format("T%d:%d Failed actual=%s expected=%s%n", id, count, result, output);
 					running = false;
 					current.interrupt();
+					return; // failed -> stop
 				}
 				try {
 					Date parsedDate = df.parse(output);
@@ -69,8 +71,12 @@ public class TestSimpleDate extends TestCase {
 						running = false;
 						current.interrupt();
 					}
+				} catch (NumberFormatException e) {
+					System.out.format("T%d:%d Failed to parse date: NumberFormatException: %s %n", id, count, e.getMessage() );
+					running = false;
+					current.interrupt();
 				} catch (ParseException e) {
-					System.out.format("T%d:%d Failed to parse date: %s%n", id, count, e.toString() );
+					System.out.format("T%d:%d Failed to parse date: %s%n", id, count, e.getMessage() );
 					running = false;
 					current.interrupt();
 				}
