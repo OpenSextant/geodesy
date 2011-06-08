@@ -63,6 +63,11 @@ public class TestGeocentricPoint extends TestCase {
         assertEquals(a, a2);
 	}
 
+    public void testNullPointCompare() {
+		GeocentricPoint g2 = null;
+		assertFalse(a.equals(g2));
+	}
+
 	public void testHashCode() {
 		assertEquals(a.hashCode(), b.hashCode());
 		assertNotSame("hashCode different by design", a.hashCode(), c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed
