@@ -439,7 +439,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @return true if the specified Angle is equal to this Angle.
      */
     public boolean equals(Angle that) {
-        return equals(this.inRadians, that.inRadians);
+        return that != null && equals(this.inRadians, that.inRadians);
     }
 
     // Inherited Javadoc
