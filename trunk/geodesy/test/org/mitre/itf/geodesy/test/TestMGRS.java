@@ -108,6 +108,14 @@ public class TestMGRS {
         }
     }
 
+	@Test
+	public void testMGRSNullCompare() {
+		String MGRS_washington_monument = "18SUJ2348306479";
+		MGRS mgrs = new MGRS(MGRS_washington_monument);
+		MGRS other = null;
+		Assert.assertFalse(mgrs.equals(other));
+	}
+
     /**
      * This method is used to test some specific landmark points around the globe
      */
