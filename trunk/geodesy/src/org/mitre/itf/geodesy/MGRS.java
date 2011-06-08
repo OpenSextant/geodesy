@@ -730,7 +730,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @return true if specified MGRS point is equal in value to this one.
      */
     public boolean equals(MGRS that) {
-        return this.pointInCell.equals(that.pointInCell);
+        return that != null && this.pointInCell.equals(that.pointInCell);
     }
 
     /**
