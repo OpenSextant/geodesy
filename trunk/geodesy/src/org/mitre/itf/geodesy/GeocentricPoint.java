@@ -128,7 +128,7 @@ public class GeocentricPoint implements GeoPoint, Serializable {
      *         GeocentricPoint point.
      */
     public boolean equals(GeocentricPoint that) {
-        return ((this.x == that.x) && (this.y == that.y) && (this.z == that.z));
+        return that != null && ((this.x == that.x) && (this.y == that.y) && (this.z == that.z));
     }
 
     /**
