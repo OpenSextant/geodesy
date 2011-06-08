@@ -281,7 +281,7 @@ public class Geodetic2DEllipse implements Serializable {
             return true;
         }
         boolean result = false;
-        if (this.getCenter().equals(ellipse.getCenter())) {
+        if (ellipse != null && this.getCenter().equals(ellipse.getCenter())) {
             if ((this.semiMajorAxis == ellipse.semiMajorAxis) &&
                     (this.semiMinorAxis == ellipse.semiMinorAxis)) {
                 if (this.orientation.equals(ellipse.orientation))
