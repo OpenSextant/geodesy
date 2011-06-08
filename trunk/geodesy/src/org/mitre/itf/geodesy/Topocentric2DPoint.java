@@ -121,8 +121,8 @@ public class Topocentric2DPoint implements GeoPoint, Serializable {
      *         Topocentric2DPoint point.
      */
     public boolean equals(Topocentric2DPoint that) {
-        return ((this.easting == that.easting) &&
-                (this.northing == that.northing));
+        return that != null && this.easting == that.easting &&
+				this.northing == that.northing;
     }
 
     /**
