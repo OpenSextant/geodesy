@@ -50,6 +50,12 @@ public class TestGeodetic2DEllipse extends TestCase {
 		assertEquals(geo.hashCode(), geo2.hashCode());
 		assertFalse(ellipse.equals(geo));
 	}
+
+	public void testNullEllipseCompare() {
+        Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
+		Geodetic2DEllipse other = null;
+		assertFalse(ellipse.equals(other));
+	}
 	
 	public void testBounds() {
 		Geodetic2DPoint center = new Geodetic2DPoint(
