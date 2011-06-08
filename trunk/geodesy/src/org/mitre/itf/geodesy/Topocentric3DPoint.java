@@ -96,9 +96,9 @@ public class Topocentric3DPoint extends Topocentric2DPoint implements GeoPoint {
      *         Topocentric3DPoint point.
      */
     public boolean equals(Topocentric3DPoint that) {
-        return ((this.easting == that.easting) &&
-                (this.northing == that.northing) &&
-                (this.elevation == that.elevation));
+        return that != null && this.easting == that.easting &&
+				this.northing == that.northing &&
+				this.elevation == that.elevation;
     }
 
     /**
