@@ -127,8 +127,8 @@ public class Geodetic2DCircle {
      * @return boolean indicating if this circle is equal to specified one
      */
     public boolean equals(Geodetic2DCircle circle) {
-        return ((this.radius == circle.radius) &&
-                (this.getCenter().equals(circle.getCenter())));
+        return circle != null && this.radius == circle.radius &&
+				this.getCenter().equals(circle.getCenter());
     }
 
     /**
