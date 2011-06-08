@@ -549,7 +549,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      */
     @Override
     public int hashCode() {
-        return (point1.hashCode() ^ point2.hashCode());
+        return point1.hashCode() ^ point2.hashCode();
     }
 
     /**
@@ -559,7 +559,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * @return boolean indicating whether this arc is equal to the specified arc
      */
     public boolean equals(Geodetic2DArc arc) {
-        return (point1.equals(arc.getPoint1()) && point2.equals(arc.getPoint2()));
+        return arc != null && point1.equals(arc.getPoint1()) && point2.equals(arc.getPoint2());
     }
 
     /**
