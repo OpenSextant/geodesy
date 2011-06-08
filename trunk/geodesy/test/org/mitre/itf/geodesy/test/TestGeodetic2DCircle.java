@@ -19,6 +19,7 @@
 package org.mitre.itf.geodesy.test;
 
 import junit.framework.TestCase;
+import org.mitre.itf.geodesy.Geodetic2DBounds;
 import org.mitre.itf.geodesy.Geodetic2DCircle;
 import org.mitre.itf.geodesy.Geodetic2DPoint;
 
@@ -49,6 +50,12 @@ public class TestGeodetic2DCircle extends TestCase {
 			count++;
 		}
 		assertEquals(8, count);
+	}
+
+	public void testNullCircleCompare() {
+		Geodetic2DCircle circle = new Geodetic2DCircle();
+		Geodetic2DCircle other = null;
+		assertFalse(circle.equals(other));
 	}
 	
 }
