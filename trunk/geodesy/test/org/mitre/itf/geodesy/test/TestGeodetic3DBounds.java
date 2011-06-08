@@ -134,6 +134,12 @@ public class TestGeodetic3DBounds extends TestCase {
 		assertTrue(bbox.contains(bounds2d));
 	}
 
+	public void testNullBBoxCompare() {
+        Geodetic3DBounds bbox1 = new Geodetic3DBounds();
+		Geodetic3DBounds bbox2 = null;
+		assertFalse(bbox1.equals(bbox2));
+	}
+
     public void testRandomBBox() {
         /*
         * sometimes this test fails if random bbox wraps world
