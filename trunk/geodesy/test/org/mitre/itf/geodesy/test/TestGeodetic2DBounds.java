@@ -158,6 +158,12 @@ public class TestGeodetic2DBounds extends TestCase {
 		assertEquals(bbox1, readonlyCopy);
     }
 
+	public void testGeodetic2DArcNullCompare() {
+		Geodetic2DArc arc = new Geodetic2DArc();
+		Geodetic2DArc other = null;
+		assertFalse(arc.equals(other));
+	}
+
 	public void testNullBBoxCompare() {
         Geodetic2DBounds bbox1 = new Geodetic2DBounds();
 		Geodetic2DBounds bbox2 = null;
