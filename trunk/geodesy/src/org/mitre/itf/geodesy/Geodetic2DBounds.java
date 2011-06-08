@@ -531,7 +531,8 @@ public class Geodetic2DBounds implements Serializable {
      * @return true if specified Geodetic2DBounds is equivalent to this one
      */
     public boolean equals(Geodetic2DBounds that) {
-        return (this.westLon.equals(that.westLon) &&
+        return that != null &&
+				(this.westLon.equals(that.westLon) &&
                 this.eastLon.equals(that.eastLon) &&
                 this.southLat.equals(that.southLat) &&
                 this.northLat.equals(that.northLat));
@@ -547,7 +548,8 @@ public class Geodetic2DBounds implements Serializable {
      * @return true if specified Geodetic2DBounds is equivalent to this one
      */
     public boolean equals(Geodetic2DBounds that, double epsilon) {
-        return (Angle.equals(this.westLon.inDegrees(),
+        return that != null &&
+				(Angle.equals(this.westLon.inDegrees(),
                 that.westLon.inDegrees(), epsilon) &&
                 Angle.equals(this.eastLon.inDegrees(),
                         that.eastLon.inDegrees(), epsilon) &&
@@ -568,4 +570,5 @@ public class Geodetic2DBounds implements Serializable {
         return "(" + westLon + ", " + southLat + ") .. (" +
                 eastLon + ", " + northLat + ")";
     }
+
 }
