@@ -14,6 +14,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import junit.textui.TestRunner;
+import org.mitre.itf.geodesy.Latitude;
+import org.mitre.itf.geodesy.Longitude;
 
 public class TestLatLonStrings extends TestCase {
 
@@ -169,7 +171,6 @@ public class TestLatLonStrings extends TestCase {
      * Test the LatLonParser class and Geodetic2DPoint class with test strings
      */
     public void testLatLonParserGeodetic2DPoint() {
-    	
     	System.out.print("\n\n LatLonParserGeodetic2DPoint Test \n\n");
     	String latLon;
     	
@@ -191,12 +192,23 @@ public class TestLatLonStrings extends TestCase {
 				continue;
 			}
 			
-			System.out.print(testString + " ----> " + 
+			System.out.println(testString + " ----> " +
 					latLon + " ----> " +
-					point.toString() + "\n");
+					point.toString());
     	}
-
     }
+
+	public void testNullLatCompare() {
+		Latitude lat = new Latitude(Math.PI/2);
+		Latitude other = null;
+		assertFalse(lat.equals(other));
+	}
+
+	public void testNullLonCompare() {
+		Longitude lon = new Longitude(Math.PI/2);
+		Longitude other = null;
+		assertFalse(lon.equals(other));
+	}
   
 	/**
 	 * Main method for running class tests.
