@@ -140,6 +140,11 @@ public class TestGeoPoint extends TestCase {
 		assertEquals(a, a3);
 	}
 
+	public void testNullCompare() {
+		Geodetic2DPoint other = null;
+		assertFalse(a.equals(other));
+	}
+
 	public void testHashCode() {
 		assertEquals(a.hashCode(), b.hashCode());
 		assertTrue(a.hashCode() != c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed

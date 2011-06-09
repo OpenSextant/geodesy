@@ -95,6 +95,11 @@ public class TestGeodetic3DPoint extends TestCase {
 		assertEquals(a.hashCode(), a3.hashCode());
 	}
 
+	public void testNullCompare() {
+		Geodetic3DPoint other = null;
+		assertFalse(a.equals(other));
+	}
+
     /**
      * Test 2d vs 3d points with 3d elavations at/close to 0
      */
