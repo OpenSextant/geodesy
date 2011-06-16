@@ -94,7 +94,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
         // so we ignore beyond ~3 decimal places in computing the hashCode, otherwise
         // we break the equals-hashCode contract. Changing EPSILON or equals(Geodetic3DPoint)
         // may require changing the logic used here also.
-        return lon.hashCode() ^ lat.hashCode() ^ ((int) (elevation / DELTA));
+        return 31 * lon.hashCode() + lat.hashCode() ^ ((int) (elevation / DELTA));
     }
 
    /**
