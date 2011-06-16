@@ -173,7 +173,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * @return a hash code value for this object.
      */
     public int hashCode() {
-        return lon.hashCode() ^ lat.hashCode();
+        return 31 * lon.hashCode() + lat.hashCode();
     }
 
 	// Inherited Javadoc
