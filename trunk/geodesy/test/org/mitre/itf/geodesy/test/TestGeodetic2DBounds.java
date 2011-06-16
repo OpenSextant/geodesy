@@ -28,6 +28,8 @@ import java.util.Random;
 public class TestGeodetic2DBounds extends TestCase {
     private static final String DEGSYM = Character.toString('\u00B0');
 
+	private final Random r = new Random(123L);
+
     private void evaluateBBox(Geodetic2DBounds bbox, double radius) {
         FrameOfReference f = new FrameOfReference();
         Ellipsoid e = f.getEllipsoid();
@@ -59,7 +61,6 @@ public class TestGeodetic2DBounds extends TestCase {
      * This method tests the point-radius bounding box constructor
      */
     public void testPointRadius() {
-        Random r = new Random(123L);
         Geodetic2DPoint pt;
         double radius;
         Geodetic2DBounds bbox;
@@ -78,6 +79,14 @@ public class TestGeodetic2DBounds extends TestCase {
         }
         System.out.println();
     }
+
+	public void testCircleBounds() {
+		Geodetic2DPoint pt = TestGeoPoint.randomGeodetic2DPoint(r);
+		double radius = 1 + 1.0 * r.nextInt(1000000);      // stress test at 1,000 km.
+		Geodetic2DBounds bbox = new Geodetic2DBounds(pt, radius, 8);
+		Geodetic2DBounds bbox2 = new Geodetic2DBounds(new Geodetic2DCircle(pt, radius));
+		assertEquals(bbox, bbox2);
+	}
 
     public void testGeodetic2DArc() {
         Geodetic2DPoint pt;
@@ -260,6 +269,56 @@ public class TestGeodetic2DBounds extends TestCase {
 		double shouldBe = Math.sqrt((1000*1000*2)) * 2;
 		assertTrue(diff <= shouldBe);
     }
+
+	public void testApproxEquals() {
+		Geodetic2DPoint west = new Geodetic2DPoint(new Longitude(30, Angle.DEGREES),
+                new Latitude(30, Angle.DEGREES));
+        Geodetic2DPoint east = new Geodetic2DPoint(new Longitude(32, Angle.DEGREES),
+                new Latitude(32, Angle.DEGREES));
+        Geodetic2DBounds bbox = new Geodetic2DBounds(west, east);
+
+		Geodetic2DPoint west2 = new Geodetic2DPoint(new Longitude(30.001, Angle.DEGREES),
+                new Latitude(30.001, Angle.DEGREES));
+        Geodetic2DPoint east2 = new Geodetic2DPoint(new Longitude(31.999, Angle.DEGREES),
+                new Latitude(31.999, Angle.DEGREES));
+        Geodetic2DBounds bbox2 = new Geodetic2DBounds(west2, east2);
+
+		assertFalse(bbox.equals(bbox2));
+		/*
+		double delta = 1;
+		for (int i=0;i < 8;i++) {
+			System.out.printf("%b %f%n", bbox.equals(bbox2, delta), delta);
+			delta /= 10.0;
+		}
+		*/
+		assertTrue(bbox.equals(bbox2, 0.001));
+		assertTrue(bbox2.equals(bbox, 0.001));
+	}
+
+	public void testIntersect() {
+		Geodetic2DPoint west = new Geodetic2DPoint(new Longitude(30, Angle.DEGREES),
+                new Latitude(30, Angle.DEGREES));
+        Geodetic2DPoint east = new Geodetic2DPoint(new Longitude(32, Angle.DEGREES),
+                new Latitude(32, Angle.DEGREES));
+        Geodetic2DBounds bbox = new Geodetic2DBounds(west, east);
+
+		Geodetic2DPoint west2 = new Geodetic2DPoint(new Longitude(31, Angle.DEGREES),
+                new Latitude(31, Angle.DEGREES));
+        Geodetic2DPoint east2 = new Geodetic2DPoint(new Longitude(33, Angle.DEGREES),
+                new Latitude(33, Angle.DEGREES));
+        Geodetic2DBounds bbox2 = new Geodetic2DBounds(west2, east2);
+
+		assertTrue(bbox.intersects(bbox2));
+		assertTrue(bbox2.intersects(bbox));
+
+		Geodetic2DPoint west3 = new Geodetic2DPoint(new Longitude(40, Angle.DEGREES),
+                new Latitude(40, Angle.DEGREES));
+        Geodetic2DPoint east3 = new Geodetic2DPoint(new Longitude(50, Angle.DEGREES),
+                new Latitude(50, Angle.DEGREES));
+        Geodetic2DBounds bbox3 = new Geodetic2DBounds(west3, east3);
+		assertFalse(bbox.intersects(bbox3));
+		assertFalse(bbox3.intersects(bbox));
+	}
 
     /**
      * Main method for running class tests.
