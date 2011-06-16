@@ -180,7 +180,6 @@ public class TestGeodetic2DBounds extends TestCase {
 	}
 
     public void testRandomBBox() {
-        Random r = new Random();
         FrameOfReference f = new FrameOfReference();
         GeoPoint pt = TestGeoPoint.randomGeodetic2DPoint(r);
         Geodetic2DBounds bbox1 = new Geodetic2DBounds(pt.toGeodetic3D(f));
@@ -203,6 +202,22 @@ public class TestGeodetic2DBounds extends TestCase {
         System.out.println(bbox1);
     }
 
+	public void testIncludePoint() {
+		Geodetic2DPoint c = new Geodetic2DPoint(r);
+        Geodetic2DBounds bbox = new Geodetic2DBounds(c);
+		// first grow north latitude by 1 degree
+		Geodetic2DPoint c2 = new Geodetic2DPoint(c.getLongitude(), new Latitude(c.getLatitudeAsDegrees() + 1, Angle.DEGREES));
+		bbox.include(c2);
+		double diag1 = bbox.getDiagonal();
+		// first grow east longitude by 1 degree
+		Geodetic2DPoint c3 = new Geodetic2DPoint(new Longitude(c.getLongitudeAsDegrees() + 1,Angle.DEGREES), c.getLatitude());
+		bbox.include(c3);
+		assertTrue(bbox.contains(c2));
+		assertTrue(bbox.contains(c3));
+		// diagonal distance increases
+		assertTrue(bbox.getDiagonal() > diag1);
+	}
+
     /**
      * Test bounds that wraps Longitude at the International Date Line (IDL)
      */
@@ -223,7 +238,6 @@ public class TestGeodetic2DBounds extends TestCase {
      * diameter by at least two times the specified amount of growth.
      */
     public void testGrow2() {
-        Random r = new Random(17L);
         Geodetic2DPoint c = new Geodetic2DPoint(r);
         Geodetic2DBounds bbox = new Geodetic2DBounds(c);
 
