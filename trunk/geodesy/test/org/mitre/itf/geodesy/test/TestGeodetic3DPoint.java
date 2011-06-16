@@ -79,9 +79,9 @@ public class TestGeodetic3DPoint extends TestCase {
 	public void testEquals() {
 		// test equality with known geo-points
 		assertEquals(a, b);
-		assert(!a.equals(c));
-		assert(!a.equals(d));
-		assert(!c.equals(d));
+		assertFalse(a.equals(c));
+		assertFalse(a.equals(d));
+		assertFalse(c.equals(d));
 
 		// test equality with any possible round off errors
 		Geodetic3DPoint a2 = new Geodetic3DPoint(new Longitude(Math.toRadians(a.getLongitude().inDegrees())),
@@ -120,7 +120,7 @@ public class TestGeodetic3DPoint extends TestCase {
 
 	public void testHashCode() {
 		assertEquals(a.hashCode(), b.hashCode());
-		assert(a.hashCode() != c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed
+		assertTrue(a.hashCode() != c.hashCode()); // this test isn't required by equals-hashCode contract but by how the hashCode is computed
 	}
 
     public void testToString() {
