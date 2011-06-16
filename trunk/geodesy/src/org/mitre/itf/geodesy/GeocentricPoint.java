@@ -114,7 +114,7 @@ public class GeocentricPoint implements GeoPoint, Serializable {
      * @return a hash code value for this object.
      */
     public int hashCode() {
-        return Double.valueOf(x).hashCode() ^
+        return 31 * Double.valueOf(x).hashCode() +
                 Double.valueOf(y).hashCode() ^
                 Double.valueOf(z).hashCode();
     }

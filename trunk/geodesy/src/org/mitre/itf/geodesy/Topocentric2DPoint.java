@@ -108,7 +108,7 @@ public class Topocentric2DPoint implements GeoPoint, Serializable {
      * @return a hash code value for this object.
      */
     public int hashCode() {
-        return Double.valueOf(easting).hashCode() ^
+        return 31 * Double.valueOf(easting).hashCode() +
                 Double.valueOf(northing).hashCode();
     }
 

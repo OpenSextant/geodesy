@@ -116,7 +116,7 @@ public class Geodetic2DCircle {
      */
     @Override
     public int hashCode() {
-        return (center.hashCode() ^ Double.valueOf(radius).hashCode());
+        return 31 * center.hashCode() + Double.valueOf(radius).hashCode();
     }
 
     /**

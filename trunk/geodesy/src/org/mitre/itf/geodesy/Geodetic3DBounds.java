@@ -36,7 +36,6 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      * The default constructor returns a bounding box containing only the 0-0-0 point.
      */
     public Geodetic3DBounds() {
-        super();
         //minElev = 0.0;
         //maxElev = 0.0;
     }
@@ -255,7 +254,7 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      * @return a <code>hash code</code> value for this object.
      */
     public int hashCode() {
-        return super.hashCode() ^ Double.valueOf(maxElev).hashCode() ^ Double.valueOf(minElev).hashCode();
+        return 31 * super.hashCode() + Double.valueOf(maxElev).hashCode() ^ Double.valueOf(minElev).hashCode();
     }
 
     /**

@@ -499,14 +499,14 @@ public class Geodetic2DBounds implements Serializable {
 
     /**
      * Returns a hash code for this Geodetic2DBounds object. The result is
-     * the exclusive OR of the latitude and longitude values to maintain the
+     * the aggregation of hash codes for latitude and longitude values to maintain the
      * general contract for the hashCode method, which states that equal
      * objects must have equal hash codes.
      *
      * @return an int hash code value for this object.
      */
     public int hashCode() {
-        return westLon.hashCode() ^ eastLon.hashCode() ^
+        return 31 * (westLon.hashCode() ^ eastLon.hashCode()) +
                 southLat.hashCode() ^ northLat.hashCode();
     }
 

@@ -82,8 +82,7 @@ public class Topocentric3DPoint extends Topocentric2DPoint implements GeoPoint {
      * @return a hash code value for this object.
      */
     public int hashCode() {
-        return Double.valueOf(easting).hashCode() ^
-                Double.valueOf(northing).hashCode() ^
+        return 31 * super.hashCode() +
                 Double.valueOf(elevation).hashCode();
     }
 
