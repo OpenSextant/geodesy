@@ -14,6 +14,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.StringTokenizer;
@@ -345,6 +347,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param that Angle to add to this one
      * @return a new Angle that is the result of adding input angle to this one
      */
+	@NonNull
     public Angle add(Angle that) {
         return new Angle(this.inRadians + that.inRadians);
     }
@@ -358,6 +361,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param that - Angle to compare to this one
      * @return a new Angle that is the angular difference between input angle and this one
      */
+	@NonNull
     public Angle difference(Angle that) {
         return new Angle(that.inRadians - this.inRadians);
     }
@@ -455,6 +459,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param fractDigOfSec number of fraction digits of seconds to format
      * @return String formatted as integer degrees, minutes, and seconds with optional fractional part
      */
+	@NonNull
     public String toString(int fractDigOfSec) {
         int sign = (this.inRadians < 0) ? -1 : +1;
         double rem = Math.abs(Math.toDegrees(this.inRadians));
@@ -489,7 +494,6 @@ public class Angle implements Serializable, Comparable<Angle> {
         return this.toString(0);
     }
 
-    @Override
     public int compareTo(Angle that) {
         return (this.inRadians < that.inRadians) ? -1 :
                 (this.inRadians > that.inRadians) ? +1 : 0;
