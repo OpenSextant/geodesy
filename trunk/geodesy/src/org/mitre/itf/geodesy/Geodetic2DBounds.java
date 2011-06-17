@@ -38,10 +38,10 @@ public class Geodetic2DBounds implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = LoggerFactory.getLogger(Geodetic2DBounds.class);
 
-    private Longitude westLon;
-    private Latitude southLat;
-    private Longitude eastLon;
-    private Latitude northLat;
+	@NonNull private Longitude westLon;
+    @NonNull private Latitude southLat;
+    @NonNull private Longitude eastLon;
+    @NonNull private Latitude northLat;
 
     /**
      * The default constructor returns a degenerate bounding box containing
@@ -127,6 +127,7 @@ public class Geodetic2DBounds implements Serializable {
      * @param center Geodetic2DPoint at the center of the inscribed circle
      * @param radius double radius (in meters) of the inscribed circle
      * @param nPoints int number of points to include from circle boundary
+	 * @throws NullPointerException if center is null
      */
     public Geodetic2DBounds(Geodetic2DPoint center, double radius, int nPoints) {
         this(center);
@@ -142,6 +143,7 @@ public class Geodetic2DBounds implements Serializable {
 
      * @param center Geodetic2DPoint at the center of the inscribed circle
      * @param radius double radius (in meters) of the inscribed circle
+	 * @throws NullPointerException if center is null
      */
     public Geodetic2DBounds(Geodetic2DPoint center, double radius) {
         this(center, radius, 4);
@@ -153,6 +155,7 @@ public class Geodetic2DBounds implements Serializable {
      * circle.
      *
      * @param circle Geodetic2DCircle to be inscribed in bounding box
+	 * @throws NullPointerException if circle is null
      */
     public Geodetic2DBounds(Geodetic2DCircle circle) {
         this(circle.getCenter(), circle.getRadius(), 8);
@@ -161,6 +164,7 @@ public class Geodetic2DBounds implements Serializable {
     /**
      * Ctor to create a bounding box around an ellipse. 
      * @param ellipse the ellipse, never <code>null</code>
+	 * @throws NullPointerException if ellipse is null
      */
     public Geodetic2DBounds(Geodetic2DEllipse ellipse) {
     	this(ellipse, 12);
@@ -176,6 +180,7 @@ public class Geodetic2DBounds implements Serializable {
      * @param ellipse the ellipse, never <code>null</code>
      * @param count the number of slices to divide the ellipse up into when 
      * finding the min and max points of the ellipse.
+	 * @throws NullPointerException if ellipse is null
      */
     public Geodetic2DBounds(Geodetic2DEllipse ellipse, int count) {
     	eastLon = westLon = ellipse.getCenter().getLongitude();
@@ -194,6 +199,7 @@ public class Geodetic2DBounds implements Serializable {
      * bounding box to wrap around the international date line.
      *
      * @param newPoint new Geodetic2DPoint point to include in bounding box.
+	 * @throws NullPointerException if newPoint is null
      */
     public void include(Geodetic2DPoint newPoint) {
         // Longitude requires proximity test to edges
@@ -229,6 +235,7 @@ public class Geodetic2DBounds implements Serializable {
      * around the international date line.
      *
      * @param bbox additional Geodetic2DBounds to include in this one.
+	 * @throws NullPointerException if bbox is null
      */
     public void include(Geodetic2DBounds bbox) {
         // Extend Latitude interval endpoints if current values are exceeded
@@ -342,6 +349,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @param testPoint Geodetic2DPoint to test for containment
      * @return true if point is within this Geodetic2DBounds, false otherwise.
+	 * @throws NullPointerException if testPoint is null
      */
     public boolean contains(Geodetic2DPoint testPoint) {
         return (testPoint.getLatitude().inInterval(southLat, northLat) &&
@@ -354,6 +362,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @param testBox Geodetic2DBounds to test for containment
      * @return true if the specified bounding box is contained within this one
+	 * @throws NullPointerException if testBox is null
      */
     public boolean contains(Geodetic2DBounds testBox) {
         return (testBox.southLat.inInterval(this.southLat, this.northLat) &&
@@ -369,6 +378,7 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @param testBox Geodetic2DBounds to test for intersection with this one
      * @return true if the specified bounding box intersects this bounding box
+	 * @throws NullPointerException if testBox is null
      */
     public boolean intersects(Geodetic2DBounds testBox) {
         return !((testBox.southLat.inRadians >= northLat.inRadians) ||
