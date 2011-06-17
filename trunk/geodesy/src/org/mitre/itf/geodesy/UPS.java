@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
@@ -120,12 +122,13 @@ public class UPS implements Serializable {
     // *************************** End of Static Definitions ********************************
 
     // Instance Variables
-    private PolarStereographic ps;  // Polar Stereographic projection object (keeps ellipsoid)
+    @NonNull private PolarStereographic ps;  // Polar Stereographic projection object (keeps ellipsoid)
     private char hemisphere;        // Hemisphere char ('N' for Northern, 'S' for Southern)
     private char polarZone;         // East-West zone identifier character (like UTM lat band)
     private double easting;         // positive meters east of false adjusted pole
     private double northing;        // positive meters north of false adjusted pole
-    private Geodetic2DPoint lonLat; // Longitude & Latitude coordinates for this UPS position
+
+    @NonNull private Geodetic2DPoint lonLat; // Longitude & Latitude coordinates for this UPS position
 
     // private initializer method for geodetic constructors
     private void initGeodetic(Ellipsoid ellip, Longitude lon, Latitude lat)
@@ -292,6 +295,7 @@ public class UPS implements Serializable {
      *
      * @return Geodetic2DPoint object (lon-lat) coordinates
      */
+	@NonNull
     public Geodetic2DPoint getGeodetic() {
         return lonLat;
     }
@@ -302,6 +306,7 @@ public class UPS implements Serializable {
      *
      * @return Longitude coordinate of the geodetic (lon-lat) point for this UPS position
      */
+	@NonNull
     public Longitude getLongitude() {
         return lonLat.getLongitude();
     }
@@ -312,6 +317,7 @@ public class UPS implements Serializable {
      *
      * @return Latitude coordinate of the geodetic (lon-lat) point for this UPS position
      */
+	@NonNull
     public Latitude getLatitude() {
         return lonLat.getLatitude();
     }
