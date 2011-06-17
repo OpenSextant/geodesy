@@ -18,6 +18,8 @@
  ***********************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.io.Serializable;
@@ -454,7 +456,8 @@ public class UTM implements Serializable {
     private char hemisphere;        // Hemisphere char ('N' for Northern, 'S' for Southern)
     private double easting;         // meters E of false easting origin (relative to lonZone's CM)
     private double northing;        // meters N of false northing origin (equator for 'N' hemisphere)
-    private Geodetic2DPoint lonLat; // Longitude and Latitude coordinates for this UTM position
+
+    @NonNull private Geodetic2DPoint lonLat; // Longitude and Latitude coordinates for this UTM position
 
     /**
      * This constructor takes an ellipsoid.  If WGS 84 is desired, instead use one of
@@ -463,6 +466,7 @@ public class UTM implements Serializable {
      *
      * @param ellip  Ellipsoid data model for earth
      * @param lonLat Geodetic2DPoint coordinates (lon-lat) to be converted to UTM
+	 * @throws NullPointerException if ellip or lonLat are null
      */
     public UTM(Ellipsoid ellip, Geodetic2DPoint lonLat) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -481,6 +485,7 @@ public class UTM implements Serializable {
      * @param ellip Ellipsoid data model for earth
      * @param lon   Longitude of point to convert to UTM
      * @param lat   Latitude of point to convert to UTM
+	 * @throws NullPointerException if ellip is null
      */
     public UTM(Ellipsoid ellip, Longitude lon, Latitude lat) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -501,6 +506,8 @@ public class UTM implements Serializable {
      * @param hemisphere character 'N' for Northern or 'S' for Southern hemisphere
      * @param easting    positive meters east of false adjusted central meridian for lonZone
      * @param northing   positive meters north of false adjusted origin (equator for 'N' hemisphere)
+	 * @throws NullPointerException if ellip is null
+	 * @throws IllegalArgumentException input parameter error(s)
      */
     public UTM(Ellipsoid ellip, int lonZone, char hemisphere, double easting, double northing) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -519,6 +526,7 @@ public class UTM implements Serializable {
      * The specified Geodetic2DPoint (lon-lat) point is converted to its UTM equivalent.
      *
      * @param lonLat Geodetic2DPoint coordinates (lon-lat) to be converted to UTM
+	 * @throws NullPointerException if lonLat is null
      */
     public UTM(Geodetic2DPoint lonLat) {
         tm = new TransverseMercator(true);
@@ -534,6 +542,7 @@ public class UTM implements Serializable {
      *
      * @param lon Longitude of point to convert to UTM
      * @param lat Latitude of point to convert to UTM
+	 * @throws NullPointerException if lat or lon are null
      */
     public UTM(Longitude lon, Latitude lat) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -553,6 +562,7 @@ public class UTM implements Serializable {
      * @param easting             positive meters east of false adjusted central meridian for lonZone
      * @param northing            positive meters north of false adjusted origin (equator for 'N' hemisphere)
      * @param distortionException boolean indicating whether distortion exceptions should be thrown
+	 * @throws IllegalArgumentException input parameter error(s)
      */
     public UTM(int lonZone, char hemisphere, double easting, double northing,
                boolean distortionException) {
@@ -574,6 +584,7 @@ public class UTM implements Serializable {
      * @param hemisphere character 'N' for Northern or 'S' for Southern hemisphere
      * @param easting    positive meters east of false adjusted central meridian for lonZone
      * @param northing   positive meters north of false adjusted origin (equator for 'N' hemisphere)
+	 * @throws IllegalArgumentException input parameter error(s)
      */
     public UTM(int lonZone, char hemisphere, double easting, double northing) {
         this(lonZone, hemisphere, easting, northing, true);
@@ -661,6 +672,7 @@ public class UTM implements Serializable {
      *
      * @return Geodetic2DPoint object (lon-lat) coordinates
      */
+	@NonNull
     public Geodetic2DPoint getGeodetic() {
         return lonLat;
     }
@@ -670,6 +682,7 @@ public class UTM implements Serializable {
      *
      * @return Longitude coordinate of the geodetic (lon-lat) point for this UTM position
      */
+	@NonNull
     public Longitude getLongitude() {
         return lonLat.getLongitude();
     }
@@ -679,6 +692,7 @@ public class UTM implements Serializable {
      *
      * @return Latitude coordinate of the geodetic (lon-lat) point for this UTM position
      */
+	@NonNull
     public Latitude getLatitude() {
         return lonLat.getLatitude();
     }
