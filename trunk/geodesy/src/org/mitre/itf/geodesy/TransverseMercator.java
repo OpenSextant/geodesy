@@ -165,6 +165,7 @@ public class TransverseMercator implements Serializable {
      * touches ellipsoid) for this TransverseMercator projection object.
      *
      * @param originLatitude latitude at which tangential plane touches ellipsoid
+	 * @throws NullPointerException if originLatitude is null
      */
     public void setOriginLatitude(Latitude originLatitude) {
         this.originLatitude = originLatitude.inRadians();
@@ -191,6 +192,7 @@ public class TransverseMercator implements Serializable {
      * @param lat Latitude to project
      * @return Topocentric2DPoint object containing Easting (x coord) and Northing (y coord) in meters
      * @throws IllegalArgumentException error if longitude too far away from origin's central meridian
+	 * @throws NullPointerException if lon or lat are null
      */
     public Topocentric2DPoint toTransverseMercator(Longitude lon, Latitude lat)
             throws IllegalArgumentException {
