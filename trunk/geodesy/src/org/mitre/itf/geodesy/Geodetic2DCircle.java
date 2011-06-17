@@ -5,7 +5,7 @@
  *
  * The program is provided "as is" without any warranty express or implied,
  * including the warranty of non-infringement and the implied warranties of
- * merchantibility and fitness for a particular purpose.  The Copyright
+ * merchantability and fitness for a particular purpose.  The Copyright
  * owner will not be liable for any damages suffered by you as a result of
  * using the Program.  In no event will the Copyright owner be liable for
  * any special, indirect or consequential damages or lost profits even if
@@ -14,6 +14,8 @@
  *
  *****************************************************************************/
 package org.mitre.itf.geodesy;
+
+import edu.umd.cs.findbugs.annotations.NonNull;
 
 import java.util.ArrayList;
 
@@ -28,7 +30,9 @@ import java.util.ArrayList;
  * circle.
  */
 public class Geodetic2DCircle {
-    private Geodetic2DPoint center;
+
+    @NonNull private Geodetic2DPoint center;
+
     private double radius;
 
     /**
@@ -45,9 +49,10 @@ public class Geodetic2DCircle {
      *
      * @param center Geodetic2DPoint of the center of this circle
      * @param radius length in meters of the radius of this circle
+	 * @throws NullPointerException if center is null
      */
     public Geodetic2DCircle(Geodetic2DPoint center, double radius) {
-        this.center = center;
+		setCenter(center);
         this.radius = radius;
     }
 
@@ -56,6 +61,7 @@ public class Geodetic2DCircle {
      *
      * @return Geodetic2DPoint at the center of this circle
      */
+	@NonNull
     public Geodetic2DPoint getCenter() {
         return center;
     }
@@ -64,8 +70,10 @@ public class Geodetic2DCircle {
      * Setter method to assign the center Geodetic2DPoint of this circle object.
      *
      * @param center Geodetic2DPoint to make the center of this circle
+	 * @throws NullPointerException if center is null
      */
     public void setCenter(Geodetic2DPoint center) {
+		if (center == null) throw new NullPointerException();
         this.center = center;
     }
 
@@ -94,6 +102,7 @@ public class Geodetic2DCircle {
      * @param nPoints int number of points on boundary to use (1st is due South)
      * @return Iterable collection of nPoints Geodetic2DPoints on circle boundary
      */
+	@NonNull
     public Iterable<Geodetic2DPoint> boundary(int nPoints) {
         ArrayList<Geodetic2DPoint> ptList = new ArrayList<Geodetic2DPoint>(nPoints);
         Angle compassDirection = new Angle(-Math.PI); // Start from South direction
