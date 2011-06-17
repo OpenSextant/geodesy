@@ -148,6 +148,7 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
      *
      * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimeInterval
      * @return 0, -1, or +1 depending if this interval is <, ==, or > that
+	 * @throws NullPointerException if that is null
      */
     public int compareTo(ISO8601DateTimePoint that) {
         int result = (this.startTime == that.startTime) ?

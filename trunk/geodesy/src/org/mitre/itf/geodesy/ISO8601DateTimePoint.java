@@ -120,6 +120,7 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
      *
      * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimePoint
      * @return 0, -1, or +1 depending if this point is <, ==, or > that
+	 * @throws NullPointerException if that is null
      */
     public int compareTo(ISO8601DateTimePoint that) {
         return (this.startTime == that.startTime) ?
