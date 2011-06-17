@@ -26,6 +26,7 @@ package org.mitre.itf.geodesy;
 
 import java.io.Serializable;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +55,8 @@ public class TransverseMercator implements Serializable {
 
     // Instance variables
     private final boolean distortionWarningException;
-    private Ellipsoid ellipsoid = Ellipsoid.getInstance("WGS 84");
+
+    @NonNull private Ellipsoid ellipsoid = Ellipsoid.getInstance("WGS 84");
 
     // Ellipsoid Parameters, default to WGS 84
     private double TranMerc_a = 6378137.0;              // Semi-major axis of ellipsoid in meters
@@ -111,6 +113,7 @@ public class TransverseMercator implements Serializable {
      * the default WGS84 ellipsoid is not being used, since WGS84 values are the default.
      *
      * @param ellip Ellipsoid object to use
+	 * @throws NullPointerException if ellip is null
      */
     public void setEllipsoid(Ellipsoid ellip) {
         // Only update parameters if ellip has changed
@@ -142,6 +145,7 @@ public class TransverseMercator implements Serializable {
      *
      * @return ellipsoid model of the earth currently being used by this TransverseMercator object
      */
+	@NonNull
     public Ellipsoid getEllipsoid() {
         return ellipsoid;
     }
