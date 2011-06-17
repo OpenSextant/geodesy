@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 import java.util.Random;
 
@@ -46,8 +48,11 @@ import java.util.Random;
  */
 public class Geodetic2DPoint implements GeoPoint, Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
+	@NonNull
 	protected Longitude lon;
+
+	@NonNull
     protected Latitude lat;
 
     /**
@@ -55,8 +60,10 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      *
      * @param lon Longitude of this Geodetic2DPoint point
      * @param lat Latitude of this Geodetic2DPoint point
+	 * @throws NullPointerException if latitude or longitude are null
      */
     public Geodetic2DPoint(Longitude lon, Latitude lat) {
+		if (lon == null || lat == null) throw new NullPointerException();
         this.lon = lon;
         this.lat = lat;
     }
@@ -115,6 +122,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      *
      * @return Longitude of this Geodetic2DPoint point
      */
+	@NonNull
     public Longitude getLongitude() {
         return lon;
     }
@@ -133,6 +141,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      *
      * @return Latitude of this Geodetic2DPoint point
      */
+	@NonNull
     public Latitude getLatitude() {
         return lat;
     }
@@ -150,8 +159,10 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * This method is used to set or change the Longitude component of this Geodetic2DPoint.
      *
      * @param lon Longitude of this Geodetic2DPoint point
+	 * @throws NullPointerException if longitude is null
      */
     public void setLongitude(Longitude lon) {
+		if (lon == null) throw new NullPointerException();
         this.lon = lon;
     }
 
@@ -159,8 +170,10 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * This method is used to set or change the Latitude component of this Geodetic2DPoint.
      *
      * @param lat Latitude of this Geodetic2DPoint point
+	 * @throws NullPointerException if latitude is null
      */
     public void setLatitude(Latitude lat) {
+		if (lat == null) throw new NullPointerException();
         this.lat = lat;
     }
 
