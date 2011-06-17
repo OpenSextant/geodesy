@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -44,10 +46,10 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
             TOLERANCE_2 = 5.0e-13,
             TOLERANCE_3 = 7.0e-3;
 
-    private Ellipsoid ellip;
-    private Geodetic2DPoint point1;
-    private Geodetic2DPoint point2;
-    private Angle forwardAzimuth;
+    @NonNull private Ellipsoid ellip;
+    @NonNull private Geodetic2DPoint point1;
+    @NonNull private Geodetic2DPoint point2;
+    @NonNull private Angle forwardAzimuth;
     private double distanceInMeters;
 
     private double semiMajorAxis, semiMinorAxis, eccentricitySquared;
@@ -375,6 +377,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * @param ellip  Ellipsoid model of the earth to use
      * @param point1 first Geodetic2DPoint (fixed)
      * @param point2 second Geodetic2DPoint (re-settable)
+	 * @throws NullPointerException if ellip, point1 or point2 are null
      */
     public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, Geodetic2DPoint point2) {
         this.ellip = ellip;
@@ -390,6 +393,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      *
      * @param point1 first Geodetic2DPoint (fixed)
      * @param point2 second Geodetic2DPoint (re-settable)
+	 * @throws NullPointerException if point1 or point2 are null
      */
     public Geodetic2DArc(Geodetic2DPoint point1, Geodetic2DPoint point2) {
         this(WGS84, point1, point2);
@@ -405,6 +409,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * @param distanceInMeters double distance in meters on surface of Ellipsoid
      * @param forwardAzimuth   Angle from North of azimuth from point 1 to point 2
      * @throws IllegalArgumentException if error in argument values is detected
+	 * @throws NullPointerException if ellip, point1 or forwardAzimuth are null
      */
     public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, double distanceInMeters,
                          Angle forwardAzimuth) throws IllegalArgumentException {
@@ -442,6 +447,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      *
      * @return Geodetic2DPoint point 1 (fixed)
      */
+	@NonNull
     public Geodetic2DPoint getPoint1() {
         return point1;
     }
@@ -451,6 +457,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      *
      * @return Geodetic2DPoint point 1 (re-settable)
      */
+	@NonNull
     public Geodetic2DPoint getPoint2() {
         return point2;
     }
@@ -460,6 +467,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * object, resulting in the recalculation of forward azimuth and distance.
      *
      * @param point2 second Geodetic2DPoint (re-settable)
+	 * @throws NullPointerException if point2 is null
      */
     public void setPoint2(Geodetic2DPoint point2) {
         this.point2 = point2;
@@ -471,6 +479,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      *
      * @return Angle from North of forward azimuth (shortest distance direction from point1)
      */
+	@NonNull
     public Angle getForwardAzimuth() {
         return forwardAzimuth;
     }
@@ -480,6 +489,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * point 2 to be recalculated at the current distance in meters.
      *
      * @param forwardAzimuth Angle from North of forward azimuth
+	 * @throws NullPointerException if forwardAzimuth is null
      */
     public void setForwardAzimuth(Angle forwardAzimuth) {
         this.forwardAzimuth = forwardAzimuth;
@@ -517,6 +527,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * @param distanceInMeters double distance from point 1 to new point 2
      * @param forwardAzimuth   Angle from North of forward azimuth
      * @throws IllegalArgumentException if distance is out of legal range
+	 * @throws NullPointerException if forwardAzimuth is null
      */
     public void setDistanceAndAzimuth(double distanceInMeters, Angle forwardAzimuth)
             throws IllegalArgumentException {
@@ -533,7 +544,8 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      *
      * @param that Geodetic2DArc to compare lengths with this one
      * @return a negative integer, zero, or a positive integer as this object is less than,
-     *         equal to, or greater than the specified object.	  
+     *         equal to, or greater than the specified object.
+	 * @throws NullPointerException if that is null
      */
     public int compareTo(Geodetic2DArc that) {
         //Geodetic2DArc that = (Geodetic2DArc) o;
@@ -549,7 +561,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      */
     @Override
     public int hashCode() {
-        return point1.hashCode() ^ point2.hashCode();
+        return 31 * point1.hashCode() + point2.hashCode();
     }
 
     /**
