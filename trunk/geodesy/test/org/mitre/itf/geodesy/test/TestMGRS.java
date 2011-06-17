@@ -255,6 +255,36 @@ public class TestMGRS {
                 count + " out of " + n);
     }
 
+	@Test
+    public void testCreateFromBounds() {
+		String MGRS_washington_monument = "18SUJ2348306479";
+		MGRS mgrs = new MGRS(MGRS_washington_monument);
+		Geodetic2DBounds bbox = mgrs.getBoundingBox();
+		MGRS mgrs2 = new MGRS(bbox);
+		// due to lose of precision in conversion the MGRS is not exact
+		// at 5 digit precision.
+		/*
+		for (int i=0; i <= 5; i++) {
+			System.out.format("%s\t%s%n",  mgrs.toString(i), mgrs2.toString(i));
+		}
+		*/
+		Assert.assertEquals(mgrs.toString(4), mgrs2.toString(4));
+
+		// create non-square bounding box
+		//System.out.println(bbox);
+		Geodetic2DPoint west = new Geodetic2DPoint(bbox.getWestLon(), bbox.getSouthLat());
+        Geodetic2DPoint east = new Geodetic2DPoint(bbox.getEastLon(),
+                new Latitude(bbox.getNorthLat().inDegrees() + 10, Angle.DEGREES));
+        Geodetic2DBounds bbox2 = new Geodetic2DBounds(west, east);
+		//System.out.println(bbox2);
+		try {
+			new MGRS(bbox2);
+			Assert.fail("Expected to throw NotAnMGRSBoxException");
+		} catch (NotAnMGRSBoxException e) {
+			// expected
+		}
+	}
+
     /**
      * Main method for running class tests.
      *
