@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.text.DecimalFormat;
 
 /**
@@ -47,6 +49,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
      * @param lon       Longitude of this Geodetic3DPoint.
      * @param lat       Latitude of this Geodetic3DPoint.
      * @param elevation elevation in meters from the assumed reference point
+	 * @throws NullPointerException if lon or lat are null
      */
     public Geodetic3DPoint(Longitude lon, Latitude lat, double elevation) {
         super(lon, lat);
@@ -141,6 +144,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
      * @param fRef the FrameOfReference in which to interpret this coordinate.
      * @return the equivalent Geodetic3DPoint
      */
+	@NonNull
     public Geodetic3DPoint toGeodetic3D(FrameOfReference fRef) {
         return this;
     }
@@ -154,6 +158,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
      * @param fractDig number of digits to the right of the decimal point to be formatted.
      * @return string version of this Geodetic3DPoint, suitable for debugging purposes.
      */
+	@NonNull
     public String toString(int fractDig) {
         String result = super.toString(fractDig);
         String fract = (fractDig > 0) ? "." : "";
@@ -169,6 +174,7 @@ public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
      *
      * @return string version of this Geodetic3DPoint, suitable for debugging purposes.
      */
+	@NonNull
     public String toString() {
         return toString(0);
     }
