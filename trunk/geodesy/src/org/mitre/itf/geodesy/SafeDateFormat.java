@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,11 +34,12 @@ import java.util.TimeZone;
  * @author DRAND
  */
 public class SafeDateFormat {
+
 	private final ThreadLocal<SimpleDateFormat> ms_dateFormatter =
 		new ThreadLocal<SimpleDateFormat>();
 	
-	private String pattern;
-	private TimeZone timeZone;
+	@NonNull private String pattern;
+	@NonNull private TimeZone timeZone;
 
 	/**
 	 * Constructs a <code>SafeDateFormat</code> using the given pattern
@@ -61,9 +64,8 @@ public class SafeDateFormat {
 			throw new IllegalArgumentException(
 					"pattern should never be null or empty");
 		}
-		if (tz == null) tz = TimeZone.getTimeZone("UTC");
 		this.pattern = pattern;
-		this.timeZone = tz;
+		this.timeZone = (tz == null) ? TimeZone.getTimeZone("UTC") : tz;
 	}
 	
 	private SimpleDateFormat getInstance() {
@@ -81,6 +83,7 @@ public class SafeDateFormat {
 	 * @param value the value, never <code>null</code>
 	 * @return the formatted value, never <code>null</code> or empty
 	 */
+	@NonNull
 	public String format(Date value) {
 		return getInstance().format(value);
 	}
@@ -90,8 +93,9 @@ public class SafeDateFormat {
 	 * @param value the value, never <code>null</code>
 	 * @return the parsed value, never <code>null</code>
 	 * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed. 
+     *            cannot be parsed.
 	 */
+	@NonNull
 	public Date parse(String value) throws ParseException {
 		return getInstance().parse(value);
 	}
@@ -111,6 +115,7 @@ public class SafeDateFormat {
      * Gets the time zone.
      * @return the time zone associated with the calendar of this SafeDateFormat.
      */
+	@NonNull
 	public TimeZone getTimeZone() {
 		return timeZone;
 	}
