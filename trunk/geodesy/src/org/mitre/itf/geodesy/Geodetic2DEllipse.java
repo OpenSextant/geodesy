@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -39,11 +41,11 @@ import java.util.List;
 public class Geodetic2DEllipse implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Geodetic2DPoint center;
+    @NonNull private Geodetic2DPoint center;
     private double semiMajorAxis;
     private double semiMinorAxis;
-    private Angle orientation;
-    private transient WeakReference<List<Geodetic2DPoint>> boundary = null;
+    @NonNull private Angle orientation;
+    private transient WeakReference<List<Geodetic2DPoint>> boundary;
     
     private static final String NULL_ERROR = "Ellipse parameters can not be null";
     private static final String AXIS_ERROR = "Semi-major axis must be greater than semi-minor axis";
@@ -89,6 +91,7 @@ public class Geodetic2DEllipse implements Serializable {
      * and should be a multiple of four for best results.
      * @return the boundary iterator
      */
+	@NonNull
     public Iterable<Geodetic2DPoint> boundary(int count) {
     	List<Geodetic2DPoint> blist;
     	if (boundary != null) {
@@ -107,6 +110,7 @@ public class Geodetic2DEllipse implements Serializable {
      * @param count the number of slices in the boundary list
      * @return the boundary list, never <code>null</code> or empty
      */
+	@NonNull
     private List<Geodetic2DPoint> makeBoundary(int count) {
     	// omega is the ellipse orientation angle (final rotation adjustment)
         Angle omega = new Angle(getOrientation().inRadians());
@@ -154,6 +158,7 @@ public class Geodetic2DEllipse implements Serializable {
      *
      * @return Geodetic2DPoint center of ellipse
      */
+	@NonNull
     public Geodetic2DPoint getCenter() {
         return center;
     }
@@ -233,6 +238,7 @@ public class Geodetic2DEllipse implements Serializable {
      *
      * @return Angle of orientation of this ellipse
      */
+	@NonNull
     public Angle getOrientation() {
         return orientation;
     }
@@ -262,10 +268,10 @@ public class Geodetic2DEllipse implements Serializable {
         // Normalize orientation in radians to between -PI and 0.0 inclusive
         double normAng = orientation.inRadians;
         if (normAng > 0) normAng = normAng - Math.PI;
-        return (center.hashCode() ^
+        return 31 * center.hashCode() +
                 Double.valueOf(semiMajorAxis).hashCode() ^
                 Double.valueOf(semiMinorAxis).hashCode() ^
-                Double.valueOf(normAng).hashCode());
+                Double.valueOf(normAng).hashCode();
     }
 
     /**
