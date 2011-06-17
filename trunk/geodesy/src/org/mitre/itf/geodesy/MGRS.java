@@ -759,7 +759,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @throws IllegalArgumentException - exception if precision is out of range (0..5)
      */
     public String toString(int precisionDigits) throws IllegalArgumentException {
-        if ((precisionDigits < 0) || (5 < precisionDigits))
+        if (precisionDigits < 0 || precisionDigits > 5)
             throw new IllegalArgumentException("Precision must be an integer in the range 0..5");
 
         StringBuilder mgrsStr = new StringBuilder();
