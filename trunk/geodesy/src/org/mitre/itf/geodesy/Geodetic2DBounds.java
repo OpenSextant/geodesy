@@ -60,7 +60,7 @@ public class Geodetic2DBounds implements Serializable {
      * coordinate components are used by reference (i.e. they are not cloned).
      * The first coordinate is used to set the west Longitude even if its value
      * is greater than the east, so boxes that span the international date line
-     * can be accomodated by this convention of listing lons in reverse order.
+     * can be accommodated by this convention of listing lons in reverse order.
      * On the other hand, latitude values are normalized so that south is always
      * less than north.
      *
