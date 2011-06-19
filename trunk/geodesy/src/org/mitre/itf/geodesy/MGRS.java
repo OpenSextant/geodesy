@@ -152,7 +152,7 @@ public class MGRS implements GeoPoint, Serializable {
         boolean newDatum = ((ellip == WGS_84) ||
                 ((ellip != CLARKE_1866) && (ellip != CLARKE_1880) &&
                         (ellip != BESSEL_1841) && (ellip != BESSEL_1841_NAMIBIA)));
-        boolean oddLZone = ((lonZone % 2) == 1);
+        boolean oddLZone = ((lonZone % 2) != 0);
         return (newDatum ? (oddLZone ? 0 : 5) : (oddLZone ? 10 : 15));
     }
 
