@@ -347,7 +347,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param that Angle to add to this one
      * @return a new Angle that is the result of adding input angle to this one
      */
-	@NonNull
+    @NonNull
     public Angle add(Angle that) {
         return new Angle(this.inRadians + that.inRadians);
     }
@@ -361,7 +361,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param that - Angle to compare to this one
      * @return a new Angle that is the angular difference between input angle and this one
      */
-	@NonNull
+    @NonNull
     public Angle difference(Angle that) {
         return new Angle(that.inRadians - this.inRadians);
     }
@@ -459,7 +459,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param fractDigOfSec number of fraction digits of seconds to format
      * @return String formatted as integer degrees, minutes, and seconds with optional fractional part
      */
-	@NonNull
+    @NonNull
     public String toString(int fractDigOfSec) {
         int sign = (this.inRadians < 0) ? -1 : +1;
         double rem = Math.abs(Math.toDegrees(this.inRadians));
@@ -494,6 +494,12 @@ public class Angle implements Serializable, Comparable<Angle> {
         return this.toString(0);
     }
 
+	/**
+	 * @param that Angle to compare lengths with this one
+	 * @return a negative integer, zero, or a positive integer as this object is less than,
+	 *         equal to, or greater than the specified object.
+	 * @throws NullPointerException if that is null
+	 */
     public int compareTo(Angle that) {
         return (this.inRadians < that.inRadians) ? -1 :
                 (this.inRadians > that.inRadians) ? +1 : 0;
