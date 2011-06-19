@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 /**
  * The Geodetic3DBounds class extends the simple Geodetic2DBounds class by adding explicit
  * min and max elevation values, in meters.
@@ -231,6 +233,7 @@ public class Geodetic3DBounds extends Geodetic2DBounds {
      *
      * @return Geodetic3DPoint that lies at the center of this Geodetic2DBounds box
      */
+    @NonNull
     public Geodetic3DPoint getCenter() {
         double westLonRad = this.getWestLon().inRadians;
         double eastLonRad = this.getEastLon().inRadians;

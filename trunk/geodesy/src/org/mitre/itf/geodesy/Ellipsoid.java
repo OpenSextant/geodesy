@@ -19,6 +19,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.HashMap;
@@ -117,6 +119,7 @@ public class Ellipsoid implements Serializable {
      *
      * @return the Set of String names for currently defined Ellipsoid singletons
      */
+    @NonNull
     public static Set<String> getEllipsoidNames() {
         return namedEllipsoids.keySet();
     }

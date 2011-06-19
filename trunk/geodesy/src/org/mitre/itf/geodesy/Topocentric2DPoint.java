@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 import java.text.DecimalFormat;
 
@@ -143,6 +145,7 @@ public class Topocentric2DPoint implements GeoPoint, Serializable {
      *
      * @return the equivalent Topocentric3DPoint
      */
+    @NonNull
     public Topocentric3DPoint toTopocentric3D() {
         return new Topocentric3DPoint(easting, northing, 0.0);
     }
@@ -153,6 +156,7 @@ public class Topocentric2DPoint implements GeoPoint, Serializable {
      * @param fRef the FrameOfReference in which to interpret this coordinate.
      * @return the equivalent Geodetic3DPoint
      */
+    @NonNull
     public Geodetic3DPoint toGeodetic3D(FrameOfReference fRef) {
         return fRef.toGeodetic(this.toTopocentric3D());
     }

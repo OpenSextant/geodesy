@@ -24,6 +24,8 @@
  ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -42,7 +44,7 @@ public class PolarStereographic implements Serializable {
     private static final double EPSILON = 1.0e-2;
 
     // Instance variables
-    private Ellipsoid ellipsoid = Ellipsoid.getInstance("WGS 84");
+    @NonNull private Ellipsoid ellipsoid = Ellipsoid.getInstance("WGS 84");
 
     // Ellipsoid Parameters, default to WGS 84
     private double Polar_a = 6378137.0;                 // Semi-major axis of ellipsoid in meters
@@ -93,6 +95,7 @@ public class PolarStereographic implements Serializable {
      * origin at North Pole Prime Meridian).  Ellipsoid can be changed with call to setEllipsoid.
      *
      * @param latOfTrueScale Latitude of True Scale (sign determines hemisphere of projection)
+     * @throws NullPointerException if latOfTrueScale is null
      */
     public PolarStereographic(Latitude latOfTrueScale) {
         Polar_Origin_Lat = latOfTrueScale.inRadians;
@@ -109,6 +112,7 @@ public class PolarStereographic implements Serializable {
      * the default WGS84 ellipsoid is not being used, since WGS84 values are the default.
      *
      * @param ellip Ellipsoid object to use
+     * @throws NullPointerException if ellip is null
      */
     public void setEllipsoid(Ellipsoid ellip) {
         // Only update ellipsoid and other parameters if ellip has changed
@@ -129,6 +133,7 @@ public class PolarStereographic implements Serializable {
      *
      * @return ellipsoid model of the earth currently being used by this PolarStereographic object
      */
+    @NonNull
     public Ellipsoid getEllipsoid() {
         return ellipsoid;
     }
@@ -143,6 +148,7 @@ public class PolarStereographic implements Serializable {
      * @return Topocentric2DPoint object containing Easting (x coord) and Northing (y coord) in meters
      * @throws IllegalArgumentException error if latitude is in different hemisphere from origin
      */
+    @NonNull
     public Topocentric2DPoint toPolarStereographic(Longitude lon, Latitude lat)
             throws IllegalArgumentException {
 
@@ -186,6 +192,7 @@ public class PolarStereographic implements Serializable {
      * @return Geodetic2DPoint object containing un-projected Longitude and Latitude
      * @throws IllegalArgumentException error if Easting or Northing are out of legal range
      */
+    @NonNull
     public Geodetic2DPoint toGeodetic(double easting, double northing) throws IllegalArgumentException {
         double lonRad;
         double latRad;

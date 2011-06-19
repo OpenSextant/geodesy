@@ -226,6 +226,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * @param fRef the FrameOfReference in which to interpret this coordinate.
      * @return the equivalent Geodetic3DPoint
      */
+    @NonNull
     public Geodetic3DPoint toGeodetic3D(FrameOfReference fRef) {
         return new Geodetic3DPoint(lon, lat, 0.0);
     }
