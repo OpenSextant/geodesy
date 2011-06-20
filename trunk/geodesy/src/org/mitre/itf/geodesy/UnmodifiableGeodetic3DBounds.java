@@ -35,9 +35,10 @@ public class UnmodifiableGeodetic3DBounds extends Geodetic3DBounds {
 		super(seedPoint);
 	}
 
-	public void grow(double meters) {
-		throw new UnsupportedOperationException();
-	}
+	/*
+		Note: grow() throws UnsupportedOperationException only if appropriate include()
+	 	is called and the bounds are attempted to be modified...
+	 */
 
 	public void include(Geodetic3DPoint newPoint) {
 		throw new UnsupportedOperationException();

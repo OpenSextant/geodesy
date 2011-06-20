@@ -35,9 +35,10 @@ public class UnmodifiableGeodetic2DBounds extends Geodetic2DBounds {
 		super(seedPoint);
 	}
 
-	public void grow(double meters) {
-		throw new UnsupportedOperationException();
-	}
+	/*
+		Note: grow() throws UnsupportedOperationException only if appropriate include()
+	 	is called and the bounds are attempted to be modified...
+	 */
 
 	public void include(Geodetic2DPoint newPoint) {
 		throw new UnsupportedOperationException();
