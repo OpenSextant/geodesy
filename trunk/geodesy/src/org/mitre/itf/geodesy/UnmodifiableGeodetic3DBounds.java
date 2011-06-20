@@ -1,10 +1,24 @@
+/****************************************************************************************
+ *  UnmodifiableGeodetic3DBounds.java
+ *
+ *  (C) Copyright MITRE Corporation 2009
+ *
+ *  The program is provided "as is" without any warranty express or implied, including
+ *  the warranty of non-infringement and the implied warranties of merchantability and
+ *  fitness for a particular purpose.  The Copyright owner will not be liable for any
+ *  damages suffered by you as a result of using the Program.  In no event will the
+ *  Copyright owner be liable for any special, indirect or consequential damages or
+ *  lost profits even if the Copyright owner has been advised of the possibility of
+ *  their occurrence.
+ *
+ ***************************************************************************************/
 package org.mitre.itf.geodesy;
 
 /**
  * Provides an unmodifiable view of the specified bounding box.  This class
  * allows modules to provide users with "read-only" access to internal
  * bounds.  Attempts to modify the bounds result in an
- * <tt>UnsupportedOperationException</tt>.<p>
+ * <tt>UnsupportedOperationException</tt>.
  *
  * @author Jason Mathews, MITRE Corp.
  * Date: Oct 5, 2009 1:57:23 PM
@@ -19,6 +33,10 @@ public class UnmodifiableGeodetic3DBounds extends Geodetic3DBounds {
 
 	public UnmodifiableGeodetic3DBounds(Geodetic3DPoint seedPoint) {
 		super(seedPoint);
+	}
+
+	public void grow(double meters) {
+		throw new UnsupportedOperationException();
 	}
 
 	public void include(Geodetic3DPoint newPoint) {
