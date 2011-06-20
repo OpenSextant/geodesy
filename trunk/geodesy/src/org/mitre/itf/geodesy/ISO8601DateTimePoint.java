@@ -1,8 +1,7 @@
 /************************************************************************************
  * ISO8601DateTimePoint.java 12/22/10 10:16 AM psilvey
  *
- * (C) Copyright psilvey 2010
- *
+ *  (C) Copyright MITRE Corporation 2010
  *
  * The program is provided "as is" without any warranty express or implied, including
  * the warranty of non-infringement and the implied warranties of merchantability and
@@ -75,7 +74,11 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
             String ymdInput = toParse.substring(0, toParse.indexOf("T"));
             String ymdOutput = this.toString();
             ymdOutput = ymdOutput.substring(0, ymdOutput.indexOf("T"));
-            if (!ymdInput.equals(ymdOutput)) throw new Exception();
+            if (!ymdInput.equals(ymdOutput))
+				throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
+                    isoDateTimeStr);
+		} catch (IllegalArgumentException ex) {
+			throw ex;
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
                     isoDateTimeStr, ex);

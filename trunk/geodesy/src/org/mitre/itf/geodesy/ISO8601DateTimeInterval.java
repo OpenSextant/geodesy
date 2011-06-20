@@ -1,8 +1,7 @@
 /************************************************************************************
  * ISO8601DateTimeInterval.java 12/22/10 10:40 AM psilvey
  *
- * (C) Copyright psilvey 2010
- *
+ *  (C) Copyright MITRE Corporation 2010
  *
  * The program is provided "as is" without any warranty express or implied, including
  * the warranty of non-infringement and the implied warranties of merchantability and
@@ -19,6 +18,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ * The ISO8601DateTimeInterval class is a simple wrapper for a time interval
+ * with a start and end time.
+ */
 public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
     private static final String INVALID_ORDER = "invalid time order";
 
@@ -98,8 +101,12 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
                 String ymdInput = toParse.substring(0, toParse.indexOf("T"));
                 String ymdOutput = this.toString();
                 ymdOutput = ymdOutput.substring(0, ymdOutput.indexOf("T"));
-                if (!ymdInput.equals(ymdOutput)) throw new Exception();
-            }
+                if (!ymdInput.equals(ymdOutput))
+					throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
+                    	isoDateTimeStr);
+			}
+		} catch (IllegalArgumentException ex) {
+			throw ex;
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
                     isoDateTimeStr, ex);
