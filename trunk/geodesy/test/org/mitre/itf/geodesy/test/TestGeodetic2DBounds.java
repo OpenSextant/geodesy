@@ -129,6 +129,12 @@ public class TestGeodetic2DBounds extends TestCase {
 			// expected
 		}
 		try {
+			readonlyCopy.grow(100);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
 			readonlyCopy.setEastLon(east.getLongitude());
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {

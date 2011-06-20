@@ -82,6 +82,12 @@ public class TestGeodetic3DBounds extends TestCase {
 		assertEquals(bbox1, readonlyCopy);
 		assertTrue(bbox1.equals((Geodetic2DBounds)readonlyCopy));
 		try {
+			readonlyCopy.grow(100);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
+		try {
 			readonlyCopy.include(outside);
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {
