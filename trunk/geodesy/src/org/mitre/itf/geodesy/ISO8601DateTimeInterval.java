@@ -102,7 +102,7 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
             }
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
-                    isoDateTimeStr);
+                    isoDateTimeStr, ex);
         }
     }
 

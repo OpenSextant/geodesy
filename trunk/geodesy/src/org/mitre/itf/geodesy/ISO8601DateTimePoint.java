@@ -78,7 +78,7 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
             if (!ymdInput.equals(ymdOutput)) throw new Exception();
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
-                    isoDateTimeStr);
+                    isoDateTimeStr, ex);
         }
     }
 
