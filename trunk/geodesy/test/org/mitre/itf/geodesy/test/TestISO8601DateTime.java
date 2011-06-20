@@ -68,7 +68,7 @@ public class TestISO8601DateTime extends TestCase {
 		final long time = System.currentTimeMillis();
 		ISO8601DateTimeInterval t1 = new ISO8601DateTimeInterval();
 		final long startTime = t1.getStartTimeInMillis();
-		assertTrue(time >= startTime);
+		assertTrue(startTime >= time);
 		assertEquals(startTime, t1.getEndTimeInMillis());
 	}
 
