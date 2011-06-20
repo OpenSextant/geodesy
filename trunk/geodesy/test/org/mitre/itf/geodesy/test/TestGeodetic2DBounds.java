@@ -129,7 +129,7 @@ public class TestGeodetic2DBounds extends TestCase {
 			// expected
 		}
 		try {
-			readonlyCopy.grow(100);
+			readonlyCopy.include(bbox1);
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {
 			// expected
@@ -154,12 +154,6 @@ public class TestGeodetic2DBounds extends TestCase {
 		}
 		try {
 			readonlyCopy.setSouthLat(east.getLatitude());
-			fail("readonly bounds expected to throw UnsupportedOperationException");
-		} catch (UnsupportedOperationException e) {
-			// expected
-		}
-		try {
-			readonlyCopy.include(bbox1);
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {
 			// expected

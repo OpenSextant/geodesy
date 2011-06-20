@@ -92,6 +92,22 @@ public class TestGeodetic3DBounds extends TestCase {
 			fail("readonly bounds expected to throw UnsupportedOperationException");
 		} catch (UnsupportedOperationException e) {
 		}
+		try {
+			readonlyCopy.include(bbox1);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+		}
+		try {
+			readonlyCopy.include((Geodetic2DPoint)outside);
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+		}
+		try {
+			readonlyCopy.setEastLon(east2.getLongitude());
+			fail("readonly bounds expected to throw UnsupportedOperationException");
+		} catch (UnsupportedOperationException e) {
+			// expected
+		}
 		assertEquals(bbox1, readonlyCopy);
 		assertEquals(bbox1.hashCode(), readonlyCopy.hashCode());
     }
