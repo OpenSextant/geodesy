@@ -63,6 +63,15 @@ public class TestISO8601DateTime extends TestCase {
         }
     }
 
+	@Test
+    public static void testDefaultTimeInterval() {
+		final long time = System.currentTimeMillis();
+		ISO8601DateTimeInterval t1 = new ISO8601DateTimeInterval();
+		final long startTime = t1.getStartTimeInMillis();
+		assertTrue(time >= startTime);
+		assertEquals(startTime, t1.getEndTimeInMillis());
+	}
+
     @Test
     public static void testTimeInterval() throws Exception {
         ISO8601DateTimeInterval t1;
