@@ -72,6 +72,17 @@ public class TestISO8601DateTime extends TestCase {
 		assertEquals(startTime, t1.getEndTimeInMillis());
 	}
 
+	@Test
+	public static void testCompareTo() throws Exception {
+        ISO8601DateTimePoint t1 = new ISO8601DateTimePoint();
+        ISO8601DateTimePoint t2 = new ISO8601DateTimePoint(t1.getStartTimeInMillis());
+		assertEquals(0, t1.compareTo(t2));
+		ISO8601DateTimePoint t3 = new ISO8601DateTimePoint(t1.getStartTimeInMillis() + 1000);
+		assertEquals(-1, t1.compareTo(t3));
+		ISO8601DateTimePoint t4 = new ISO8601DateTimePoint(t1.getStartTimeInMillis() - 1000);
+		assertEquals(1, t1.compareTo(t4));
+	}
+
     @Test
     public static void testTimeInterval() throws Exception {
         ISO8601DateTimeInterval t1;
@@ -102,6 +113,23 @@ public class TestISO8601DateTime extends TestCase {
             System.out.println(isoStr + " means " + t1.toString());
         }
     }
+
+	@Test
+	public static void testIntervalCompareTo() throws Exception {
+        ISO8601DateTimeInterval t1 = new ISO8601DateTimeInterval();
+		ISO8601DateTimePoint tp = new ISO8601DateTimePoint(t1.getStartTimeInMillis());
+		assertEquals(0, t1.compareTo(tp));
+
+		ISO8601DateTimeInterval t2 = new ISO8601DateTimeInterval(t1.getStartTimeInMillis(), t1.getEndTimeInMillis());
+		assertEquals(0, t1.compareTo(t2));
+
+		t2.setEndTimeInMillis(t2.getEndTimeInMillis() + 1000);
+		assertEquals(-1, t1.compareTo(t2));
+
+		t2.setStartTimeInMillis(t2.getStartTimeInMillis() - 5000);
+		t2.setEndTimeInMillis(t2.getEndTimeInMillis() - 2000);
+		assertEquals(1, t1.compareTo(t2));
+	}
 
 	@Test
     public static void testNullCompare() throws Exception {
