@@ -59,6 +59,84 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
     private double T1, T2, T4, T6;
     private double a01, a02, a03, a21, a22, a23, a42, a43, a63;
 
+    /**
+     * The default constructor creates a degenerate Geodetic2DArc with both
+     * points at (0,0).
+     */
+    public Geodetic2DArc() {
+        Geodetic2DPoint pt = new Geodetic2DPoint();
+        this.ellip = WGS84;
+        init();
+
+        this.point1 = pt;
+        setPoint2(pt); // updates state (distance and azimuth)
+    }
+
+    /**
+     * This constructor assumes the WGS-84 Ellipsoid model of the earth, takes two geodetic
+     * points, and computes the forward azimuth and distance in meters between them.
+     *
+     * @param point1 first Geodetic2DPoint (fixed)
+     * @param point2 second Geodetic2DPoint (re-settable)
+	 * @throws NullPointerException if point1 or point2 are null
+     */
+    public Geodetic2DArc(Geodetic2DPoint point1, Geodetic2DPoint point2) {
+        this(WGS84, point1, point2);
+    }
+
+    /**
+     * This constructor takes the Ellipsoid and two geodetic points, and computes the
+     * forward azimuth and distance in meters between them.
+     *
+     * @param ellip  Ellipsoid model of the earth to use
+     * @param point1 first Geodetic2DPoint (fixed)
+     * @param point2 second Geodetic2DPoint (re-settable)
+	 * @throws NullPointerException if ellip, point1 or point2 are null
+     */
+    public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, Geodetic2DPoint point2) {
+        this.ellip = ellip;
+        init();
+
+        this.point1 = point1;
+        setPoint2(point2); // updates state (distance and azimuth)
+    }
+
+    /**
+     * This constructor assumes the WGS-84 Ellipsoid model of the earth, takes the first
+     * geodetic point, an Angle of forward azimuth, and a distance in meters, and then
+     * computes the second geodetic point that lies at that distance along that azimuth.
+     *
+     * @param point1           first Geodetic2DPoint (fixed)
+     * @param forwardAzimuth   Angle from North of azimuth from point 1 to point 2
+     * @param distanceInMeters double distance in meters on surface of Ellipsoid
+     * @throws IllegalArgumentException if error in argument values is detected
+     */
+    public Geodetic2DArc(Geodetic2DPoint point1, double distanceInMeters,
+                         Angle forwardAzimuth) throws IllegalArgumentException {
+        this(WGS84, point1, distanceInMeters, forwardAzimuth);
+    }
+
+    /**
+     * This constructor takes the Ellipsoid model of the earth, the first geodetic point,
+     * an Angle of forward azimuth, and a distance in meters, and then computes the second
+     * geodetic point that lies at that distance along that azimuth.
+     *
+     * @param ellip            Ellipsoid model of the earth to use
+     * @param point1           first Geodetic2DPoint (fixed)
+     * @param distanceInMeters double distance in meters on surface of Ellipsoid
+     * @param forwardAzimuth   Angle from North of azimuth from point 1 to point 2
+     * @throws IllegalArgumentException if error in argument values is detected
+	 * @throws NullPointerException if ellip, point1 or forwardAzimuth are null
+     */
+    public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, double distanceInMeters,
+                         Angle forwardAzimuth) throws IllegalArgumentException {
+        this.ellip = ellip;
+        init();
+
+        this.point1 = point1;
+        setDistanceAndAzimuth(distanceInMeters, forwardAzimuth); // updates state (point2)
+    }
+
     // Initialization of parameters based on the Ellipsoid
     private void init() {
         semiMajorAxis = ellip.getEquatorialRadius();
@@ -357,84 +435,6 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
         point2 = new Geodetic2DPoint(new Longitude(lon2), new Latitude(lat2));
     }
 
-    /**
-     * The default constructor creates a degenerate Geodetic2DArc with both
-     * points at (0,0).
-     */
-    public Geodetic2DArc() {
-        Geodetic2DPoint pt = new Geodetic2DPoint();
-        this.ellip = WGS84;
-        init();
-
-        this.point1 = pt;
-        setPoint2(pt); // updates state (distance and azimuth)
-    }
-
-    /**
-     * This constructor takes the Ellipsoid and two geodetic points, and computes the
-     * forward azimuth and distance in meters between them.
-     *
-     * @param ellip  Ellipsoid model of the earth to use
-     * @param point1 first Geodetic2DPoint (fixed)
-     * @param point2 second Geodetic2DPoint (re-settable)
-	 * @throws NullPointerException if ellip, point1 or point2 are null
-     */
-    public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, Geodetic2DPoint point2) {
-        this.ellip = ellip;
-        init();
-
-        this.point1 = point1;
-        setPoint2(point2); // updates state (distance and azimuth)
-    }
-
-    /**
-     * This constructor assumes the WGS-84 Ellipsoid model of the earth, takes two geodetic
-     * points, and computes the forward azimuth and distance in meters between them.
-     *
-     * @param point1 first Geodetic2DPoint (fixed)
-     * @param point2 second Geodetic2DPoint (re-settable)
-	 * @throws NullPointerException if point1 or point2 are null
-     */
-    public Geodetic2DArc(Geodetic2DPoint point1, Geodetic2DPoint point2) {
-        this(WGS84, point1, point2);
-    }
-
-    /**
-     * This constructor takes the Ellipsoid model of the earth, the first geodetic point,
-     * an Angle of forward azimuth, and a distance in meters, and then computes the second
-     * geodetic point that lies at that distance along that azimuth.
-     *
-     * @param ellip            Ellipsoid model of the earth to use
-     * @param point1           first Geodetic2DPoint (fixed)
-     * @param distanceInMeters double distance in meters on surface of Ellipsoid
-     * @param forwardAzimuth   Angle from North of azimuth from point 1 to point 2
-     * @throws IllegalArgumentException if error in argument values is detected
-	 * @throws NullPointerException if ellip, point1 or forwardAzimuth are null
-     */
-    public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, double distanceInMeters,
-                         Angle forwardAzimuth) throws IllegalArgumentException {
-        this.ellip = ellip;
-        init();
-
-        this.point1 = point1;
-        setDistanceAndAzimuth(distanceInMeters, forwardAzimuth); // updates state (point2)
-    }
-
-    /**
-     * This constructor assumes the WGS-84 Ellipsoid model of the earth, takes the first
-     * geodetic point, an Angle of forward azimuth, and a distance in meters, and then
-     * computes the second geodetic point that lies at that distance along that azimuth.
-     *
-     * @param point1           first Geodetic2DPoint (fixed)
-     * @param forwardAzimuth   Angle from North of azimuth from point 1 to point 2
-     * @param distanceInMeters double distance in meters on surface of Ellipsoid
-     * @throws IllegalArgumentException if error in argument values is detected
-     */
-    public Geodetic2DArc(Geodetic2DPoint point1, double distanceInMeters,
-                         Angle forwardAzimuth) throws IllegalArgumentException {
-        this(WGS84, point1, distanceInMeters, forwardAzimuth);
-    }
-
     // Valid range checker for distance in meters
     private void validateDistance(double distanceInMeters) throws IllegalArgumentException {
         if ((distanceInMeters < 0.0) || (maxOrthodromicDistance < distanceInMeters))
@@ -548,7 +548,6 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
 	 * @throws NullPointerException if that is null
      */
     public int compareTo(Geodetic2DArc that) {
-        //Geodetic2DArc that = (Geodetic2DArc) o;
         Double thisLen = this.getDistanceInMeters();
         Double thatLen = that.getDistanceInMeters();
         return thisLen.compareTo(thatLen);
