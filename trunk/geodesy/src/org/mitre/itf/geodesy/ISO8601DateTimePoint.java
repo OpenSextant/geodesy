@@ -62,6 +62,7 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
      * @throws IllegalArgumentException if a parsing error occurs
      */
     public ISO8601DateTimePoint(String isoDateTimeStr) {
+		String ymdInput, ymdOutput;
         try {
             String toParse = isoDateTimeStr;
             int eoy = toParse.indexOf("-");
@@ -71,18 +72,16 @@ public class ISO8601DateTimePoint implements Comparable<ISO8601DateTimePoint> {
             toParse += dtSuffix.substring(n - eoy);
             this.startTime = DF.parse(toParse).getTime();
             // Final validation that yyyy-MM-dd is a valid day (round trip test)
-            String ymdInput = toParse.substring(0, toParse.indexOf("T"));
-            String ymdOutput = this.toString();
+            ymdInput = toParse.substring(0, toParse.indexOf("T"));
+            ymdOutput = this.toString();
             ymdOutput = ymdOutput.substring(0, ymdOutput.indexOf("T"));
-            if (!ymdInput.equals(ymdOutput))
-				throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
-                    isoDateTimeStr);
-		} catch (IllegalArgumentException ex) {
-			throw ex;
         } catch (Exception ex) {
             throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
                     isoDateTimeStr, ex);
         }
+		if (!ymdInput.equals(ymdOutput))
+				throw new IllegalArgumentException("Invalid ISO 8601 date and time, " +
+                    isoDateTimeStr);
     }
 
     /**
