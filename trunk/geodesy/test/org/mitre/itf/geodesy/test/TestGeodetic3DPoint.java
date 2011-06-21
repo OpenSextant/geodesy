@@ -61,13 +61,17 @@ public class TestGeodetic3DPoint extends TestCase {
 			assertEquals(a1, a2);
 			assertEquals(a1.hashCode(), a2.hashCode());
 
+			// for symmetric tests to work elevation must be non-zero
+			final double elevation = a1.getElevation();
+			if (elevation == 0.0 || Math.abs(elevation) < 1e-8) a1.setElevation(1234.5);
+
 			// test symmetric equals tests a.equals(b) -> b.equals(a)
 			Geodetic2DPoint pt2 = new Geodetic2DPoint(a1.getLongitude(), a1.getLatitude());
 			assertFalse(pt2.equals(a1));
 			assertFalse(a1.equals(pt2));
 			a1.setElevation(0);
-			assertTrue(pt2.equals(a1));
-			assertTrue(a1.equals(pt2));
+			assertEquals(pt2, a1);
+			assertEquals(a1, pt2);
 		}
     }
 
