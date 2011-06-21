@@ -114,7 +114,7 @@ public class TestUTM extends TestCase {
 		}
 
 		try {
-			// outside northing valid range (0 to 10,000,000 meters)");
+			// outside northing valid range (0 to 10,000,000 meters)
 			new UTM(31, 'N', 353305.0, -1.0);
 			fail("Expected to throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {

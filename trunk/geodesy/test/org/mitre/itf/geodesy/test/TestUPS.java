@@ -66,7 +66,7 @@ public class TestUPS extends TestCase {
 		}
 
 		try {
-			// out of legal range (+83.5 deg to +90 deg) for UPS Northern Hemisphere")
+			// out of legal latitude range (+83.5 deg to +90 deg) for UPS Northern Hemisphere
 			new UPS(new Geodetic2DPoint(
 				new Longitude(-79, 23, 13.7),
 				new Latitude(45, 0, 0)));
