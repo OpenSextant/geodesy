@@ -359,6 +359,33 @@ public class UPS implements Serializable {
         return polarZone;
     }
 
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UPS utm = (UPS) o;
+
+        if (Double.compare(utm.easting, easting) != 0) return false;
+        if (hemisphere != utm.hemisphere) return false;
+        if (Double.compare(utm.northing, northing) != 0) return false;
+        if (lonLat != null ? !lonLat.equals(utm.lonLat) : utm.lonLat != null) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        // int result;
+        long temp;
+		int result = (int) hemisphere;
+        temp = easting != +0.0d ? Double.doubleToLongBits(easting) : 0L;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = northing != +0.0d ? Double.doubleToLongBits(northing) : 0L;
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (lonLat != null ? lonLat.hashCode() : 0);
+        return result;
+    }
+
     /**
      * This method converts the UPS object to a printable string, using the specified number of
      * fractional digits for the easting and northing offsets.
