@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.mitre.itf.geodesy.ISO8601DateTimeInterval;
 import org.mitre.itf.geodesy.ISO8601DateTimePoint;
+import sun.awt.geom.AreaOp;
 
 import java.util.Random;
 
@@ -109,6 +110,10 @@ public class TestISO8601DateTime extends TestCase {
             assertEquals(isoDateTime, t2.toString());
 			assertEquals(t1.hashCode(), t2.hashCode());
         }
+
+		t1 = new ISO8601DateTimeInterval();
+		ISO8601DateTimePoint pt = new ISO8601DateTimePoint();
+		assertFalse(t1.equals(pt)); // t1.class != pt.class
 
         for (String isoStr : partials) {
             t1 = new ISO8601DateTimeInterval(isoStr);
