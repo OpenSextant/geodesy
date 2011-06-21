@@ -36,7 +36,8 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
     }
 
     /**
-     * Constructor using the specified start and end times
+     * Constructor using the specified start and end times such that
+	 * the start time is earlier or equal to the end time.
      *
      * @param startTime long start time for interval
      * @param endTime   long end time for interval
@@ -67,8 +68,8 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
                 long startTime2 = tSeg2.getStartTimeInMillis();
                 long endTime1 = tSeg1.getEndTimeInMillis();
                 long endTime2 = tSeg2.getEndTimeInMillis();
-                if ((startTime1 > startTime2) || (endTime1 > endTime2))
-                    throw new IllegalArgumentException(INVALID_ORDER);
+                if (startTime1 > startTime2 || endTime1 > endTime2)
+                    throw new IllegalArgumentException(INVALID_ORDER  + " for " + isoDateTimeStr);
                 this.startTime = startTime1;
                 this.endTime = endTime2;
             } else {
@@ -155,7 +156,7 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
      *
      * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimeInterval
      * @return 0, -1, or +1 depending if this interval is <, ==, or > that
-	 * @throws NullPointerException if that is null
+	 * @throws NullPointerException if that is <tt>null</tt>
      */
     public int compareTo(ISO8601DateTimePoint that) {
         int result = (this.startTime == that.startTime) ?
@@ -174,7 +175,7 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
      * which can be parsed using the String argument constructor method of this
      * class.
      *
-     * @return String IOS 8601 Date Time interval syntax for this TmSegment
+     * @return String IOS 8601 Date Time interval syntax for this time segment
      */
     @Override
     public String toString() {
