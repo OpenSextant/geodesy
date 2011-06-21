@@ -98,6 +98,8 @@ public class TestGeodetic3DPoint extends TestCase {
 	public void testNullCompare() {
 		Geodetic3DPoint other = null;
 		assertFalse(a.equals(other));
+		Geodetic2DPoint p2 = null;
+		assertFalse(a.equals(p2));
 	}
 
     /**
