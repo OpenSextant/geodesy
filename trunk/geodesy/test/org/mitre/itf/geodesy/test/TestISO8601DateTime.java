@@ -117,12 +117,30 @@ public class TestISO8601DateTime extends TestCase {
     }
 
 	@Test
-	public static void testIntervalCompareTo() throws Exception {
+	public void testInvalidCreation() {
+		try {
+			new ISO8601DateTimeInterval(2000, 1000);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected invalid time order
+		}
+
+		try {
+			new ISO8601DateTimeInterval("2011-06-21T18:06:37.039Z--2011-01-01T18:06:37.039Z");
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected invalid time order
+		}
+	}
+
+	@Test
+	public static void testIntervalCompareTo() {
         ISO8601DateTimeInterval t1 = new ISO8601DateTimeInterval();
 		ISO8601DateTimePoint tp = new ISO8601DateTimePoint(t1.getStartTimeInMillis());
 		assertEquals(0, t1.compareTo(tp));
 
 		ISO8601DateTimeInterval t2 = new ISO8601DateTimeInterval(t1.getStartTimeInMillis(), t1.getEndTimeInMillis());
+
 		assertEquals(0, t1.compareTo(t2));
 
 		t2.setEndTimeInMillis(t2.getEndTimeInMillis() + 1000);
