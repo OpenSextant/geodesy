@@ -51,6 +51,7 @@ public class TestISO8601DateTime extends TestCase {
             t2 = new ISO8601DateTimePoint(isoDateTime);
             assertEquals(t1, t2);
             assertEquals(isoDateTime, t2.toString());
+			assertEquals(t1.hashCode(), t2.hashCode());
         }
 
         ISO8601DateTimePoint lastTime = null;
@@ -106,6 +107,7 @@ public class TestISO8601DateTime extends TestCase {
             t2 = new ISO8601DateTimeInterval(isoDateTime);
             assertEquals(t1, t2);
             assertEquals(isoDateTime, t2.toString());
+			assertEquals(t1.hashCode(), t2.hashCode());
         }
 
         for (String isoStr : partials) {
