@@ -154,16 +154,16 @@ public class ISO8601DateTimeInterval extends ISO8601DateTimePoint {
      * starts before or starts equal but ends before (-1), or starts after or starts
      * equal and ends after (+1) the specified ISO8601DateTimePoint argument.
      *
-     * @param that ISO8601DateTimePoint to compare to this ISO8601DateTimeInterval
-     * @return 0, -1, or +1 depending if this interval is <, ==, or > that
-	 * @throws NullPointerException if that is <tt>null</tt>
+     * @param anotherTime ISO8601DateTimePoint to compare to this ISO8601DateTimeInterval
+     * @return -1, 0, or +1 depending if this interval is <, ==, or > <tt>anotherTime</tt>
+	 * @throws NullPointerException if <tt>anotherTime</tt> is <tt>null</tt>
      */
-    public int compareTo(ISO8601DateTimePoint that) {
-        int result = (this.startTime == that.startTime) ?
-                0 : (this.startTime < that.startTime) ? -1 : +1;
+    public int compareTo(ISO8601DateTimePoint anotherTime) {
+        int result = (this.startTime == anotherTime.startTime) ?
+                0 : (this.startTime < anotherTime.startTime) ? -1 : +1;
         if (result == 0) {
-            long et = (that instanceof ISO8601DateTimeInterval) ?
-                    ((ISO8601DateTimeInterval) that).endTime : that.startTime;
+            long et = (anotherTime instanceof ISO8601DateTimeInterval) ?
+                    ((ISO8601DateTimeInterval) anotherTime).endTime : anotherTime.startTime;
             result = (this.endTime == et) ?
                     0 : (this.endTime < et) ? -1 : +1;
         }
