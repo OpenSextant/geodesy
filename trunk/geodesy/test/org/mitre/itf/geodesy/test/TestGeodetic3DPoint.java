@@ -70,7 +70,7 @@ public class TestGeodetic3DPoint extends TestCase {
 			assertFalse(pt2.equals(a1));
 			assertFalse(a1.equals(pt2));
 			a1.setElevation(0);
-			assertEquals(pt2, a1);
+			assertEquals(pt2, a1); // pt2.equals(al) -> a1.equals(pt2)
 			assertEquals(a1, pt2);
 		}
     }

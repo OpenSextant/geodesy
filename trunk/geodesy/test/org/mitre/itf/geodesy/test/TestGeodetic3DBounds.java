@@ -150,7 +150,7 @@ public class TestGeodetic3DBounds extends TestCase {
 		bbox.minElev = 0.0;
 		Geodetic2DBounds bounds2d = new Geodetic2DBounds(bbox);
 		assertTrue(bbox.contains(bounds2d)); // should test as 2-d point
-		assertTrue(bbox.equals(bounds2d));   // should test as 2-d point
+		assertEquals(bbox, bounds2d);   // should test as 2-d point
 
 		bbox.include(new Geodetic2DPoint(west.getLongitude(), west.getLatitude()));
 		assertTrue(bbox.contains(bounds2d));

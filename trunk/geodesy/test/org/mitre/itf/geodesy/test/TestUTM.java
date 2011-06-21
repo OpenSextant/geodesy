@@ -175,7 +175,7 @@ public class TestUTM extends TestCase {
         u1 = new UTM(g1);
         u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
         g2 = u2.getGeodetic();
-        assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+        assertEquals(g1.toString(fractDig), g2.toString(fractDig));
 
         u1 = new UTM(17, 'N', 630084.30, 4833438.55);
         g1 = u1.getGeodetic();
@@ -189,7 +189,7 @@ public class TestUTM extends TestCase {
         u1 = new UTM(g1);
         u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
         g2 = u2.getGeodetic();
-        assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+        assertEquals(g1.toString(fractDig), g2.toString(fractDig));
 
         u1 = new UTM(14, 'N', 621160.98, 3349893.53);
         g1 = u1.getGeodetic();
@@ -202,7 +202,7 @@ public class TestUTM extends TestCase {
         u1 = new UTM(g1);
         u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
         g2 = u2.getGeodetic();
-        assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+        assertEquals(g1.toString(fractDig), g2.toString(fractDig));
 
         u1 = new UTM(31, 'N', 353305.0, 7100467.0);
         g1 = u1.getGeodetic();
@@ -219,7 +219,7 @@ public class TestUTM extends TestCase {
             u1 = new UTM(g1);
             u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
             g2 = u2.getGeodetic();
-            assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+            assertEquals(g1.toString(fractDig), g2.toString(fractDig));
         }
     }
 

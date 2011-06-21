@@ -77,7 +77,7 @@ public class TestUPS extends TestCase {
         u1 = new UPS(g1);
         u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
         g2 = u2.getGeodetic();
-        assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+        assertEquals(g1.toString(fractDig), g2.toString(fractDig));
 
 		// WGS 84 UPS Z 2364053.5818m E, 1718278.1249m N => (52° 15' 56" E, 85° 51' 20" N)
 		g1 = new Geodetic2DPoint(new Longitude(-52, 15, 56),
@@ -85,7 +85,7 @@ public class TestUPS extends TestCase {
         u1 = new UPS(g1);
         u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
         g2 = u2.getGeodetic();
-        assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+		assertEquals(g1.toString(fractDig), g2.toString(fractDig));
 
 		// Do some random Geodetic point conversion round trips
         Random r = new Random();
@@ -98,7 +98,7 @@ public class TestUPS extends TestCase {
             u1 = new UPS(g1);
             u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
             g2 = u2.getGeodetic();
-            assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+            assertEquals(g1.toString(fractDig), g2.toString(fractDig));
         }
 	}
 

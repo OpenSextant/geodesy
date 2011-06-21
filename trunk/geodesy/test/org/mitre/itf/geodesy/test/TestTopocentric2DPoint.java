@@ -31,7 +31,7 @@ public class TestTopocentric2DPoint extends TestCase {
 		Topocentric2DPoint tp = new Topocentric2DPoint(easting, northing);
 		Topocentric2DPoint tp2 = new Topocentric2DPoint(easting, northing);
 		assertEquals(tp, tp2);
-		assertTrue(tp.hashCode() == tp2.hashCode());
+		assertEquals(tp.hashCode(), tp2.hashCode());
 
 		tp2.setEasting(easting + 123);
 		tp2.setNorthing(northing  - 123);
