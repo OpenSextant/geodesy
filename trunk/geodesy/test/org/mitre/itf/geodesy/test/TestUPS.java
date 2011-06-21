@@ -40,6 +40,32 @@ public class TestUPS extends TestCase {
 		assertFalse(u1.equals(u7));
 	}
 
+	public void testInvalidCreation() {
+		try {
+			// Hemisphere 'X', should be 'N' or 'S'
+			new UPS('X', 2364053.5818, 1718278.1249);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			// Northing valid range (0 to 4,000,000 meters)
+			new UPS('N', 0, 4818278.1249);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			// Easting valid range (0 to 4,000,000 meters)
+			new UPS('N', 4818278.1249, 0);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
 	public void testProjections() {
         Geodetic2DPoint g1, g2;
         UPS u1, u2;
