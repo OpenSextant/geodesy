@@ -42,7 +42,7 @@ public class TestAngle {
             double rad = (r.nextDouble() * (2.0 * Math.PI)) - Math.PI;
             Angle r1 = new Angle(rad, Angle.RADIANS);
             Angle r2 = new Angle(r1.inDegrees(), Angle.DEGREES);
-            Assert.assertTrue(r1.toString(fractDig).equals(r2.toString(fractDig)));
+            Assert.assertEquals(r1.toString(fractDig), r2.toString(fractDig));
 
             // Test degrees, minutes, seconds constructor and conversion to radians
             int degrees = r.nextInt(360) - 180;
@@ -50,12 +50,12 @@ public class TestAngle {
             double seconds = r.nextDouble() * 60.0;
             Angle d1 = new Angle(degrees, minutes, seconds);
             Angle d2 = new Angle(d1.inRadians());
-            Assert.assertTrue(d1.toString(fractDig).equals(d2.toString(fractDig)));
+			Assert.assertEquals(d1.toString(fractDig), d2.toString(fractDig));
 
             // Test String constructor
             Angle s1 = new Angle(r1.toString(5));
             Angle s2 = new Angle(s1.inDegrees(), Angle.DEGREES);
-            Assert.assertTrue(s1.toString(fractDig).equals(s2.toString(fractDig)));
+			Assert.assertEquals(s1.toString(fractDig), s2.toString(fractDig));
         }
 
         Angle z000 = new Angle();   // default constructor makes 0 deg angle
@@ -71,8 +71,8 @@ public class TestAngle {
         Angle m180 = p090.difference(m090);
 
         Assert.assertTrue(p135.add(p090).equals(m135));
-        Assert.assertTrue(m180.toString(fractDig).equals(p180.toString(fractDig)));
-        Assert.assertTrue(m180.equals(p180));
+        Assert.assertEquals(m180.toString(fractDig), p180.toString(fractDig));
+        Assert.assertEquals(m180, p180);
 
 //        System.out.println("\rString constructor parse tests:");
 //        String[] parseTests = new String[]{
