@@ -28,6 +28,7 @@ import org.mitre.itf.geodesy.*;
 
 public class TestUTM extends TestCase {
 
+
     /**
      * This method tests UTM methods to determine Longitude Zones and their limits
      */
@@ -87,6 +88,19 @@ public class TestUTM extends TestCase {
                        (latDeg < UTM.maxLatDegrees(latBand)));
         }
     }
+
+	public void testEquals() {
+		Geodetic2DPoint g1 = new Geodetic2DPoint(
+                new Longitude(-79, 23, 13.7),
+                new Latitude(43, 38, 33.24));
+                UTM u1 = new UTM(g1);
+                UTM u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
+		assertEquals(u1, u2);
+		assertEquals(u1.hashCode(), u2.hashCode());
+
+		u2 = null;
+		assertFalse(u1.equals(u2));
+	}
 
     /**
      * This method tests both some known point cases as well as some randomly
