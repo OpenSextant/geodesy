@@ -110,6 +110,13 @@ public class TestISO8601DateTime extends TestCase {
 		assertFalse(t1.equals(t2));
 	}
 
+	@Test
+    public static void testNullTimeInterval() {
+		ISO8601DateTimeInterval t1 = new ISO8601DateTimeInterval();
+        ISO8601DateTimeInterval t2 = null;
+		assertFalse(t1.equals(t2));
+	}
+
     /**
      * Main method for running class tests.
      *
