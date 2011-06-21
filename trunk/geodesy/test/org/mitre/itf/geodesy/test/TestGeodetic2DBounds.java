@@ -99,6 +99,28 @@ public class TestGeodetic2DBounds extends TestCase {
         System.out.println(arc.getPoint2().toString(5));
     }
 
+	public void testInvalidArcCreation() {
+		Geodetic2DPoint pt = TestGeoPoint.randomGeodetic2DPoint(r);
+		double distance = 123456.0;
+		Angle azimuth = new Angle(0.0, Angle.DEGREES);
+        Geodetic2DArc arc = new Geodetic2DArc(pt, distance, azimuth);
+
+		try {
+			// circumference of earth = 40,075.16km or 4e+7 meters => max distance ~2E+7 meters
+			arc.setDistanceInMeters(2E+8);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Distance is out of legal range
+		}
+
+		try {
+			new Geodetic2DArc(pt, 2E+8, azimuth);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Distance is out of legal range
+		}
+	}
+
     public void testBBox() {
         Geodetic2DPoint west = new Geodetic2DPoint("(161" + DEGSYM + " 54' 44\" E, 85" + DEGSYM + " 41' 54\" S)");
         Geodetic2DPoint east = new Geodetic2DPoint("(99" + DEGSYM + " 8' 8\" E, 79" + DEGSYM + " 39' 57\" N)");
