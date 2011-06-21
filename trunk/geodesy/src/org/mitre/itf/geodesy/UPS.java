@@ -364,12 +364,11 @@ public class UPS implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UPS utm = (UPS) o;
-
-        if (Double.compare(utm.easting, easting) != 0) return false;
-        if (hemisphere != utm.hemisphere) return false;
-        if (Double.compare(utm.northing, northing) != 0) return false;
-        if (lonLat != null ? !lonLat.equals(utm.lonLat) : utm.lonLat != null) return false;
+        UPS ups = (UPS) o;
+		if (hemisphere != ups.hemisphere) return false;
+        if (Double.compare(ups.easting, easting) != 0) return false;
+        if (Double.compare(ups.northing, northing) != 0) return false;
+        if (lonLat != null ? !lonLat.equals(ups.lonLat) : ups.lonLat != null) return false;
         return true;
     }
 
