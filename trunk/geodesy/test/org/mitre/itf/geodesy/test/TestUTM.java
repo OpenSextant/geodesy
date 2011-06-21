@@ -91,15 +91,31 @@ public class TestUTM extends TestCase {
 
 	public void testEquals() {
 		Geodetic2DPoint g1 = new Geodetic2DPoint(
-                new Longitude(-79, 23, 13.7),
-                new Latitude(43, 38, 33.24));
-                UTM u1 = new UTM(g1);
-                UTM u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
+				new Longitude(-79, 23, 13.7),
+				new Latitude(43, 38, 33.24));
+		UTM u1 = new UTM(g1);
+
+		UTM u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
 		assertEquals(u1, u2);
 		assertEquals(u1.hashCode(), u2.hashCode());
 
-		u2 = null;
-		assertFalse(u1.equals(u2));
+		UTM u3 = new UTM(u1.getEllipsoid(), u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
+		assertEquals(u1, u3);
+		assertEquals(u1.hashCode(), u3.hashCode());
+
+		UTM u4 = new UTM(u1.getEllipsoid(), g1);
+		assertEquals(u1, u4);
+		assertEquals(u1.hashCode(), u4.hashCode());
+
+		UTM u5 = new UTM(u1.getEllipsoid(), g1.getLongitude(), g1.getLatitude());
+		assertEquals(u1, u5);
+		assertEquals(u1.hashCode(), u5.hashCode());
+
+		UTM u6 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing() + 500);
+		assertFalse(u1.equals(u6));
+
+		UTM u7 = null;
+		assertFalse(u1.equals(u7));
 	}
 
     /**
@@ -171,6 +187,30 @@ public class TestUTM extends TestCase {
             assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
         }
     }
+
+	public void testToString() {
+
+		UTM u1 = new UTM(14, 'N', 621160.08, 3349893.03);
+		// tp.toString(0) WGS 84 UTM 14 N hemisphere 621160m E, 3349893m N
+		// tp.toString(4) WGS 84 UTM 14 N hemisphere 621160.0800m E, 3349893.0300m N
+
+        String base = u1.toString();
+		assertEquals(base, u1.toString(0)); // toString() same as toString(0)
+		int prevLen = base.length();
+        String prefix = base.substring(0, base.indexOf("m E"));   // WGS 84 UTM 14 N hemisphere 621160
+		// System.out.printf("prefix=[%s]%n", prefix);
+
+		for(int i=1; i < 6; i++) {
+            String s = u1.toString(i);
+			// System.out.println(s);
+            int len = s.length();
+            assertTrue(len >= prevLen + 2);
+            // simple tests: each should start with same easting whole number
+			assertEquals(prefix, s.substring(0, prefix.length()));
+            // assertTrue("prefix fails to match target", s.startsWith(prefix));
+            prevLen = len;
+		}
+	}
 
     /**
      * Main method for running class tests.
