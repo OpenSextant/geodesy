@@ -3,6 +3,8 @@ package org.mitre.itf.geodesy.test;
 import junit.framework.TestCase;
 import org.mitre.itf.geodesy.*;
 
+import java.util.Random;
+
 /**
  * User: MATHEWS
  * Date: 6/21/11 10:41 AM
@@ -43,21 +45,35 @@ public class TestUPS extends TestCase {
         UPS u1, u2;
         int fractDig = 2; // Fractional digits to print in toString conversions
 
-        // utm.toGeodetic(17, 'N', 630084.30, 4833438.55) => (79° 23' 13.70" W, 43° 38' 33.24" N)
-        //  MGRS? 17TPJ 30084 33439
-        g1 = new Geodetic2DPoint(new Longitude(-79, 23, 13.7),
-				new Latitude(88, 38, 33.24));
+		// WGS 84 UPS A 997635.0902m E, 2464957.4007m N => (65° 6' 55" W, 80° 4' 17" S)
+        g1 = new Geodetic2DPoint(new Longitude(-65, 6, 55),
+				new Latitude(-80, 4, 17));
         u1 = new UPS(g1);
         u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
         g2 = u2.getGeodetic();
         assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
 
-		/*
-        u1 = new UPS('N', 630084.30, 4833438.55);
-        g1 = u1.getGeodetic();
-        u2 = new UPS(g1);
-        assertTrue(u1.toString(fractDig).equals(u2.toString(fractDig)));
-        */
+		// WGS 84 UPS Z 2364053.5818m E, 1718278.1249m N => (52° 15' 56" E, 85° 51' 20" N)
+		g1 = new Geodetic2DPoint(new Longitude(-52, 15, 56),
+				new Latitude(85, 51, 20));
+        u1 = new UPS(g1);
+        u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
+        g2 = u2.getGeodetic();
+        assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+
+		// Do some random Geodetic point conversion round trips
+        Random r = new Random();
+        for (int i = 0; i < 1000; i++) {
+            double lonDeg = (r.nextDouble() * 360.0) - 180.0;
+			// Latitude range +83.5 deg to +90 for UPS Northern Hemisphere
+            double latDeg = 83.5 + (6.5 * r.nextDouble());
+            g1 = new Geodetic2DPoint(
+                    new Longitude(lonDeg, Angle.DEGREES), new Latitude(latDeg, Angle.DEGREES));
+            u1 = new UPS(g1);
+            u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
+            g2 = u2.getGeodetic();
+            assertTrue(g1.toString(fractDig).equals(g2.toString(fractDig)));
+        }
 	}
 
 	public void testToString() {
