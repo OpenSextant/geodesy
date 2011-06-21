@@ -67,6 +67,16 @@ public class TestGeoPoint extends TestCase {
         }
     }
 
+	public void testReference() {
+		Geodetic3DPoint p = randomGeodetic3DPoint(r);
+		FrameOfReference f = new FrameOfReference(p);
+		assertEquals(p, f.getTopographicOrigin());
+
+		final Ellipsoid ellip = Ellipsoid.getInstance("WGS 84");
+		f = new FrameOfReference(ellip);
+		assertEquals(ellip, f.getEllipsoid());
+	}
+
 	/**
      * This method performs format conversions with string constructors in degrees and dms 
      */
