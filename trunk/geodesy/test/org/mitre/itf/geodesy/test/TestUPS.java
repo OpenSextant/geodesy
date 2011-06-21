@@ -64,6 +64,17 @@ public class TestUPS extends TestCase {
 		} catch (IllegalArgumentException e) {
 			// expected
 		}
+
+		try {
+			// out of legal range (+83.5 deg to +90 deg) for UPS Northern Hemisphere")
+			new UPS(new Geodetic2DPoint(
+				new Longitude(-79, 23, 13.7),
+				new Latitude(0)));
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
 	}
 
 	public void testProjections() {
