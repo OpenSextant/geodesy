@@ -7,15 +7,12 @@
  */
 package org.mitre.itf.geodesy.test;
 
-import org.mitre.itf.geodesy.LatLonParser;
-import org.mitre.itf.geodesy.Geodetic2DPoint;
+import org.mitre.itf.geodesy.*;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import junit.textui.TestRunner;
-import org.mitre.itf.geodesy.Latitude;
-import org.mitre.itf.geodesy.Longitude;
 
 public class TestLatLonStrings extends TestCase {
 
@@ -197,6 +194,52 @@ public class TestLatLonStrings extends TestCase {
 					point.toString());
     	}
     }
+
+	public void testInvalidCreation() {
+		try {
+			// out of legal latitude range (-90 deg to +90 deg)
+			new Latitude(200, Angle.DEGREES);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Latitude value exceeds pole value
+		}
+
+		try {
+			new Latitude("200E"); // must end with N or S
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Latitude with E or W direction indicator
+		}
+
+		try {
+			new Latitude("+200N");
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Latitude with N or S direction indicator should not have numeric sign prefix
+		}
+
+		try {
+			// out of legal latitude range (-180 deg to +180 deg)
+			new Longitude(2000, Angle.DEGREES);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Angle radians is too big
+		}
+
+		try {
+			new Longitude("200N"); // must end with N or S
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Longitude with N or S direction indicator
+		}
+
+		try {
+			new Longitude("+200E");
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected Longitude with E or W direction indicator should not have numeric sign prefix
+		}
+	}
 
 	public void testNullLatCompare() {
 		Latitude lat = new Latitude(Math.PI/2);
