@@ -28,7 +28,6 @@ import org.mitre.itf.geodesy.*;
 
 public class TestUTM extends TestCase {
 
-
     /**
      * This method tests UTM methods to determine Longitude Zones and their limits
      */
@@ -116,7 +115,7 @@ public class TestUTM extends TestCase {
 
 		try {
 			// outside northing valid range (0 to 10,000,000 meters)");
-			new UTM(31, 'N', -1, 7100467.0);
+			new UTM(31, 'N', 353305.0, -1.0);
 			fail("Expected to throw IllegalArgumentException");
 		} catch (IllegalArgumentException e) {
 			// expected
@@ -180,7 +179,7 @@ public class TestUTM extends TestCase {
         u1 = new UTM(17, 'N', 630084.30, 4833438.55);
         g1 = u1.getGeodetic();
         u2 = new UTM(g1);
-        assertTrue(u1.toString(fractDig).equals(u2.toString(fractDig)));
+        assertEquals(u1.toString(fractDig), u2.toString(fractDig));
 
         // Another test case
         //   NAD 83 Geodetic2DPoint (lon-lat): (97° 44' 25.19" W, 30° 16' 28.82" N)
@@ -194,7 +193,7 @@ public class TestUTM extends TestCase {
         u1 = new UTM(14, 'N', 621160.98, 3349893.53);
         g1 = u1.getGeodetic();
         u2 = new UTM(g1);
-        assertTrue(u1.toString(fractDig).equals(u2.toString(fractDig)));
+        assertEquals(u1.toString(fractDig), u2.toString(fractDig));
 
         // The following test case is for a round off error that causes lonZone shift
         // if not detected
@@ -207,7 +206,7 @@ public class TestUTM extends TestCase {
         u1 = new UTM(31, 'N', 353305.0, 7100467.0);
         g1 = u1.getGeodetic();
         u2 = new UTM(g1);
-        assertTrue(u1.toString(fractDig).equals(u2.toString(fractDig)));
+        assertEquals(u1.toString(fractDig), u2.toString(fractDig));
 
         // Do some random Geodetic point conversion round trips
         Random r = new Random();
