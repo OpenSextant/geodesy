@@ -103,6 +103,13 @@ public class TestISO8601DateTime extends TestCase {
         }
     }
 
+	@Test
+    public static void testNullCompare() throws Exception {
+		ISO8601DateTimePoint t1 = new ISO8601DateTimePoint();
+		ISO8601DateTimePoint t2 = null;
+		assertFalse(t1.equals(t2));
+	}
+
     /**
      * Main method for running class tests.
      *
