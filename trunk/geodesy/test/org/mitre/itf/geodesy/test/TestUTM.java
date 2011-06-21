@@ -89,6 +89,41 @@ public class TestUTM extends TestCase {
         }
     }
 
+	public void testInvalidCreation() {
+		try {
+			// Hemisphere 'X', should be 'N' or 'S'
+			new UTM(31, 'X', 353305.0, 7100467.0);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			// outside UTM longitudinal zone valid range (1 to 60)
+			new UTM(0, 'N', 353305.0, 7100467.0);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			// outside easting valid range: 100,000 to 900,000 meters
+			new UTM(31, 'N', 0.0, 7100467.0);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+
+		try {
+			// outside northing valid range (0 to 10,000,000 meters)");
+			new UTM(31, 'N', -1, 7100467.0);
+			fail("Expected to throw IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
+
+
 	public void testEquals() {
 		Geodetic2DPoint g1 = new Geodetic2DPoint(
 				new Longitude(-79, 23, 13.7),
