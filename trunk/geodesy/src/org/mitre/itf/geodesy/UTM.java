@@ -760,17 +760,19 @@ public class UTM implements Serializable {
         if (lonZone != utm.lonZone) return false;
         if (Double.compare(utm.northing, northing) != 0) return false;
         if (lonLat != null ? !lonLat.equals(utm.lonLat) : utm.lonLat != null) return false;
-        if (tm != null ? !tm.equals(utm.tm) : utm.tm != null) return false;
-
+		// TODO: following fails since TransverseMercator does not implement Object.equals(Object) so skip it
+        // if (tm != null ? !tm.equals(utm.tm) : utm.tm != null) return false;
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result;
+        // int result;
         long temp;
-        result = tm != null ? tm.hashCode() : 0;
-        result = 31 * result + lonZone;
+		// TODO: following fails since TransverseMercator does not implement Object.hashCode() so skip it
+        //result = tm != null ? tm.hashCode() : 0;
+		// result = 31 * result + lonZone;
+		int result = lonZone;
         result = 31 * result + (int) latBand;
         result = 31 * result + (int) hemisphere;
         temp = easting != +0.0d ? Double.doubleToLongBits(easting) : 0L;
