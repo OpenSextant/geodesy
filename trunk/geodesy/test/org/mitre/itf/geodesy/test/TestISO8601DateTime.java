@@ -1,8 +1,7 @@
 /************************************************************************************
  * TestISO8601DateTime.java 12/22/10 11:08 AM psilvey
  *
- * (C) Copyright psilvey 2010
- *
+ *  (C) Copyright MITRE Corporation 2010
  *
  * The program is provided "as is" without any warranty express or implied, including
  * the warranty of non-infringement and the implied warranties of merchantability and
@@ -20,7 +19,6 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.mitre.itf.geodesy.ISO8601DateTimeInterval;
 import org.mitre.itf.geodesy.ISO8601DateTimePoint;
-import sun.awt.geom.AreaOp;
 
 import java.util.Random;
 
