@@ -8,7 +8,7 @@
  *  (C) Copyright MITRE Corporation 2006
  *
  *  The program is provided "as is" without any warranty express or implied, including 
- *  the warranty of non-infringement and the implied warranties of merchantibility and 
+ *  the warranty of non-infringement and the implied warranties of merchantability and
  *  fitness for a particular purpose.  The Copyright owner will not be liable for any 
  *  damages suffered by you as a result of using the Program.  In no event will the 
  *  Copyright owner be liable for any special, indirect or consequential damages or 
@@ -159,7 +159,7 @@ public class TestUTM extends TestCase {
      * of meters)
      */
     public void testProjections() {
-        // Test Case : Tononto's CNN Tower
+        // Test Case : Toronto's CNN Tower
         //   WGS 84 Geodetic2DPoint (lon-lat): (79° 23' 13.70" W, 43° 38' 33.24" N)
         //   Zone 17, Band T (hemisphere 'N'), 630084m east, 4833439m north
         Geodetic2DPoint g1, g2;
