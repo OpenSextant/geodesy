@@ -450,7 +450,7 @@ public class UTM implements Serializable {
     // *************************** End of Static Definitions ********************************
 
     // Instance Variables
-    private final TransverseMercator tm;  // Transverse Mercator projection object (keeper of ellipsoid)
+    @NonNull private final TransverseMercator tm;  // Transverse Mercator projection object (keeper of ellipsoid)
     private int lonZone;            // UTM Longitudinal Zone number (1 to 60)
     private char latBand;           // UTM Lat Band char('C' to 'X', not including 'I' or 'O')
     private char hemisphere;        // Hemisphere char ('N' for Northern, 'S' for Southern)
