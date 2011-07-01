@@ -83,7 +83,7 @@ public class TestGeodetic2DBounds extends TestCase {
 	public void testCircleBounds() {
 		Geodetic2DPoint pt = TestGeoPoint.randomGeodetic2DPoint(r);
 		double radius = 1 + 1.0 * r.nextInt(1000000);      // stress test at 1,000 km.
-		Geodetic2DBounds bbox = new Geodetic2DBounds(pt, radius, 8);
+		Geodetic2DBounds bbox = new Geodetic2DBounds(pt, radius, 4);
 		Geodetic2DBounds bbox2 = new Geodetic2DBounds(new Geodetic2DCircle(pt, radius));
 		assertEquals(bbox, bbox2);
 	}
