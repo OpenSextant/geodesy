@@ -129,7 +129,11 @@ public class Geodetic2DBounds implements Serializable {
      * @param nPoints number of points to include from circle boundary. Using n=4 generates
 	 * 		the north, south, east, and west corner points which is essentially the maximal
 	 * 		boundary for a circle and the same if nPoints=8, 32, or 64 points.
-	 * @throws NullPointerException if center is <tt>null</tt>
+	 * 		Value should be greater than 0 and typically is 4. If value is 1
+	 * 		then a line segment is drawn from the center to the southern edge.
+	 * 		Value = 2 draws a line segment from north to south edges.
+	 * @throws NullPointerException if center is <tt>null</tt>s
+	 * @throws ArithmeticException if nPoints = 0
      */
     public Geodetic2DBounds(Geodetic2DPoint center, double radius, int nPoints) {
         this(center);
