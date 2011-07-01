@@ -126,8 +126,10 @@ public class Geodetic2DBounds implements Serializable {
      *
      * @param center Geodetic2DPoint at the center of the inscribed circle
      * @param radius double radius (in meters) of the inscribed circle
-     * @param nPoints int number of points to include from circle boundary
-	 * @throws NullPointerException if center is null
+     * @param nPoints number of points to include from circle boundary. Using n=4 generates
+	 * 		the north, south, east, and west corner points which is essentially the maximal
+	 * 		boundary for a circle and the same if nPoints=8, 32, or 64 points.
+	 * @throws NullPointerException if center is <tt>null</tt>
      */
     public Geodetic2DBounds(Geodetic2DPoint center, double radius, int nPoints) {
         this(center);
@@ -158,7 +160,7 @@ public class Geodetic2DBounds implements Serializable {
 	 * @throws NullPointerException if circle is null
      */
     public Geodetic2DBounds(Geodetic2DCircle circle) {
-        this(circle.getCenter(), circle.getRadius(), 8);
+        this(circle.getCenter(), circle.getRadius(), 4);
     }
     
     /**

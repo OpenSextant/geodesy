@@ -99,8 +99,10 @@ public class Geodetic2DCircle {
      * Convenience method to iterate over boundary points of circle at nPoints
      * resolution.
      *
-     * @param nPoints int number of points on boundary to use (1st is due South)
+     * @param nPoints int number of points on boundary to use (1st is due South),
+	 * 					should be greater than 0
      * @return Iterable collection of nPoints Geodetic2DPoints on circle boundary
+	 * @throws ArithmeticException if nPoints = 0
      */
 	@NonNull
     public Iterable<Geodetic2DPoint> boundary(int nPoints) {
