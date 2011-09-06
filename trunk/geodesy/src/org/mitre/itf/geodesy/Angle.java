@@ -396,7 +396,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * <p/>
      * See the Java Language Specification, section 4.2.4.
      * <p/>
-     * See http://www.oreilly.com/catalog/javacook/errata/javacook.unconfirmed
+     * See http://www.oreilly.com/catalog/javacook/errata/javacook.unconfirmed#Example_5-1
      * http://findbugs.sourceforge.net/bugDescriptions.html#FE_FLOATING_POINT_EQUALITY
      * http://bobcat.webappcabaret.net/javachina/faq/08.htm#math_Q19
      *
@@ -406,6 +406,12 @@ public class Angle implements Serializable, Comparable<Angle> {
      *         <code>false</code> otherwise.
      */
     static boolean equals(double a, double b) {
+        /*
+        Comparing the difference of two numbers with epsilon requires that the
+        magnitude of epsilon change with the magnitude of the numbers being
+        compared. But the whole purpose of floating point is that the point floats,
+        that is, the programmer need not keep track of the magnitude of the numbers
+         */
         return a == b || Math.abs(a - b) < EPSILON * Math.max(Math.abs(a), Math.abs(b));
     }
 
@@ -421,7 +427,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * <p/>
      * See the Java Language Specification, section 4.2.4.
      * <p/>
-     * See http://www.oreilly.com/catalog/javacook/errata/javacook.unconfirmed
+     * See http://www.oreilly.com/catalog/javacook/errata/javacook.unconfirmed#Example_5-1
      * http://findbugs.sourceforge.net/bugDescriptions.html#FE_FLOATING_POINT_EQUALITY
      * http://bobcat.webappcabaret.net/javachina/faq/08.htm#math_Q19
      *

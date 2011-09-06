@@ -127,13 +127,14 @@ public class Geodetic2DBounds implements Serializable {
      * @param center Geodetic2DPoint at the center of the inscribed circle
      * @param radius double radius (in meters) of the inscribed circle
      * @param nPoints number of points to include from circle boundary. Using n=4 generates
-	 * 		the north, south, east, and west corner points which is essentially the maximal
-	 * 		boundary for a circle and the same if nPoints=8, 32, or 64 points.
-	 * 		Value should be greater than 0 and typically is 4. If value is 1
-	 * 		then a line segment is drawn from the center to the southern edge.
-	 * 		Value = 2 draws a line segment from north to south edges.
-	 * @throws NullPointerException if center is <tt>null</tt>s
-	 * @throws ArithmeticException if nPoints = 0
+     * 		the north, south, east, and west corner points which is essentially the maximal
+     * 		boundary for a circle and the same if nPoints=8, 32, or 64 points unless
+     * 		the center point is at/near the poles in which circle bounds are irregular.
+     * 		Value should be greater than 0 and typically is 4. If value is 1
+     * 		then a line segment is drawn from the center to the southern edge.
+     * 		Value = 2 draws a line segment from north to south edges.
+     * @throws NullPointerException if center is <tt>null</tt>s
+     * @throws ArithmeticException if nPoints = 0
      */
     public Geodetic2DBounds(Geodetic2DPoint center, double radius, int nPoints) {
         this(center);
@@ -149,7 +150,7 @@ public class Geodetic2DBounds implements Serializable {
 
      * @param center Geodetic2DPoint at the center of the inscribed circle
      * @param radius double radius (in meters) of the inscribed circle
-	 * @throws NullPointerException if center is null
+     * @throws NullPointerException if center is null
      */
     public Geodetic2DBounds(Geodetic2DPoint center, double radius) {
         this(center, radius, 4);
@@ -161,7 +162,7 @@ public class Geodetic2DBounds implements Serializable {
      * circle.
      *
      * @param circle Geodetic2DCircle to be inscribed in bounding box
-	 * @throws NullPointerException if circle is null
+     * @throws NullPointerException if circle is null
      */
     public Geodetic2DBounds(Geodetic2DCircle circle) {
         this(circle.getCenter(), circle.getRadius(), 4);
