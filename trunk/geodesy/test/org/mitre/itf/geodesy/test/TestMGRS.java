@@ -21,6 +21,7 @@ package org.mitre.itf.geodesy.test;
 import org.mitre.itf.geodesy.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.junit.runner.JUnitCore;
 import org.junit.Test;
 import org.junit.Assert;
@@ -40,7 +41,7 @@ public class TestMGRS {
         String ms;
 
         // Many possible cells will not be legal, for a variety of reasons
-        // (see thrown Exceptions for specifics)
+        // (see thrown Exceptions for specifics; e.g., 1AAA, 54WZZ)
         // Considering (60 * 26 * 26 * 26) = 1,054,560 strings
         valid = 0;
         total = 0;
@@ -64,10 +65,11 @@ public class TestMGRS {
         // There are 49422 valid UTM grid cells out of a possible 1054560
         // (only 4.686504324078289%)
         Assert.assertEquals(1054560, total);
-		Assert.assertTrue(valid == 80491 || valid == 49422);
-		//Assert.assertEquals(49422, valid);
+        Assert.assertTrue(valid == 80491 || valid == 49422);
+        //Assert.assertEquals(49422, valid);
 
         // Considering (26 * 26 * 26) = 17,576 strings
+        // Many invalid values (e.g., ABA, YXY)
         valid = 0;
         total = 0;
         for (char latBand = 'A'; latBand <= 'Z'; latBand++) {
@@ -88,7 +90,7 @@ public class TestMGRS {
         // There are 568 valid UPS grid cells out of a possible 17576
         // (only 3.23167956304051%)
         Assert.assertEquals(17576, total);
-		Assert.assertTrue(valid == 568 || valid == 810);
+        Assert.assertTrue(valid == 568 || valid == 810);
         //Assert.assertEquals(568, valid);
     }
 
