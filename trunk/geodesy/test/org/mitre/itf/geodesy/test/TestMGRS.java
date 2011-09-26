@@ -8,7 +8,7 @@
  *  (C) Copyright MITRE Corporation 2006
  *
  *  The program is provided "as is" without any warranty express or implied, including 
- *  the warranty of non-infringement and the implied warranties of merchantibility and 
+ *  the warranty of non-infringement and the implied warranties of merchantability and 
  *  fitness for a particular purpose.  The Copyright owner will not be liable for any 
  *  damages suffered by you as a result of using the Program.  In no event will the 
  *  Copyright owner be liable for any special, indirect or consequential damages or 
@@ -50,10 +50,10 @@ public class TestMGRS {
                     for (char ySquare = 'A'; ySquare <= 'Z'; ySquare++) {
                         try {
                             // UTM version has lonZone
-                            total += 1;
+                            total++;
                             ms = "" + lonZone + latBand + xSquare + ySquare;
                             new MGRS(ms);
-                            valid += 1;
+                            valid++;
                         } catch (Exception ex) {
                             //System.err.println(ex.toString());
                         }
@@ -75,10 +75,10 @@ public class TestMGRS {
                 for (char ySquare = 'A'; ySquare <= 'Z'; ySquare++) {
                     try {
                         // UPS version has no lonZone
-                        total += 1;
+                        total++;
                         ms = "" + latBand + xSquare + ySquare;
                         new MGRS(ms);
-                        valid += 1;
+                        valid++;
                     } catch (Exception ex) {
                         //System.err.println(ex.toString());
                     }
@@ -243,13 +243,14 @@ public class TestMGRS {
             try {
                 new MGRS(s1, true);
             } catch (Exception ex) {
-                count += 1;
+                count++;
             }
             // Re-parse original point non-strictly using less precision
             m2 = new MGRS(s1);
             // Increase precision
             s2 = m2.toString(5);
             log.debug(m1 + " vs. " + s2);
+            // TODO: is there any assertion to be made here?
         }
         log.info("Total parse error rate after imprecise formatting: " +
                 count + " out of " + n);
