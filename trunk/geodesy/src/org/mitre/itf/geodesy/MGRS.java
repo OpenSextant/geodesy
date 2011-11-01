@@ -199,7 +199,7 @@ public class MGRS implements GeoPoint, Serializable {
         // Normalize the string by removing separators and converting case
         // Remove embedded whitespace, non-breaking spaces, slashes, dashes, null characters, and convert to uppercase
         final StringBuilder mgrsBuf = new StringBuilder(mgrs.length());
-        for (int i = 0; i < mgrs.length(); i += 1) {
+        for (int i = 0; i < mgrs.length(); i++) {
             final char c = mgrs.charAt(i);
             if ((!Character.isWhitespace(c)) && (!Character.isSpaceChar(c)) && (c != '-') && (c != '/') && (((int) c) != 0))
                 mgrsBuf.append(Character.toUpperCase(c));
