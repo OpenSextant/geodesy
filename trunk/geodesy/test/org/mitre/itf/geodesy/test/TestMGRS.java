@@ -227,8 +227,8 @@ public class TestMGRS {
                 new MGRS(coord);
                 Assert.fail("expected to throw IllegalArgumentException for invalid MGRS " + coord);
             } catch (IllegalArgumentException ex) {
-                // System.out.println(ex); // expected
-                ex.printStackTrace();
+                // expected result
+                // ex.printStackTrace();
             }
         }
     }
