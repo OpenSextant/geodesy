@@ -218,7 +218,9 @@ public class TestMGRS {
                 null,
                 "11",    // MGRS String parse error, string was entirely numeric
                 "999AA", // MGRS String parse error, 3 digit number '999' is too large for UTM longitudinal zone
-                "1CD"    // MGRS String parse error, expecting 2 alpha characters for MGRS square, found only one, or end of string: D
+                "1CD",    // MGRS String parse error, expecting 2 alpha characters for MGRS square, found only one, or end of string: D
+                "1C11",   // xSquare character was not a letter: 1
+                "1CD1"    // ySquare character was not a letter: 1
         };
         for (String coord : coords) {
             try {
