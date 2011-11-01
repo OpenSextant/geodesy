@@ -35,6 +35,7 @@ public class TestMGRS {
     /**
      * This method does an exhaustive test of possible MGRS square values
      */
+    /*
     @Test
     public void testStringCombos() {
         int valid, total;
@@ -93,6 +94,7 @@ public class TestMGRS {
         Assert.assertTrue(valid == 568 || valid == 810);
         //Assert.assertEquals(568, valid);
     }
+    */
 
     /**
      * This method generates a random sample of Geodetic points, converting them to MGRS
@@ -110,13 +112,13 @@ public class TestMGRS {
         }
     }
 
-	@Test
-	public void testMGRSNullCompare() {
-		String MGRS_washington_monument = "18SUJ2348306479";
-		MGRS mgrs = new MGRS(MGRS_washington_monument);
-		MGRS other = null;
-		Assert.assertFalse(mgrs.equals(other));
-	}
+    @Test
+    public void testMGRSNullCompare() {
+        String MGRS_washington_monument = "18SUJ2348306479";
+        MGRS mgrs = new MGRS(MGRS_washington_monument);
+        MGRS other = null;
+        Assert.assertFalse(mgrs.equals(other));
+    }
 
     /**
      * This method is used to test some specific landmark points around the globe
@@ -211,6 +213,25 @@ public class TestMGRS {
     }
 
     @Test
+    public void testBadCoords() {
+        String[] coords = {
+                null,
+                "11",    // MGRS String parse error, string was entirely numeric
+                "999AA", // MGRS String parse error, 3 digit number '999' is too large for UTM longitudinal zone
+                "1CD"    // MGRS String parse error, expecting 2 alpha characters for MGRS square, found only one, or end of string: D
+        };
+        for (String coord : coords) {
+            try {
+                new MGRS(coord);
+                Assert.fail("expected to throw IllegalArgumentException for invalid MGRS " + coord);
+            } catch (IllegalArgumentException ex) {
+                // System.out.println(ex); // expected
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    @Test
     public void testBoundary() {
         Geodetic2DPoint point = new Geodetic2DPoint(new Longitude(-0.00000019, Angle.DEGREES),
                 new Latitude(6.40175, Angle.DEGREES));
@@ -258,35 +279,35 @@ public class TestMGRS {
                 count + " out of " + n);
     }
 
-	@Test
+    @Test
     public void testCreateFromBounds() {
-		String MGRS_washington_monument = "18SUJ2348306479";
-		MGRS mgrs = new MGRS(MGRS_washington_monument);
-		Geodetic2DBounds bbox = mgrs.getBoundingBox();
-		MGRS mgrs2 = new MGRS(bbox);
-		// due to lose of precision in conversion the MGRS is not exact
-		// at 5 digit precision.
-		/*
-		for (int i=0; i <= 5; i++) {
-			System.out.format("%s\t%s%n",  mgrs.toString(i), mgrs2.toString(i));
-		}
-		*/
-		Assert.assertEquals(mgrs.toString(4), mgrs2.toString(4));
+        String MGRS_washington_monument = "18SUJ2348306479";
+        MGRS mgrs = new MGRS(MGRS_washington_monument);
+        Geodetic2DBounds bbox = mgrs.getBoundingBox();
+        MGRS mgrs2 = new MGRS(bbox);
+        // due to lose of precision in conversion the MGRS is not exact
+        // at 5 digit precision.
+        /*
+          for (int i=0; i <= 5; i++) {
+              System.out.format("%s\t%s%n",  mgrs.toString(i), mgrs2.toString(i));
+          }
+          */
+        Assert.assertEquals(mgrs.toString(4), mgrs2.toString(4));
 
-		// create non-square bounding box
-		//System.out.println(bbox);
-		Geodetic2DPoint west = new Geodetic2DPoint(bbox.getWestLon(), bbox.getSouthLat());
+        // create non-square bounding box
+        //System.out.println(bbox);
+        Geodetic2DPoint west = new Geodetic2DPoint(bbox.getWestLon(), bbox.getSouthLat());
         Geodetic2DPoint east = new Geodetic2DPoint(bbox.getEastLon(),
                 new Latitude(bbox.getNorthLat().inDegrees() + 10, Angle.DEGREES));
         Geodetic2DBounds bbox2 = new Geodetic2DBounds(west, east);
-		//System.out.println(bbox2);
-		try {
-			new MGRS(bbox2);
-			Assert.fail("Expected to throw NotAnMGRSBoxException");
-		} catch (NotAnMGRSBoxException e) {
-			// expected
-		}
-	}
+        //System.out.println(bbox2);
+        try {
+            new MGRS(bbox2);
+            Assert.fail("Expected to throw NotAnMGRSBoxException");
+        } catch (NotAnMGRSBoxException e) {
+            // expected
+        }
+    }
 
     /**
      * Main method for running class tests.
