@@ -217,11 +217,13 @@ public class MGRS implements GeoPoint, Serializable {
                 throw new IllegalArgumentException("MGRS String parse error, string was entirely numeric: " + mgrsBuf);
             }
         }
-        lonZone = 0;
+
         if ((1 <= i) && (i <= 2)) {
             lonZone = Integer.parseInt(mgrsBuf.substring(0, i));
             UTM.validateLonZone(lonZone);
-        } else if (i > 2) {
+        } else if (i == 0) {
+            lonZone = 0; // UPS parameters
+        } else {
             throw new IllegalArgumentException("MGRS String parse error, " + i + " digit number '" +
                     mgrsBuf.substring(0, i) + "' is too large for UTM longitudinal zone");
         }
@@ -240,7 +242,6 @@ public class MGRS implements GeoPoint, Serializable {
 
         // Now parse the MGRS square's x and y identifiers, which we require for both UTM and UPS
         // Note however, that this could be modified to accept UTM cells without MGRS square ids.
-        // previously tested this as mgrsBuf.subSequence(i, mgrsBuf.length()).length() < 2
         if (mgrsBuf.length() - i < 2) {
             // MGRS square needed for poles, and we also choose to require it for UTM coordinates
             throw new IllegalArgumentException("MGRS String parse error," +
@@ -761,17 +762,17 @@ public class MGRS implements GeoPoint, Serializable {
             throw new IllegalArgumentException("Precision must be an integer in the range 0..5");
 
         StringBuilder mgrsStr = new StringBuilder();
-		synchronized (this) {
-			// Include UTM lon Zone if this square is not in a polar region
-			if (utmCoord(pointInCell.getLatitude())) mgrsStr.append(lonZone);
-			// Include the 3 letter MGRS square identifiers
-			mgrsStr.append(latBand);
-			mgrsStr.append(xSquare);
-			mgrsStr.append(ySquare);
-			// Add the correct easting and northing values truncated at the specified precision
-			mgrsStr.append(FMT.format(easting).substring(0, precisionDigits));
-			mgrsStr.append(FMT.format(northing).substring(0, precisionDigits));
-		}
+        synchronized (this) {
+            // Include UTM lon Zone if this square is not in a polar region
+            if (utmCoord(pointInCell.getLatitude())) mgrsStr.append(lonZone);
+            // Include the 3 letter MGRS square identifiers
+            mgrsStr.append(latBand);
+            mgrsStr.append(xSquare);
+            mgrsStr.append(ySquare);
+            // Add the correct easting and northing values truncated at the specified precision
+            mgrsStr.append(FMT.format(easting).substring(0, precisionDigits));
+            mgrsStr.append(FMT.format(northing).substring(0, precisionDigits));
+        }
         return mgrsStr.toString();
     }
 
