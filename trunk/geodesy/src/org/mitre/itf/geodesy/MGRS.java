@@ -208,7 +208,7 @@ public class MGRS implements GeoPoint, Serializable {
             throw new IllegalArgumentException("empty value for MGRS String is invalid");
         }
 
-        // Parse leading digits as UTM lon zone, if present
+        // Parse leading digits as UTM lon zone (1 to 60), if present
         int i = 0;
 
         while (Character.isDigit(mgrsBuf.charAt(i))) {
@@ -226,11 +226,10 @@ public class MGRS implements GeoPoint, Serializable {
                     mgrsBuf.substring(0, i) + "' is too large for UTM longitudinal zone");
         }
         // UTM coordinates are signaled by the presence of a longitudinal zone number
-        boolean utmCoord = (lonZone > 0);
+        final boolean utmCoord = (lonZone > 0);
 
         // Parse next letter as lat band, validate latBand alone & with lonZone, if present
-        latBand = ' ';
-        if (mgrsBuf.subSequence(i, mgrsBuf.length()).length() == 0) {
+        if (i >= mgrsBuf.length()) {
             throw new IllegalArgumentException("MGRS String parse error, " +
                     "expecting letter for UTM or UPS latitudinal band, found end of string");
         } else {
@@ -240,10 +239,9 @@ public class MGRS implements GeoPoint, Serializable {
         }
 
         // Now parse the MGRS square's x and y identifiers, which we require for both UTM and UPS
-        // Note however, that this could be modified to accept UTM cells without MGRS square ids
-        xSquare = ' ';
-        ySquare = ' ';
-        if (mgrsBuf.subSequence(i, mgrsBuf.length()).length() < 2) {
+        // Note however, that this could be modified to accept UTM cells without MGRS square ids.
+        // previously tested this as mgrsBuf.subSequence(i, mgrsBuf.length()).length() < 2
+        if (mgrsBuf.length() - i < 2) {
             // MGRS square needed for poles, and we also choose to require it for UTM coordinates
             throw new IllegalArgumentException("MGRS String parse error," +
                     " expecting 2 alpha characters for MGRS square, found only one, or end of string: " +
