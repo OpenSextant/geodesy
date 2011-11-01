@@ -228,11 +228,29 @@ public class TestMGRS {
         for (String coord : coords) {
             try {
                 new MGRS(coord);
-                Assert.fail("expected to throw IllegalArgumentException for invalid MGRS " + coord);
+                Assert.fail("expected to throw IllegalArgumentException for invalid MGRS: " + coord);
             } catch (IllegalArgumentException ex) {
                 // expected result
                 // ex.printStackTrace();
             }
+        }
+
+        new MGRS("1CBA"); // valid
+        try {
+            // 1CBA => MGRS easting out of range for square identifier 'B' in longitudinal zone 1 [strict mode]
+            new MGRS("1CBA", true); // invalid
+            Assert.fail("expected to throw IllegalArgumentException for non-strict MGRS: 1CBA");
+        } catch (IllegalArgumentException ex) {
+            // expected result
+        }
+
+        new MGRS("AAA"); // valid
+        try {
+            new MGRS("AAA", true); // invalid
+            // AAA -> MGRS coordinate corresponds to a UPS point outside a polar region [strict mode]
+            Assert.fail("expected to throw IllegalArgumentException for non-strict MGRS: AAA");
+        } catch (IllegalArgumentException ex) {
+            // expected result
         }
     }
 
