@@ -232,6 +232,7 @@ public class MGRS implements GeoPoint, Serializable {
 
         // Parse next letter as lat band, validate latBand alone & with lonZone, if present
         if (i >= mgrsBuf.length()) {
+            // NOTE: this should never occur with pre-tests above
             throw new IllegalArgumentException("MGRS String parse error, " +
                     "expecting letter for UTM or UPS latitudinal band, found end of string");
         } else {
@@ -263,7 +264,7 @@ public class MGRS implements GeoPoint, Serializable {
         easting = 0;
         northing = 0;
         precision = ONEHT;
-        final CharSequence en = mgrsBuf.subSequence(i, mgrsBuf.length());
+        final String en = mgrsBuf.substring(i);
         int n = en.length();
         if (n > 0) {
             if (n > 10) {
@@ -273,8 +274,8 @@ public class MGRS implements GeoPoint, Serializable {
             }
             int k = n / 2;
             precision = (int) Math.pow(10.0, 5.0 - k);
-            easting = Integer.parseInt(en.subSequence(0, k).toString()) * precision;
-            northing = Integer.parseInt(en.subSequence(k, en.length()).toString()) * precision;
+            easting = Integer.parseInt(en.substring(0, k)) * precision;
+            northing = Integer.parseInt(en.substring(k)) * precision;
         }
 
         // Now, convert UTM or UPS parameters into a Geodetic2DPoint for the Southwest corner point
