@@ -32,10 +32,11 @@ public class TestMGRS {
     private final static Class thisClass = TestMGRS.class;
     private final static Logger log = LoggerFactory.getLogger(thisClass);
 
+    private final static String MGRS_washington_monument = "18SUJ2348306479";
+
     /**
      * This method does an exhaustive test of possible MGRS square values
      */
-    /*
     @Test
     public void testStringCombos() {
         int valid, total;
@@ -97,7 +98,6 @@ public class TestMGRS {
         Assert.assertTrue(valid == 568 || valid == 810);
         //Assert.assertEquals(568, valid);
     }
-    */
 
     /**
      * This method generates a random sample of Geodetic points, converting them to MGRS
@@ -117,7 +117,6 @@ public class TestMGRS {
 
     @Test
     public void testMGRSNullCompare() {
-        String MGRS_washington_monument = "18SUJ2348306479";
         MGRS mgrs = new MGRS(MGRS_washington_monument);
         MGRS other = null;
         Assert.assertFalse(mgrs.equals(other));
@@ -129,7 +128,7 @@ public class TestMGRS {
     @Test
     public void testLandmarks() {
         // washington_monument == "18SUJ2348306479" -> (77° 2' 6.87" W, 38° 53' 22.07" N)
-        String MGRS_washington_monument = "18SUJ2348306479";
+        // String MGRS_washington_monument = "18SUJ2348306479";
         Geodetic2DPoint Geod_washington_monument = new Geodetic2DPoint(
                 new Longitude(-77, 2, 6.87), new Latitude(38, 53, 22.07));
 
@@ -328,8 +327,16 @@ public class TestMGRS {
     }
 
     @Test
+    public void testCreateFromLatLon() {
+        MGRS mgrs = new MGRS(MGRS_washington_monument);
+        Geodetic2DBounds bbox = mgrs.getBoundingBox();
+        Geodetic2DPoint center = bbox.getCenter();
+        MGRS mgrs2 = new MGRS(center.getLongitude(), center.getLatitude());
+        Assert.assertEquals(mgrs, mgrs2);
+    }
+
+    @Test
     public void testCreateFromBounds() {
-        String MGRS_washington_monument = "18SUJ2348306479";
         MGRS mgrs = new MGRS(MGRS_washington_monument);
         Geodetic2DBounds bbox = mgrs.getBoundingBox();
         MGRS mgrs2 = new MGRS(bbox);
