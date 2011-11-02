@@ -72,13 +72,15 @@ public class TestMGRS {
         // Many invalid values (e.g., ABA, YXY)
         valid = 0;
         total = 0;
-        for (char latBand = 'A'; latBand <= 'Z'; latBand++) {
+        // UPS MGRS only valid for latBand with A,B,Y,Z
+        char[] latBands = { 'A','B','Y','Z' };
+        for (int latBand = 0; latBand < 4; latBand++) {
             for (char xSquare = 'A'; xSquare <= 'Z'; xSquare++) {
                 for (char ySquare = 'A'; ySquare <= 'Z'; ySquare++) {
                     try {
                         // UPS version has no lonZone
                         total++;
-                        ms = "" + latBand + xSquare + ySquare;
+                        ms = "" + latBands[latBand] + xSquare + ySquare;
                         new MGRS(ms);
                         valid++;
                     } catch (Exception ex) {
@@ -87,9 +89,10 @@ public class TestMGRS {
                 }
             }
         }
-        // There are 568 valid UPS grid cells out of a possible 17576
-        // (only 3.23167956304051%)
-        Assert.assertEquals(17576, total);
+        // There are 568 valid UPS grid cells out of a possible 2704
+        // (only 21%). Would be total of 17576 possible values if
+        // tried all possible latBands A..Z
+        Assert.assertEquals(2704, total);
         Assert.assertTrue(valid == 568 || valid == 810);
         //Assert.assertEquals(568, valid);
     }
