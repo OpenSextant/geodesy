@@ -225,10 +225,11 @@ public class TestMGRS {
                 "31UIO",  // Invalid MGRS easting square identifier 'I' for longitudinal zone 31
                 "31UDO",  // Invalid MGRS northing square identifier 'O' for longitudinal zone 31
                 "31UDQ4", // Length of easting/northing values was odd: 1: 4
-
-                "31UDQ482521193",    // Length of easting/northing values was odd: 9: 482521193
-                "31UDQ482521193800", // Length of easting/northing values exceeded 10: 12: 482521193800
-		"8LMS 36294 99126"   // MGRS northing out of range for square identifier 'S' in longitudinal zone 8
+                "31UDQ482521193",     // Length of easting/northing values was odd: 9: 482521193
+                "31UDQ482521193800",  // Length of easting/northing values exceeded 10: 12: 482521193800
+                "8LMS 36294 99126",   // MGRS northing out of range for square identifier 'S' in longitudinal zone 8
+                "ZOH",	// First letter of MGRS square identifier ('O') is invalid for UPS N Polar Region
+                "ZJO"   // Second letter of MGRS square identifier ('O') is invalid for UPS N Polar Region
         };
         for (String coord : coords) {
             try {
@@ -236,7 +237,7 @@ public class TestMGRS {
                 Assert.fail("expected to throw IllegalArgumentException for invalid MGRS: " + coord);
             } catch (IllegalArgumentException ex) {
                 // expected result
-                ex.printStackTrace();
+                // ex.printStackTrace();
             }
         }
     }
