@@ -215,15 +215,20 @@ public class TestMGRS {
     @Test
     public void testBadCoords() {
         String[] coords = {
-                null,
-                "11",    // MGRS String parse error, string was entirely numeric
-                "999AA", // MGRS String parse error, 3 digit number '999' is too large for UTM longitudinal zone
+                null,	  // null value for MGRS String is invalid
+                "",	  // empty value for MGRS String is invalid
+                "11",     // MGRS String parse error, string was entirely numeric
+                "999AA",  // MGRS String parse error, 3 digit number '999' is too large for UTM longitudinal zone
                 "1CD",    // MGRS String parse error, expecting 2 alpha characters for MGRS square, found only one, or end of string: D
                 "1C11",   // xSquare character was not a letter: 1
-                "1CD1",    // ySquare character was not a letter: 1
+                "1CD1",   // ySquare character was not a letter: 1
+                "31UIO",  // Invalid MGRS easting square identifier 'I' for longitudinal zone 31
+                "31UDO",  // Invalid MGRS northing square identifier 'O' for longitudinal zone 31
                 "31UDQ4", // Length of easting/northing values was odd: 1: 4
-                "31UDQ482521193", // Length of easting/northing values was odd: 9: 482521193
+
+                "31UDQ482521193",    // Length of easting/northing values was odd: 9: 482521193
                 "31UDQ482521193800", // Length of easting/northing values exceeded 10: 12: 482521193800
+		"8LMS 36294 99126"   // MGRS northing out of range for square identifier 'S' in longitudinal zone 8
         };
         for (String coord : coords) {
             try {
@@ -231,10 +236,13 @@ public class TestMGRS {
                 Assert.fail("expected to throw IllegalArgumentException for invalid MGRS: " + coord);
             } catch (IllegalArgumentException ex) {
                 // expected result
-                // ex.printStackTrace();
+                ex.printStackTrace();
             }
         }
+    }
 
+    @Test
+    public void testStrictCheck() {
         new MGRS("1CBA"); // valid
         try {
             // 1CBA => MGRS easting out of range for square identifier 'B' in longitudinal zone 1 [strict mode]
