@@ -27,6 +27,7 @@ import org.junit.Test;
 import org.junit.Assert;
 
 import java.util.Random;
+import java.util.Set;
 
 public class TestMGRS {
     private final static Class thisClass = TestMGRS.class;
@@ -255,6 +256,17 @@ public class TestMGRS {
             prevLen = len;
             m.append("11");
         }
+    }
+
+    @Test
+    public void testHashSet() {
+        StringBuilder m = new StringBuilder("31UDQ");
+        Set<MGRS> set = new java.util.HashSet<MGRS>();
+        for (int precision = 0; precision <= 5; precision++) {
+            Assert.assertTrue(set.add(new MGRS(m)));
+            m.append("11");
+        }
+        Assert.assertEquals(6, set.size());
     }
 
     @Test
