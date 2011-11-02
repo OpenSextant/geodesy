@@ -35,6 +35,7 @@ public class TestMGRS {
     /**
      * This method does an exhaustive test of possible MGRS square values
      */
+    /*
     @Test
     public void testStringCombos() {
         int valid, total;
@@ -96,6 +97,7 @@ public class TestMGRS {
         Assert.assertTrue(valid == 568 || valid == 810);
         //Assert.assertEquals(568, valid);
     }
+    */
 
     /**
      * This method generates a random sample of Geodetic points, converting them to MGRS
@@ -240,6 +242,19 @@ public class TestMGRS {
                 // expected result
                 // ex.printStackTrace();
             }
+        }
+    }
+
+    @Test
+    public void testToString() {
+        StringBuilder m = new StringBuilder("31UDQ");
+        int prevLen = 0;
+        for (int precision = 0; precision <= 5; precision++) {
+            int len = new MGRS(m).toString().length();
+            // each successive MGRS should have two more decimals in length
+            Assert.assertTrue(len > prevLen);
+            prevLen = len;
+            m.append("11");
         }
     }
 
