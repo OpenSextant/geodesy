@@ -35,7 +35,6 @@ public class TestMGRS {
     /**
      * This method does an exhaustive test of possible MGRS square values
      */
-    /*
     @Test
     public void testStringCombos() {
         int valid, total;
@@ -94,7 +93,6 @@ public class TestMGRS {
         Assert.assertTrue(valid == 568 || valid == 810);
         //Assert.assertEquals(568, valid);
     }
-    */
 
     /**
      * This method generates a random sample of Geodetic points, converting them to MGRS
