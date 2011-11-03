@@ -28,31 +28,31 @@ import java.util.Random;
  * of angle of Geodetic Latitude from the Equatorial Plane, and angle of Longitude from the
  * Prime Meridian. To be correctly interpreted, one needs a particular Ellipsoid model of
  * the earth (see FrameOfReference class for ways to define and use this in coordinate
- * conversions). Note that Geodetic Latitude is defined as the angle of incidence with
+ * conversions).<p>Note that Geodetic Latitude is defined as the angle of incidence with
  * the equatorial plane of a vector that is normal to a plane tangent to the ellipsoid at
  * the surface point. Such a vector does not in general pass through the center of the
  * Ellipsoid. Geodetic Latitude is different from the GeocentricPoint Latitude, which is
  * defined as the angle from the equatorial plane of a vector that passes through the center
  * of the ellipsoid and the point on the surface (the two kinds of latitude are the same if
- * the ellipsoid is a perfect sphere). This class is extended as Geodetic3DPoint to include
+ * the ellipsoid is a perfect sphere).<p>This class is extended as Geodetic3DPoint to include
  * height (i.e. altitude, elevation, depth) above or below the Ellipsoid surface.  When
  * converting from this type of two dimensional Geodetic2DPoint to a 3D-based coordinate
  * (including the GeocentricPoint or Earth-Centric, Earth-Fixed model used by the Global
  * Positioning System), the elevation of this object is assumed to be zero meters from the
  * surface of an Ellipsoid, which either must be specified or assumed to be WGS-84 as a
- * default.  This class is a convenience class to simply bundle angular surface coordinates
+ * default.<p>This class is a convenience class to simply bundle angular surface coordinates
  * as a single object, useful when doing bounding box GIS comparisons, coordinate conversions,
  * map projections, or surface distance calculations. We chose to keep this class simple to
  * save memory when dealing with many geographic surface points or shapes, since an assumption
  * of 0 meters height from the WGS-84 Ellipsoid is often sufficient.
  */
 public class Geodetic2DPoint implements GeoPoint, Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@NonNull
-	protected Longitude lon;
+    @NonNull
+    protected Longitude lon;
 
-	@NonNull
+    @NonNull
     protected Latitude lat;
 
     /**
@@ -60,10 +60,10 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      *
      * @param lon Longitude of this Geodetic2DPoint point
      * @param lat Latitude of this Geodetic2DPoint point
-	 * @throws NullPointerException if latitude or longitude are null
+     * @throws NullPointerException if latitude or longitude are null
      */
     public Geodetic2DPoint(Longitude lon, Latitude lat) {
-		if (lon == null || lat == null) throw new NullPointerException();
+        if (lon == null || lat == null) throw new NullPointerException();
         this.lon = lon;
         this.lat = lat;
     }
@@ -122,7 +122,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      *
      * @return Longitude of this Geodetic2DPoint point
      */
-	@NonNull
+    @NonNull
     public Longitude getLongitude() {
         return lon;
     }
@@ -141,7 +141,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      *
      * @return Latitude of this Geodetic2DPoint point
      */
-	@NonNull
+    @NonNull
     public Latitude getLatitude() {
         return lat;
     }
@@ -159,10 +159,10 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * This method is used to set or change the Longitude component of this Geodetic2DPoint.
      *
      * @param lon Longitude of this Geodetic2DPoint point
-	 * @throws NullPointerException if longitude is null
+     * @throws NullPointerException if longitude is null
      */
     public void setLongitude(Longitude lon) {
-		if (lon == null) throw new NullPointerException();
+        if (lon == null) throw new NullPointerException();
         this.lon = lon;
     }
 
@@ -170,10 +170,10 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * This method is used to set or change the Latitude component of this Geodetic2DPoint.
      *
      * @param lat Latitude of this Geodetic2DPoint point
-	 * @throws NullPointerException if latitude is null
+     * @throws NullPointerException if latitude is null
      */
     public void setLatitude(Latitude lat) {
-		if (lat == null) throw new NullPointerException();
+        if (lat == null) throw new NullPointerException();
         this.lat = lat;
     }
 
@@ -189,34 +189,34 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
         return 31 * lon.hashCode() + lat.hashCode();
     }
 
-	// Inherited Javadoc
+    // Inherited Javadoc
     private boolean eq(Geodetic2DPoint that) {
         // angular diff on surface Earth quite different than Earth to nearest star
         return Angle.equals(this.lon.inRadians, that.lon.inRadians) &&
                 Angle.equals(this.lat.inRadians, that.lat.inRadians);
     }
 
-	/**
+    /**
      * This method is used to test whether two points are equal in the sense that have
      * the same angular coordinate values to within epsilon. See also
      * {@code proximallyEquals} method in the {@link FrameOfReference} class for
-	 * additional equality tests.
+     * additional equality tests.
      *
      * @param that Geodetic2DPoint point to compare against this one.
      * @return <tt>true</tt> if specified Geodetic2DPoint point is equal in value to
-     *			this Geodetic2DPoint. If point is a Geodetic3DPoint
-	 *			then {@link Geodetic3DPoint#equals(Object)} is used for equality with
-	 * 			this Geodetic2DPoint having a zero elevation.
+     *         this Geodetic2DPoint. If point is a Geodetic3DPoint
+     *         then {@link Geodetic3DPoint#equals(Object)} is used for equality with
+     *         this Geodetic2DPoint having a zero elevation.
      */
     public boolean equals(Object that) {
-		if (this == that) {
-	    	return true;
-		}
-		if (that instanceof Geodetic3DPoint) {
-			Geodetic3DPoint pt = (Geodetic3DPoint)that;
-			return pt.equals(this);
-		}
-		return (that instanceof Geodetic2DPoint) && this.eq((Geodetic2DPoint) that);
+        if (this == that) {
+            return true;
+        }
+        if (that instanceof Geodetic3DPoint) {
+            Geodetic3DPoint pt = (Geodetic3DPoint) that;
+            return pt.equals(this);
+        }
+        return (that instanceof Geodetic2DPoint) && this.eq((Geodetic2DPoint) that);
     }
 
     /**
