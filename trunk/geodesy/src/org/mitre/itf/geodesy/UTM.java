@@ -30,63 +30,64 @@ import java.text.DecimalFormat;
  * between UTM coordinate strings and their geodetic (longitude and latitude)
  * equivalents. A UTM object is defined only in terms of the Ellipsoid data model
  * against which projections are made. The default constructor uses the WGS 84
- * ellipsoid.
- *
- * Notes:
- * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6 deg wide.
- *
+ * ellipsoid. <P>
+ * <p/>
+ * Notes: <P>
+ * <p/>
+ * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6 deg wide. <P>
+ * <p/>
  * Longitude of Origin: Central meridian (CM) of each projection zone (degrees of 3,
  * 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93, 99, 105, 111, 117, 123,
- * 129, 135, 141, 147, 153, 159, 165, 171, 177, E and W).
- *
- * Latitude of Origin: 0 deg (the Equator).
- *
- * Unit: Meter.
- *
+ * 129, 135, 141, 147, 153, 159, 165, 171, 177, E and W). <P>
+ * <p/>
+ * Latitude of Origin: 0 deg (the Equator). <P>
+ * <p/>
+ * Unit: Meter. <P>
+ * <p/>
  * False Northing: 0 meters at the Equator for the Northern Hemisphere;
- * 				10,000,000 meters at the Equator for the Southern Hemisphere.
- *
- * False Easting: 500,000 meters at the Central Meridian (CM) of each zone.
- *
- * Scale Factor at the Central Meridian: 0.9996.
- *
- * Latitude Limits of System: From 80 deg S to 84 deg N.
- *
- *  Overlap: On large-scale maps and trig lists, the data for each zone, datum, or
- *  ellipsoid overlaps the adjacent zone, datum, or ellipsoid a minimum of 40
- *  kilometers. The UTM grid extends to 80.5 deg S and 84.5 deg N, providing a
- *  30-minute overlap with the UPS grid.
- *
- *	Limits of Projection Zones: The zones are bounded by meridians, the longitudes
- *  of which are multiples of 6 deg east and west of the prime meridian.
- *
- *	Universal Transverse Mercator (UTM) coordinates define two dimensional,
- *  horizontal, positions. The sixty UTM zone numbers designate 6 degree wide
- *  longitudinal strips extending from 80 degrees South latitude to 84 degrees North
- *  latitude. UTM zone characters are letters which designate 8 degree zones
- *  extending north and south from the equator. Beginning at 80 deg south and
- *  proceeding northward, twenty bands are lettered C through X, omitting I and O.
- *  These bands are all 8 deg wide except for band X which is 12 deg wide (between
- *	72-84 deg N).
- *
- *	There are special UTM zones between 0 degrees and 36 degrees longitude above 72
- *  degrees latitude and a special zone 32 between 56 degrees and 64 degrees north
- *  latitude:
- *
- *	UTM Zone 32 has been widened to 9 deg (at the expense of zone 31) between
- *  latitudes 56 deg and 64 deg (band V) to accommodate southwest Norway. Thus zone
- *  32 it extends westwards to 3 deg E in the North Sea.
- *
- *	Similarly, between 72 deg and 84 deg (band X), zones 33 and 35 have been widened
- *  to 12 deg to accommodate Svalbard. To compensate for these 12 deg wide zones,
- *  zones 31 and 37 are widened to 9 deg and zones 32, 34, and 36 are eliminated.
- *  Thus the W and E boundaries of zones are 31: 0 - 9 deg E, 33: 9 - 21 deg E,
- *  35: 21 - 33 deg E and 37: 33 - 42 deg E.
+ * 10,000,000 meters at the Equator for the Southern Hemisphere. <P>
+ * <p/>
+ * False Easting: 500,000 meters at the Central Meridian (CM) of each zone. <P>
+ * <p/>
+ * Scale Factor at the Central Meridian: 0.9996. <P>
+ * <p/>
+ * Latitude Limits of System: From 80 deg S to 84 deg N. <P>
+ * <p/>
+ * Overlap: On large-scale maps and trig lists, the data for each zone, datum, or
+ * ellipsoid overlaps the adjacent zone, datum, or ellipsoid a minimum of 40
+ * kilometers. The UTM grid extends to 80.5 deg S and 84.5 deg N, providing a
+ * 30-minute overlap with the UPS grid. <P>
+ * <p/>
+ * Limits of Projection Zones: The zones are bounded by meridians, the longitudes
+ * of which are multiples of 6 deg east and west of the prime meridian. <P>
+ * <p/>
+ * Universal Transverse Mercator (UTM) coordinates define two dimensional,
+ * horizontal, positions. The sixty UTM zone numbers designate 6 degree wide
+ * longitudinal strips extending from 80 degrees South latitude to 84 degrees North
+ * latitude. UTM zone characters are letters which designate 8 degree zones
+ * extending north and south from the equator. Beginning at 80 deg south and
+ * proceeding northward, twenty bands are lettered C through X, omitting I and O.
+ * These bands are all 8 deg wide except for band X which is 12 deg wide (between
+ * 72-84 deg N). <P>
+ * <p/>
+ * There are special UTM zones between 0 degrees and 36 degrees longitude above 72
+ * degrees latitude and a special zone 32 between 56 degrees and 64 degrees north
+ * latitude: <P>
+ * <p/>
+ * UTM Zone 32 has been widened to 9 deg (at the expense of zone 31) between
+ * latitudes 56 deg and 64 deg (band V) to accommodate southwest Norway. Thus zone
+ * 32 it extends westwards to 3 deg E in the North Sea. <P>
+ * <p/>
+ * Similarly, between 72 deg and 84 deg (band X), zones 33 and 35 have been widened
+ * to 12 deg to accommodate Svalbard. To compensate for these 12 deg wide zones,
+ * zones 31 and 37 are widened to 9 deg and zones 32, 34, and 36 are eliminated.
+ * Thus the W and E boundaries of zones are 31: 0 - 9 deg E, 33: 9 - 21 deg E,
+ * 35: 21 - 33 deg E and 37: 33 - 42 deg E.
  */
 public class UTM implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	// Static Class Constants
+    private static final long serialVersionUID = 1L;
+
+    // Static Class Constants
     public static final double MAX_NORTH_LATDEG = +84.0;
     public static final double MIN_SOUTH_LATDEG = -80.0;
     private static final double MIN_EASTING = 100000.0;
@@ -450,14 +451,16 @@ public class UTM implements Serializable {
     // *************************** End of Static Definitions ********************************
 
     // Instance Variables
-    @NonNull private final TransverseMercator tm;  // Transverse Mercator projection object (keeper of ellipsoid)
+    @NonNull
+    private final TransverseMercator tm;  // Transverse Mercator projection object (keeper of ellipsoid)
     private int lonZone;            // UTM Longitudinal Zone number (1 to 60)
     private char latBand;           // UTM Lat Band char('C' to 'X', not including 'I' or 'O')
     private char hemisphere;        // Hemisphere char ('N' for Northern, 'S' for Southern)
     private double easting;         // meters E of false easting origin (relative to lonZone's CM)
     private double northing;        // meters N of false northing origin (equator for 'N' hemisphere)
 
-    @NonNull private Geodetic2DPoint lonLat; // Longitude and Latitude coordinates for this UTM position
+    @NonNull
+    private Geodetic2DPoint lonLat; // Longitude and Latitude coordinates for this UTM position
 
     /**
      * This constructor takes an ellipsoid.  If WGS 84 is desired, instead use one of
@@ -466,7 +469,7 @@ public class UTM implements Serializable {
      *
      * @param ellip  Ellipsoid data model for earth
      * @param lonLat Geodetic2DPoint coordinates (lon-lat) to be converted to UTM
-	 * @throws NullPointerException if ellip or lonLat are null
+     * @throws NullPointerException if ellip or lonLat are null
      */
     public UTM(Ellipsoid ellip, Geodetic2DPoint lonLat) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -485,7 +488,7 @@ public class UTM implements Serializable {
      * @param ellip Ellipsoid data model for earth
      * @param lon   Longitude of point to convert to UTM
      * @param lat   Latitude of point to convert to UTM
-	 * @throws NullPointerException if ellip is null
+     * @throws NullPointerException if ellip is null
      */
     public UTM(Ellipsoid ellip, Longitude lon, Latitude lat) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -506,8 +509,8 @@ public class UTM implements Serializable {
      * @param hemisphere character 'N' for Northern or 'S' for Southern hemisphere
      * @param easting    positive meters east of false adjusted central meridian for lonZone
      * @param northing   positive meters north of false adjusted origin (equator for 'N' hemisphere)
-	 * @throws NullPointerException if ellip is null
-	 * @throws IllegalArgumentException input parameter error(s)
+     * @throws NullPointerException     if ellip is null
+     * @throws IllegalArgumentException input parameter error(s)
      */
     public UTM(Ellipsoid ellip, int lonZone, char hemisphere, double easting, double northing) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -526,7 +529,7 @@ public class UTM implements Serializable {
      * The specified Geodetic2DPoint (lon-lat) point is converted to its UTM equivalent.
      *
      * @param lonLat Geodetic2DPoint coordinates (lon-lat) to be converted to UTM
-	 * @throws NullPointerException if lonLat is null
+     * @throws NullPointerException if lonLat is null
      */
     public UTM(Geodetic2DPoint lonLat) {
         tm = new TransverseMercator(true);
@@ -542,7 +545,7 @@ public class UTM implements Serializable {
      *
      * @param lon Longitude of point to convert to UTM
      * @param lat Latitude of point to convert to UTM
-	 * @throws NullPointerException if lat or lon are null
+     * @throws NullPointerException if lat or lon are null
      */
     public UTM(Longitude lon, Latitude lat) {
         tm = new TransverseMercator(true);    // Distortion warning will cause exception
@@ -562,7 +565,7 @@ public class UTM implements Serializable {
      * @param easting             positive meters east of false adjusted central meridian for lonZone
      * @param northing            positive meters north of false adjusted origin (equator for 'N' hemisphere)
      * @param distortionException boolean indicating whether distortion exceptions should be thrown
-	 * @throws IllegalArgumentException input parameter error(s)
+     * @throws IllegalArgumentException input parameter error(s)
      */
     public UTM(int lonZone, char hemisphere, double easting, double northing,
                boolean distortionException) {
@@ -584,7 +587,7 @@ public class UTM implements Serializable {
      * @param hemisphere character 'N' for Northern or 'S' for Southern hemisphere
      * @param easting    positive meters east of false adjusted central meridian for lonZone
      * @param northing   positive meters north of false adjusted origin (equator for 'N' hemisphere)
-	 * @throws IllegalArgumentException input parameter error(s)
+     * @throws IllegalArgumentException input parameter error(s)
      */
     public UTM(int lonZone, char hemisphere, double easting, double northing) {
         this(lonZone, hemisphere, easting, northing, true);
@@ -672,7 +675,7 @@ public class UTM implements Serializable {
      *
      * @return Geodetic2DPoint object (lon-lat) coordinates
      */
-	@NonNull
+    @NonNull
     public Geodetic2DPoint getGeodetic() {
         return lonLat;
     }
@@ -682,7 +685,7 @@ public class UTM implements Serializable {
      *
      * @return Longitude coordinate of the geodetic (lon-lat) point for this UTM position
      */
-	@NonNull
+    @NonNull
     public Longitude getLongitude() {
         return lonLat.getLongitude();
     }
@@ -692,7 +695,7 @@ public class UTM implements Serializable {
      *
      * @return Latitude coordinate of the geodetic (lon-lat) point for this UTM position
      */
-	@NonNull
+    @NonNull
     public Latitude getLatitude() {
         return lonLat.getLatitude();
     }
@@ -760,7 +763,7 @@ public class UTM implements Serializable {
         if (lonZone != utm.lonZone) return false;
         if (Double.compare(utm.northing, northing) != 0) return false;
         if (lonLat != null ? !lonLat.equals(utm.lonLat) : utm.lonLat != null) return false;
-		// TODO: following fails since TransverseMercator does not implement Object.equals(Object) so skip it
+        // TODO: following fails since TransverseMercator does not implement Object.equals(Object) so skip it
         // if (tm != null ? !tm.equals(utm.tm) : utm.tm != null) return false;
         return true;
     }
@@ -769,10 +772,10 @@ public class UTM implements Serializable {
     public int hashCode() {
         // int result;
         long temp;
-		// TODO: following fails since TransverseMercator does not implement Object.hashCode() so skip it
+        // TODO: following fails since TransverseMercator does not implement Object.hashCode() so skip it
         //result = tm != null ? tm.hashCode() : 0;
-		// result = 31 * result + lonZone;
-		int result = lonZone;
+        // result = 31 * result + lonZone;
+        int result = lonZone;
         result = 31 * result + (int) latBand;
         result = 31 * result + (int) hemisphere;
         temp = easting != +0.0d ? Double.doubleToLongBits(easting) : 0L;
