@@ -348,6 +348,23 @@ public class TestMGRS {
     }
 
     @Test
+    public void testCreateFromBoundingBox() {
+        // test decreasing precision/increasing grid range from 18SUJ2348306479 (precision=5) to 18SUJ23 (precision=1)
+        CharSequence seq = MGRS_washington_monument;
+        double prev = 0;
+        for (int i = 0; ; i++ ) {
+            MGRS mgrs = new MGRS(seq);
+            final Geodetic2DBounds bbox = mgrs.getBoundingBox();
+            new MGRS(bbox);
+            double diag = bbox.getDiagonal();
+            Assert.assertTrue(diag > prev);
+            if (i >= 4) break;
+            prev = diag;
+            seq = seq.subSequence(0, seq.length() - 2);
+        }
+    }
+
+    @Test
     public void testCreateFromBounds() {
         MGRS mgrs = new MGRS(MGRS_washington_monument);
         Geodetic2DBounds bbox = mgrs.getBoundingBox();
