@@ -711,6 +711,15 @@ public class MGRS implements GeoPoint, Serializable {
     }
 
     /**
+     * Get precision of coordinate in meters. For example,
+     * 100,000 meters => 0 digits, ..., 1 meter => 5 digit precision.
+     * @return precision
+     */
+    public int getPrecision() {
+        return precision;
+    }
+
+    /**
      * This method returns a hash code for this MGRS object. It only depends on the
      * MGRS point in cell (which is either the Geodetic2DPoint used to construct this
      * object or one at the center of this MGRS cell when constructed from a String).
