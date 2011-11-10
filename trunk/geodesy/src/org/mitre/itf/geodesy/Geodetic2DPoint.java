@@ -77,7 +77,18 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
 
     /**
      * This constructor takes a String and parses as a lon-lat or lat-lon pair.
-     * lon and lat must be separated by a comma, and the pair enclosed within parentheses.
+     * lon and lat must be separated by a comma, and the pair optionally enclosed within parentheses.
+     * <pre>
+     * Examples:
+     *  (122° 5' 6" W, 37° 25' 19" N)
+     *  37 25 19.07 N, 122 05 06.24 W
+     *  37 25'19.07"N, 122 05'06.24"W
+     *  (42° 22' 11.77" N, 71° 1' 40.30" W)
+     *  (51 deg 28' 15.19" N, 0 deg 27' 33.41" W)
+     *  51 deg 28' 15.19" N, 0 deg 27' 33.41" W
+     *  (12 34 56E, 45 34 23N)
+     *  12 34 56E, 45 34 23N
+     * </pre>
      *
      * @param geoStr Normal form is same as toString output.
      * @throws IllegalArgumentException error if syntax is invalid
