@@ -163,10 +163,10 @@ public class TestGeoPoint extends TestCase {
     public void testStringCreation() {
         String[] latLons = {
                 // "37d25'19.07\"N, 122d05'06.24\"W", // this format does not work
-                "(122° 5' 6\" W, 37° 25' 19\" N)",
+                "(122\u00B0 5' 6\" W, 37\u00B0 25' 19\" N)",
                 "37 25 19.07 N, 122 05 06.24 W", // latitude first
                 "37 25'19.07\"N, 122 05'06.24\"W", // no whitespace between min and sec fields
-                "(42° 22' 11.77\" N, 71° 1' 40.30\" W)", // latitude first
+                "(42\u00B0 22' 11.77\" N, 71\u00B0 1' 40.30\" W)", // latitude first
                 "(51 deg 28' 15.19\" N, 45 deg 27' 33.41\" W)",
                 "51 deg 28' 15.19\" N, 45 deg 27' 33.41\" W",
                 "(12 34 56E, 45 34 23N)",
@@ -177,7 +177,8 @@ public class TestGeoPoint extends TestCase {
             try {
                 new Geodetic2DPoint(latLon);
             } catch (IllegalArgumentException e) {
-                fail("Failed on " + latLon);
+                System.out.println("Failed on " + latLon);
+                throw e;
             }
             //System.out.println("\t\t\t\t" + pt);
         }
