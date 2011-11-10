@@ -46,11 +46,11 @@ public class TestEllipsoid extends TestCase {
         long distInKm;
 
         // Do some distance calculations
-        // Note: for Angle construtor parsing, degree symbol can be encoded in either
+        // Note: for Angle constructor parsing, degree symbol can be encoded in either
         // ISO-8859-1 (Latin-1) or unicode, but toString formatting always uses unicode
         Geodetic2DPoint London =
                 new Geodetic2DPoint("51 deg 28' 15.19\" N, 0 deg 27' 33.41\" W");
-		Geodetic2DPoint Boston =
+        Geodetic2DPoint Boston =
                 new Geodetic2DPoint("42\u00B0 22' 11.77\" N, 71\u00B0 1' 40.30\" W");
         Geodetic2DPoint Honolulu =
                 new Geodetic2DPoint("21 deg 19' 55.36\" N, 157 deg 55' 11.08\" W");
@@ -58,7 +58,7 @@ public class TestEllipsoid extends TestCase {
                 new Geodetic2DPoint("33\u00B0 56' 43.70\" S, 151\u00B0 10' 51.43\" E");
 
         distInM = ellip.orthodromicDistance(London, Boston);
-		assertEquals((long)distInM, (long)ellip.orthodromicDistance(Boston, London)); // round off to nearest meter
+        assertEquals((long) distInM, (long) ellip.orthodromicDistance(Boston, London)); // round off to nearest meter
         distInKm = Math.round(distInM / 1000.0);
         assertEquals(5256L, distInKm);
 
