@@ -39,23 +39,23 @@ import java.util.StringTokenizer;
  * using the ISO-8859-1 (Latin-1 Western) character encoding or in Unicode. The toString
  * method currently writes the degree symbol using the Latin-1 Western encoding. This
  * usually gets escaped as an HTML entity for proper viewing across platforms.
- * 
+ *
  * @author Paul Silvey
  */
 public class Angle implements Serializable, Comparable<Angle> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// Instance variable holds angular value in normalized radians (-PI .. +PI)
+    // Instance variable holds angular value in normalized radians (-PI .. +PI)
     double inRadians;
 
     // Constant values
     static final double TWO_PI = 2.0 * Math.PI;  // 360 degrees
 
-	/**
-	 * Unicode degree symbol 
-	 * <br>
-	 * This is used by {@link #toString()}.
-	 */
+    /**
+     * Unicode degree symbol
+     * <br>
+     * This is used by {@link #toString()}.
+     */
     public static final String DEGSYM = Character.toString('\u00B0'); //
 
     /**
@@ -183,6 +183,16 @@ public class Angle implements Serializable, Comparable<Angle> {
         boolean hasAng = (components[0].length() > 0);
         boolean hasMin = (components[1].length() > 0);
         boolean hasSec = (components[2].length() > 0);
+        if (hasMin && !hasSec && components[1].endsWith("\"")) {
+            // special case: minutes and seconds without whitespace in-between
+            // e.g., 37 25'19.07"N
+            int ind = components[1].indexOf('\'');
+            if (ind > 0) {
+                components[2] = components[1].substring(ind + 1);
+                components[1] = components[1].substring(0, ind + 1);
+                hasSec = true;
+            }
+        }
 
         if (!hasAng) throw new IllegalArgumentException("No valid tokens found in Angle string \"" +
                 valStr + "\"");
@@ -375,7 +385,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      *
      * @return a hash code value for this object.
      */
-	@Override
+    @Override
     public int hashCode() {
         // Note we're using approximate equals vs absolute equals on floating point number
         // so must ignore beyond ~6 decimal places in computing the hashCode, otherwise
@@ -453,7 +463,7 @@ public class Angle implements Serializable, Comparable<Angle> {
     }
 
     // Inherited Javadoc
-	@Override
+    @Override
     public boolean equals(Object that) {
         return that instanceof Angle && equals((Angle) that);
     }
@@ -495,17 +505,17 @@ public class Angle implements Serializable, Comparable<Angle> {
      *
      * @return String formatted as integer degrees, minutes, and seconds
      */
-	@Override
+    @Override
     public String toString() {
         return this.toString(0);
     }
 
-	/**
-	 * @param that Angle to compare lengths with this one
-	 * @return a negative integer, zero, or a positive integer as this object is less than,
-	 *         equal to, or greater than the specified object.
-	 * @throws NullPointerException if that is null
-	 */
+    /**
+     * @param that Angle to compare lengths with this one
+     * @return a negative integer, zero, or a positive integer as this object is less than,
+     *         equal to, or greater than the specified object.
+     * @throws NullPointerException if that is null
+     */
     public int compareTo(Angle that) {
         return (this.inRadians < that.inRadians) ? -1 :
                 (this.inRadians > that.inRadians) ? +1 : 0;
