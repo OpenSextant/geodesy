@@ -173,8 +173,12 @@ public class TestGeoPoint extends TestCase {
                 "12 34 56E, 45 34 23N"
         };
         for (String latLon : latLons) {
-            //System.out.println(latLon);
-            Geodetic2DPoint pt = new Geodetic2DPoint(latLon);
+            // System.out.println(latLon);
+            try {
+                new Geodetic2DPoint(latLon);
+            } catch (IllegalArgumentException e) {
+                fail("Failed on " + latLon);
+            }
             //System.out.println("\t\t\t\t" + pt);
         }
     }
