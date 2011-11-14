@@ -186,7 +186,7 @@ public class MGRS implements GeoPoint, Serializable {
     private Geodetic2DPoint urCorner;       // Upper-Right corner of most precise containing cell
     private Geodetic2DBounds bbox;          // Bounding box of MGRS cell (contains precise coordinate)
 
-    private final DecimalFormat FMT = new DecimalFormat("00000"); // Instance Formatter for eastings & northings
+    private static final DecimalFormat FMT = new DecimalFormat("00000"); // Instance Formatter for eastings & northings
 
     // Initialize this MGRS object from String notation
     // If argument 'strict' is true, exception will be thrown for non optimal projection encodings
@@ -711,9 +711,9 @@ public class MGRS implements GeoPoint, Serializable {
     }
 
     /**
-     * Get precision of coordinate in meters. For example,
-     * 100,000 meters => 0 digits, ..., 1 meter => 5 digit precision.
-     * @return precision
+     * Get precision of coordinate which is the cell side in meters.
+     * For example, 100,000 meters => 0 digits, ..., 1 meter => 5 digit precision.
+     * @return precision One of {100000, 10000, 1000, 100, 10, 1}
      */
     public int getPrecision() {
         return precision;
@@ -772,13 +772,13 @@ public class MGRS implements GeoPoint, Serializable {
             throw new IllegalArgumentException("Precision must be an integer in the range 0..5");
 
         StringBuilder mgrsStr = new StringBuilder();
-        synchronized (this) {
-            // Include UTM lon Zone if this square is not in a polar region
-            if (utmCoord(pointInCell.getLatitude())) mgrsStr.append(lonZone);
-            // Include the 3 letter MGRS square identifiers
-            mgrsStr.append(latBand);
-            mgrsStr.append(xSquare);
-            mgrsStr.append(ySquare);
+        // Include UTM lon Zone if this square is not in a polar region
+        if (utmCoord(pointInCell.getLatitude())) mgrsStr.append(lonZone);
+        // Include the 3 letter MGRS square identifiers
+        mgrsStr.append(latBand);
+        mgrsStr.append(xSquare);
+        mgrsStr.append(ySquare);
+        synchronized(FMT) {
             // Add the correct easting and northing values truncated at the specified precision
             mgrsStr.append(FMT.format(easting).substring(0, precisionDigits));
             mgrsStr.append(FMT.format(northing).substring(0, precisionDigits));
