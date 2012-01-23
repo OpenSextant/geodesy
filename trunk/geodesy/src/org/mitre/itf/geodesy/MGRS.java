@@ -760,8 +760,14 @@ public class MGRS implements GeoPoint, Serializable {
      * MGRS square identifiers only (implied 0 values for easting and northing offsets from
      * southwest corner of MGRS square), resulting in 100,000 meter accuracy.  Precision values
      * 1..5 result in that many digits of easting and northing values.  As a result, precision
-     * 5 has 1 meter accuracy, 4 has 10 meter accuracy, 3 has 100 meter accuracy, 2 has 1,000
-     * meter accuracy, and 1 has 10,000 meter accuracy.
+     * digit values have the following accuracy:
+     * <pre>
+     * 5 has 1 meter accuracy
+     * 4 has 10 meter accuracy
+     * 3 has 100 meter accuracy
+     * 2 has 1,000 meter accuracy
+     * 1 has 10,000 meter accuracy
+     * </pre>
      *
      * @param precisionDigits int value from 0 to 5, inclusive
      * @return MGRS coordinate string at the specified precision level
