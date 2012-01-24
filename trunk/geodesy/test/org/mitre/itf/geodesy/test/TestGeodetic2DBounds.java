@@ -75,6 +75,7 @@ public class TestGeodetic2DBounds extends TestCase {
 
             } catch (IllegalArgumentException ex) {
                 ex.printStackTrace(System.out);
+				// TODO: is this a failed test or not. what indicates a failed test?
             }
         }
         System.out.println();
@@ -85,19 +86,21 @@ public class TestGeodetic2DBounds extends TestCase {
 		double radius = 1 + 1.0 * r.nextInt(1000000);      // stress test at 1,000 km.
 		// note if center point near the poles then # points generating circle make big difference
 		Geodetic2DBounds bbox = new Geodetic2DBounds(pt, radius, 4);
-		Geodetic2DBounds bbox2 = new Geodetic2DBounds(new Geodetic2DCircle(pt, radius));
+		Geodetic2DBounds bbox2 = new Geodetic2DBounds(new Geodetic2DCircle(pt, radius)); // uses default nPoints = 4
 		assertEquals(bbox, bbox2);
 	}
 
     public void testGeodetic2DArc() {
-        Geodetic2DPoint pt;
-
-        pt = new Geodetic2DPoint(new Longitude("12,34,56E"), new Latitude("45,34,23N"));
+        Geodetic2DPoint pt = new Geodetic2DPoint(new Longitude("12,34,56E"), new Latitude("45,34,23N"));
         double distance = 123456.0;
         Angle azimuth = new Angle(33.0, Angle.DEGREES);
         Geodetic2DArc arc = new Geodetic2DArc(pt, distance, azimuth);
-        System.out.println(arc.getPoint1().toString(5));
-        System.out.println(arc.getPoint2().toString(5));
+        System.out.println(arc.getPoint1().toString(5)); // (12° 34' 56.00000" E, 45° 34' 23.00000" N)
+        System.out.println(arc.getPoint2().toString(5)); // (13° 27' 29.36001" E, 46° 30' 4.47423" N)
+		assertEquals(pt, arc.getPoint1());
+		assertEquals(new Geodetic2DPoint(new Longitude("13,27,29.36001"),
+				new Latitude("46,30,4.47423")), arc.getPoint2());
+		assertEquals(123456.0, arc.getDistanceInMeters(), 1e-6);
     }
 
 	public void testInvalidArcCreation() {
@@ -211,6 +214,7 @@ public class TestGeodetic2DBounds extends TestCase {
             System.out.print(pt + " -> ");
             bbox1.include(pt.toGeodetic3D(f));
             System.out.println(bbox1);
+			// TODO: assertion ?
         }
         System.out.println();
         Geodetic2DBounds bbox2 = new Geodetic2DBounds(pt.toGeodetic3D(f));
@@ -219,21 +223,27 @@ public class TestGeodetic2DBounds extends TestCase {
             System.out.print(pt + " -> ");
             bbox2.include(pt.toGeodetic3D(f));
             System.out.println(bbox2);
+			// TODO: assertion ?
         }
         System.out.println();
         bbox1.include(bbox2);
         System.out.println(bbox1);
+		// TODO: assertion ?
     }
 
 	public void testIncludePoint() {
 		Geodetic2DPoint c = new Geodetic2DPoint(r);
         Geodetic2DBounds bbox = new Geodetic2DBounds(c);
 		// first grow north latitude by 1 degree
-		Geodetic2DPoint c2 = new Geodetic2DPoint(c.getLongitude(), new Latitude(c.getLatitudeAsDegrees() + 1, Angle.DEGREES));
+		double lat = c.getLatitudeAsDegrees();
+		Geodetic2DPoint c2 = new Geodetic2DPoint(
+				c.getLongitude(), new Latitude(lat < 89 ? lat + 1 : lat - 1, Angle.DEGREES));
 		bbox.include(c2);
 		double diag1 = bbox.getDiagonal();
+		double lon = c.getLongitudeAsDegrees();
 		// first grow east longitude by 1 degree
-		Geodetic2DPoint c3 = new Geodetic2DPoint(new Longitude(c.getLongitudeAsDegrees() + 1,Angle.DEGREES), c.getLatitude());
+		Geodetic2DPoint c3 = new Geodetic2DPoint(
+				new Longitude(lon < 179 ? lon + 1 : lon - 1, Angle.DEGREES), c.getLatitude());
 		bbox.include(c3);
 		assertTrue(bbox.contains(c2));
 		assertTrue(bbox.contains(c3));
