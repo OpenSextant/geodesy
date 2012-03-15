@@ -70,6 +70,8 @@ public class Longitude extends Angle {
 
     /**
      * This constructor assumes Longitude angle units are in decimal radians.
+     * Longitude value is normalized to the (-PI .. PI) range and by convention
+     * +180 becomes -180.
      *
      * @param valueInRadians Longitude angular value in radians
      */
