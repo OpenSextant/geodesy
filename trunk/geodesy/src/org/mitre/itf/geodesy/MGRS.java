@@ -190,6 +190,10 @@ public class MGRS implements GeoPoint, Serializable {
 
     // Initialize this MGRS object from String notation
     // If argument 'strict' is true, exception will be thrown for non optimal projection encodings
+
+	/**
+	 * @throws IllegalArgumentException if MGRS value is invalid
+	 */
     private void initFromString(final CharSequence mgrs, boolean strict)
             throws IllegalArgumentException {
         if (mgrs == null) {
