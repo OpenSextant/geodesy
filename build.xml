@@ -3,12 +3,9 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
 	<property name="previous.revision" value="1.9.24" />
 	<property name="ivy.new.revision" value="1.9.25" />
-	
-	<property name="proxy.host" value="gatekeeper.mitre.org" />
-	<property name="proxy.port" value="80" />
-	<property name="proxy.user" value="" />
-	<property name="proxy.pass" value="" />
-	<property name="proxy.nonProxyHosts" value="*.mitre.org|localhost|127.0.0.1" />
+
+	<!-- Create a local.properties to override defaults below -->
+	<property file="${basedir}/src/local.properties" />	
 
 	<property name="lib" value="${basedir}/lib" />
 	<property name="rel" value="${basedir}/rel" />
