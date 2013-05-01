@@ -5,7 +5,7 @@
 	<property name="ivy.new.revision" value="2.0.0.public_test1" />
 
 	<!-- Create a local.properties to override defaults below -->
-	<property file="${basedir}/src/local.properties" />	
+	<property file="${basedir}/local.properties" />	
 
 	<property name="lib" value="${basedir}/lib" />
 	<property name="rel" value="${basedir}/rel" />
@@ -95,26 +95,26 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-		<!-- <ivy:buildnumber resolver="publish-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" />  -->
+		<!-- <ivy:buildnumber resolver="publish-local" revision="2.0" organisation="org.opensextant" module="geodesy" />  -->
 		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-11" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
 		<delete file="${rel}/jars/geodesy.jar"/>
 		<bundle file="${rel}/jars/geodesy.jar"
 		        update="false"
-		        bundlename="ITF Geodesy"
-		        bundledescription="The Transfusion geodetic library."
-		        bundlesymbolicname="org.mitre.itf.geodesy"
+		        bundlename="OpenSextant Geodesy"
+		        bundledescription="OpenSextant geodetic library."
+		        bundlesymbolicname="org.opensextant.geodesy"
 		        bundleVersion="${ivy.new.revision}"
 			activator="none"
 			standardJVMPackages="1.5"
-			bundleVendor="The MITRE Corp."
-			contactAddress="202 Burlington Road, Bedford, MA 01730-1420">
+			bundleVendor="The OpenSextant Project"
+			contactAddress="https://github.com/OpenSextant/geodesy">
 			<importClasspath>
 				<path refid="project.classpath"/>
 			</importClasspath>
 
 			<fileset dir="${build.classes}" />
-			<autoexportpackage prefix="org.mitre.itf.geodesy" version="${ivy.new.revision}"/>
+			<autoexportpackage prefix="org.opensextant.geodesy" version="${ivy.new.revision}"/>
 		</bundle>
 	</target>
 	
