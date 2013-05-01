@@ -26,6 +26,7 @@ LICENSE contains our use license
 NOTICE contains a list of other works that we use and their copyrights and license references.
 
 glpl-v3.html contains the Lesser GNU Public License version 3
+cpl-v10.html contains the Common Public License v1.0
 
 ### NB ###
 

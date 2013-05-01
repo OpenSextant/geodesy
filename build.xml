@@ -96,7 +96,7 @@
 	
 	<target name="jar" depends="compile">
 		<!-- <ivy:buildnumber resolver="publish-local" revision="2.0" organisation="org.opensextant" module="geodesy" />  -->
-		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-11" conf="default" inline="true"/>
+		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-13" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
 		<delete file="${rel}/jars/geodesy.jar"/>
 		<bundle file="${rel}/jars/geodesy.jar"

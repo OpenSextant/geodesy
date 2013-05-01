@@ -1,5 +1,5 @@
 
-OpenSextant GISCore 
+OpenSextant Geodesy 
 Copyright 2013 The MITRE Corporation
 
 This software uses the Apache License 2.0.  See LICENSE.txt.
@@ -33,7 +33,10 @@ Copyright (c) 2004-2013 QOS.ch
  The  above  copyright  notice  and  this permission  notice  shall  be
  included in all copies or substantial portions of the Software.
  
- findbugs
+ The following are used only for testing
+ =======================================
+ 
+ findbugs 
  --------
  
  FindBugs - Find bugs in Java programs
@@ -52,3 +55,10 @@ Copyright (c) 2004-2013 QOS.ch
  You should have received a copy of the GNU Lesser General Public
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ junit
+ -----
+ 
+ Licensed under the Common Public License v1.0. 
+ No copyright notice was apparent on the source code.
+ 
