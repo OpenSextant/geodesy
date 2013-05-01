@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
-	<property name="previous.revision" value="1.9.24" />
-	<property name="ivy.new.revision" value="1.9.25" />
+	<property name="previous.revision" value="1.9.25" />
+	<property name="ivy.new.revision" value="2.0.0.public_test1" />
 
 	<!-- Create a local.properties to override defaults below -->
 	<property file="${basedir}/src/local.properties" />	
@@ -95,7 +95,7 @@
 	</target>
 	
 	<target name="jar" depends="compile">
-		<!-- <ivy:buildnumber resolver="maven-proxy-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" />  -->
+		<!-- <ivy:buildnumber resolver="publish-local" revision="1.9" organisation="org.mitre.itf" module="geodesy" />  -->
 		<ivy:cachepath pathid="kf.path" organisation="org.knopflerfish" module="knopflerfish-ant" revision="2.1.0-mitre-11" conf="default" inline="true"/>
 		<taskdef resource="org/knopflerfish/ant/antlib.xml" classpathref="kf.path"/>
 		<delete file="${rel}/jars/geodesy.jar"/>
@@ -133,11 +133,11 @@
 	<target name="publish" depends="pom, javadoc, sourcejar">
 		<!-- We probably shouldn't be specifying the revision
 		     here directly. -->
-		<ivy:publish resolver="maven-proxy-local" revision="${ivy.new.revision}" conf="pubmain" overwrite="false">
+		<ivy:publish resolver="publish-local" revision="${ivy.new.revision}" conf="pubmain" overwrite="false">
 			<artifacts pattern="rel/[artifact].[ext]" />
 			<artifacts pattern="rel/jars/[artifact].[ext]" />
 		</ivy:publish>
-		<ivy:publish resolver="maven-proxy-local-extra" revision="${ivy.new.revision}" conf="pubextra" publishivy="false" overwrite="false">
+		<ivy:publish resolver="publish-local-extra" revision="${ivy.new.revision}" conf="pubextra" publishivy="false" overwrite="false">
 			<artifacts pattern="rel/[artifact]-[type].[ext]" />
 		</ivy:publish>		
 	</target>	

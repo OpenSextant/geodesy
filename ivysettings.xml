@@ -1,10 +1,12 @@
 <ivysettings>
-	<!-- Create a ivy.properties file in your home dir and put a line in with your mapsrv user and passwd -->
+	<!-- Create a ivy.properties file in your home dir and put a line in with your repository, realm, username and passwd 
+		The repository, realm and the paths below for publishing are temporary until we are set up to publish to sonatype 
+		to get our artifacts into central -->
 	<properties file="${user.home}/ivy.properties"/>
 	<property name="repository.dir" value="${user.home}/.ivy2"/>
 	<settings defaultResolver="chained"/>
-	<credentials host="maven-proxy" realm="Artifactory Realm" username="${maven-proxy-user}"
-		passwd="${maven-proxy-passwd}"/>
+	<credentials host="${repository}" realm="${realm}" username="${username}"
+		passwd="${password}"/>
 	<namespaces>
 		<namespace name="m2">
 			<rule>
@@ -40,21 +42,21 @@
 					pattern="${repository.dir}/[organisation](-[module])/[artifact]-[revision].[ext]"
 				/>				
 			</filesystem>
-			<ibiblio name="maven-proxy" namespace="m2" m2compatible="true"
-				root="http://maven-proxy/artifactory/repo/"
+			<ibiblio name="publish" namespace="m2" m2compatible="true"
+				root="http://${repository}/artifactory/repo/"
 				pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[type]).[ext]"/>
-			<ibiblio name="maven-proxy" namespace="m2" m2compatible="true"
-				root="http://maven-proxy/artifactory/repo/"
+			<ibiblio name="publish" namespace="m2" m2compatible="true"
+				root="http://${repository}/artifactory/repo/"
 				pattern="[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"/>				
 		</chain>
-		<url name="maven-proxy-local" m2compatible="true">
+		<url name="publish-local" m2compatible="true">
 			<artifact
-				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
+				pattern="http://${repository}/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]"
 			/>
 		</url>
-		<url name="maven-proxy-local-extra" m2compatible="true">
+		<url name="publish-local-extra" m2compatible="true">
 			<artifact
-				pattern="http://maven-proxy/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision]-[type].[ext]"
+				pattern="http://${repository}/artifactory/libs-releases-local/[organisation]/[module]/[revision]/[artifact]-[revision]-[type].[ext]"
 			/>
 		</url>		
 	</resolvers>
