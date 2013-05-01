@@ -1,5 +1,7 @@
 <ivy-module version="2.0">
-	<info organisation="org.opensextant" module="geodesy" />
+	<info organisation="org.opensextant" module="geodesy">
+		<license name="Apache License" url="http://www.apache.org/licenses/LICENSE-2.0" />
+	</info>
 	<configurations>
 		<conf name="compile" description="This is this configuration that describes modules need to build our project"/>
 		<conf name="runtime" extends="compile" />
@@ -14,7 +16,8 @@
 		<artifact name="geodesy" type="javadoc" ext="jar" conf="pubextra" />
 	</publications>
 	<dependencies defaultconf="compile->default" >
-		<dependency org="org.slf4j" name="slf4j-api" rev="1.5.6" />
+		<dependency org="org.slf4j" name="slf4j-api" rev="${slf4j.version}" />
+		<dependency org="org.slf4j" name="slf4j-simple" rev="${slf4j.version}" />
 		<dependency org="findbugs" name="annotations" rev="1.0.0" conf="test->default"/>
 		<dependency org="junit" name="junit" rev="4.4" conf="test->default" />
 	</dependencies>

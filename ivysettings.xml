@@ -4,6 +4,7 @@
 		to get our artifacts into central -->
 	<properties file="${user.home}/ivy.properties"/>
 	<property name="repository.dir" value="${user.home}/.ivy2"/>
+	<property name="slf4j.version" value="1.7.+" />
 	<settings defaultResolver="chained"/>
 	<credentials host="${repository}" realm="${realm}" username="${username}"
 		passwd="${password}"/>

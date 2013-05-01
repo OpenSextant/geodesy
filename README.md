@@ -19,6 +19,11 @@ sonatype for central ASAP.
 You *can* use this build to publish to a local repository as is by modifying the ivy.settings
 file. 
 
+### Versions and Packages ###
+
+Note that for the public release the version was bumped to 2.0.x and the java package
+is now org.opensextant.geodesy
+
 ## Other Information of note ##
 
 LICENSE contains our use license

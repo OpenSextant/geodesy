@@ -2,7 +2,7 @@
 
 <project xmlns:ivy="antlib:org.apache.ivy.ant" name="geodesy" default="resolve">
 	<property name="previous.revision" value="1.9.25" />
-	<property name="ivy.new.revision" value="2.0.0.public_test1" />
+	<property name="ivy.new.revision" value="2.0.0.snapshot-1" />
 
 	<!-- Create a local.properties to override defaults below -->
 	<property file="${basedir}/local.properties" />	
