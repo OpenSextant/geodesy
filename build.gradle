@@ -1,0 +1,117 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "maven"
+apply plugin: "signing"
+
+group = "org.opensextant"
+version = "2.0.0-SNAPSHOT"
+
+repositories {
+	maven {
+		url "http://repo.maven.apache.org/maven2"
+	}
+}
+
+configurations {
+	compile { description = 'These modules are needed at compile time and runtime' }
+	runtime { extendsFrom compile
+			  description = 'These modules are only needed at runtime' }
+	test    { extendsFrom runtime
+			  description = 'Include these in addition when testing' }
+}
+
+eclipse {
+	project {
+		name = 'geodesy'
+		natures 'org.springsource.ide.eclipse.gradle.core.nature',
+			'org.eclipse.jdt.groovy.core.groovyNature'
+	}
+	classpath {
+		plusConfigurations += configurations.test
+	}
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
+}
+ 
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+artifacts {
+	archives jar
+	archives javadocJar
+	archives sourcesJar
+}
+
+signing {
+	sign configurations.archives
+}
+
+dependencies {
+	def slf4j_version = '1.7.2'
+	
+	compile group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
+	compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
+	compile group: 'findbugs', name: 'annotations', version: "1.0.0"
+	testCompile('junit:junit:4.10')
+	
+}
+
+def oss_snapshot = "https://oss.sonatype.org/content/repositories/snapshots"
+def oss_staging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+ 
+			repository(url: oss_staging) {
+				authentication(userName: sonatypeUsername, password: sonatypePassword)
+			}
+			
+			snapshotRepository(url: oss_snapshot) {
+				authentication(userName: sonatypeUsername, password: sonatypePassword)
+			}
+			
+			pom.project {
+			   name 'geodesy'
+			   packaging 'jar'
+			   description 'Geodesy is a small package to manipulate points on the surface of an ellipsoid model of a planetary sphere'
+			   url 'https://github.com/OpenSextant/geodesy'
+ 
+			   scm {
+				   url 'scm:git://github.com/OpenSextant/geodesy.git'
+				   connection 'scm:git@github.com:OpenSextant/geodesy.git'
+				   developerConnection 'scm:git@github.com:OpenSextant/geodesy.git'
+			   }
+ 
+			   licenses {
+				   license {
+					   name 'The Apache Software License, Version 2.0'
+					   url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					   distribution 'repo'
+				   }
+			   }
+ 
+			   developers {
+				   developer {
+					   id 'paulsilvey'
+					   name 'Paul Silvey'
+				   }
+				   developer {
+					   id 'drand'
+					   name 'Doug Rand'
+				   }
+				   developer {
+				   		id 'docjason'
+						name 'Jason Mathews'
+				   }
+			   }
+		   }
+		}
+	}
+}

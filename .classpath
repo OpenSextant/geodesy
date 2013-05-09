@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	    <classpathentry kind="lib" path="lib/annotations-1.0.0.jar"/>
-    <classpathentry kind="lib" path="lib/junit-4.4.jar"/>
-    <classpathentry kind="lib" path="lib/slf4j-api-1.7.5.jar"/>
-    <classpathentry kind="lib" path="lib/slf4j-simple-1.7.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - org.slf4j slf4j-api 1.7.2" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - org.slf4j slf4j-simple 1.7.2" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - findbugs annotations 1.0.0" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - junit junit 4.10" exported="true"/>
 </classpath>
