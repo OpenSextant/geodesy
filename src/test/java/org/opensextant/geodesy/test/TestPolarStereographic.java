@@ -1,4 +1,4 @@
-package org.opensextant.test;
+package org.opensextant.geodesy.test;
 
 import junit.framework.TestCase;
 

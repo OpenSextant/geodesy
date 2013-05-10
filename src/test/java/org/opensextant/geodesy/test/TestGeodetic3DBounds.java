@@ -16,7 +16,7 @@
  *  their occurrence.
  *
  ***************************************************************************************/
-package org.opensextant.test;
+package org.opensextant.geodesy.test;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

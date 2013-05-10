@@ -16,7 +16,7 @@
  *  their occurrence.
  *
  ***************************************************************************************/
-package org.opensextant.test;
+package org.opensextant.geodesy.test;
 
 import org.opensextant.geodesy.*;
 import org.slf4j.Logger;

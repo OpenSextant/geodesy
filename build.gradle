@@ -41,6 +41,10 @@ task sourcesJar(type: Jar) {
 	classifier = 'sources'
 }
 
+jar {
+	baseName = "geodesy"
+}
+
 artifacts {
 	archives jar
 	archives javadocJar
@@ -58,7 +62,6 @@ dependencies {
 	compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
 	compile group: 'findbugs', name: 'annotations', version: "1.0.0"
 	testCompile('junit:junit:4.10')
-	
 }
 
 def oss_snapshot = "https://oss.sonatype.org/content/repositories/snapshots"

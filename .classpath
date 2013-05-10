@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/test/java"/>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - org.slf4j slf4j-api 1.7.2" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - org.slf4j slf4j-simple 1.7.2" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - findbugs annotations 1.0.0" exported="true"/>
-	<classpathentry kind="lib" path="C:/Users/drand/Documents/Workspace/gis-geodesy/unresolved dependency - junit junit 4.10" exported="true"/>
+	<classpathentry sourcepath="C:/Users/drand/.gradle/caches/artifacts-23/filestore/org.slf4j/slf4j-api/1.7.2/source/58d38f68d4a867d4552ae27960bb348d7eaa1297/slf4j-api-1.7.2-sources.jar" kind="lib" path="C:/Users/drand/.gradle/caches/artifacts-23/filestore/org.slf4j/slf4j-api/1.7.2/jar/81d61b7f33ebeab314e07de0cc596f8e858d97/slf4j-api-1.7.2.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/drand/.gradle/caches/artifacts-23/filestore/org.slf4j/slf4j-simple/1.7.2/source/9474919128b3a7fcf21a5f9c907f5251f234544/slf4j-simple-1.7.2-sources.jar" kind="lib" path="C:/Users/drand/.gradle/caches/artifacts-23/filestore/org.slf4j/slf4j-simple/1.7.2/jar/760055906d7353ba4f7ce1b8908bc6b2e91f39fa/slf4j-simple-1.7.2.jar" exported="true"/>
+	<classpathentry kind="lib" path="C:/Users/drand/.gradle/caches/artifacts-23/filestore/findbugs/annotations/1.0.0/jar/bfe57d079577cf181edef9993932a12edaeab0df/annotations-1.0.0.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/drand/.gradle/caches/artifacts-23/filestore/junit/junit/4.10/source/6c98d6766e72d5575f96c9479d1c1d3b865c6e25/junit-4.10-sources.jar" kind="lib" path="C:/Users/drand/.gradle/caches/artifacts-23/filestore/junit/junit/4.10/jar/e4f1766ce7404a08f45d859fb9c226fc9e41a861/junit-4.10.jar" exported="true"/>
+	<classpathentry sourcepath="C:/Users/drand/.gradle/caches/artifacts-23/filestore/org.hamcrest/hamcrest-core/1.1/source/2ccf1154d1a8936042a8a742dc3e611d02ac7213/hamcrest-core-1.1-sources.jar" kind="lib" path="C:/Users/drand/.gradle/caches/artifacts-23/filestore/org.hamcrest/hamcrest-core/1.1/jar/860340562250678d1a344907ac75754e259cdb14/hamcrest-core-1.1.jar" exported="true"/>
 </classpath>

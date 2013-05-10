@@ -13,7 +13,7 @@
  * occurrence.
  *
  ***************************************************************************/
-package org.opensextant.test;
+package org.opensextant.geodesy.test;
 
 import java.io.*;
 import java.util.Random;
