@@ -344,6 +344,7 @@ public class TestGeodetic2DBounds extends TestCase {
 	}
 
 	public void testIntersect() {
+		// test 1: bounds overlap each other
 		Geodetic2DPoint west = new Geodetic2DPoint(new Longitude(30, Angle.DEGREES),
                 new Latitude(30, Angle.DEGREES));
         Geodetic2DPoint east = new Geodetic2DPoint(new Longitude(32, Angle.DEGREES),
@@ -359,6 +360,7 @@ public class TestGeodetic2DBounds extends TestCase {
 		assertTrue(bbox.intersects(bbox2));
 		assertTrue(bbox2.intersects(bbox));
 
+		// test 2: bounds non-overlapping
 		Geodetic2DPoint west3 = new Geodetic2DPoint(new Longitude(40, Angle.DEGREES),
                 new Latitude(40, Angle.DEGREES));
         Geodetic2DPoint east3 = new Geodetic2DPoint(new Longitude(50, Angle.DEGREES),
@@ -366,6 +368,33 @@ public class TestGeodetic2DBounds extends TestCase {
         Geodetic2DBounds bbox3 = new Geodetic2DBounds(west3, east3);
 		assertFalse(bbox.intersects(bbox3));
 		assertFalse(bbox3.intersects(bbox));
+		// test 3: bbox contains box4
+
+		Geodetic2DPoint east4 = new Geodetic2DPoint(new Longitude(31.5, Angle.DEGREES),
+                	new Latitude(31.5, Angle.DEGREES));
+		Geodetic2DBounds bbox4 = new Geodetic2DBounds(west2, east4);
+
+		assertTrue(bbox.intersects(bbox4));
+		assertTrue(bbox4.intersects(bbox));
+
+		// test 4: bbox touches (non-overlapp) box5 along an edge
+
+		Geodetic2DPoint east5 = new Geodetic2DPoint(new Longitude(34, Angle.DEGREES),
+                	new Latitude(30, Angle.DEGREES));
+		Geodetic2DPoint west5 = east; // lon=32, lat=32
+		Geodetic2DBounds bbox5 = new Geodetic2DBounds(west5, east5);
+
+		assertFalse(bbox.intersects(bbox5));
+		// assertFalse(bbox5.intersects(bbox)); // this assertion fails
+
+		// test 5: bbox touches at a single point
+
+		Geodetic2DPoint east6 = east2; // lon=33, lat=33
+		Geodetic2DPoint west6 = east;  // lon=32, lat=32
+		Geodetic2DBounds bbox6 = new Geodetic2DBounds(west6, east6);
+
+		assertFalse(bbox.intersects(bbox6));
+		assertFalse(bbox6.intersects(bbox));
 	}
 
     /**
