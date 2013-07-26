@@ -117,6 +117,7 @@ public class TestAngle {
 	public void testDegreeSymbol() throws IOException {
 		InputStreamReader reader = null;
 		final InputStream stream = getStream("DEGREE_SYMBOL.txt");
+		Assert.assertNotNull(stream);
 		try {
 			reader = new InputStreamReader(stream, "ISO-8859-1");
 			final StringBuilder buff = new StringBuilder();
@@ -130,14 +131,14 @@ public class TestAngle {
 				try {
 					reader.close();
 				} catch (IOException e) { }
-			try {
-				stream.close();
-			} catch (IOException e) { }
+				try {
+					stream.close();
+				} catch (IOException e) { }
 		}
 	}
 
     private InputStream getStream(String filename) throws IOException {
-        File file = new File("test/org/mitre/itf/geodesy/test/" + filename);
+        File file = new File("src/test/resources/org/opensextant/geodesy/test/" + filename);
         if (file.exists()) return new java.io.FileInputStream(file);
         return getClass().getResourceAsStream(filename);
     }
