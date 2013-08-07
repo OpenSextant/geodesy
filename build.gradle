@@ -1,15 +1,31 @@
+import java.security.cert.Extension;
+
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "maven"
 apply plugin: "signing"
 
 group = "org.opensextant"
-version = "2.0.0-SNAPSHOT"
+version = "2.0.1-SNAPSHOT"
+ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
+sourceCompatibility = 1.6
+javadoc.options.encoding = compileJava.options.encoding = 'ISO-8859-1'
+
+// Define var to avoid deref problem, will redefined normally
+ext.publish = [user: null, password: null]
+
+// Publishing locations
+if (project.hasProperty('ospubLocaldest')) {
+	ext.oss_snapshot = ospubLocaldest
+	ext.publish.user = mavenUser
+	ext.publish.password = mavenPassword
+} else {
+	ext.oss_snapshot = "https://oss.sonatype.org/content/repositories/snapshots"
+}
+def oss_staging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 
 repositories {
-	maven {
-		url "http://repo.maven.apache.org/maven2"
-	}
+	mavenCentral()
 }
 
 configurations {
@@ -52,6 +68,7 @@ artifacts {
 }
 
 signing {
+	required isReleaseVersion
 	sign configurations.archives
 }
 
@@ -64,8 +81,18 @@ dependencies {
 	testCompile('junit:junit:4.10')
 }
 
-def oss_snapshot = "https://oss.sonatype.org/content/repositories/snapshots"
-def oss_staging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+uploadArchives.doFirst {
+	// Setup publishing variables
+	if (publish.user == null && publish.password == null) {
+		ext.publish = [user: (project.hasProperty('ospubUsername') ? osPub.user : null),
+			password: (project.hasProperty('ospubPassword') ? osPub.password : null)]
+	}
+	
+	// Check presets
+	if (publish.user == null || publish.password == null) {
+		throw new Exception('ospubUsername and ospubPassword must be defined when uploading ')
+	}
+}
 
 uploadArchives {
 	repositories {
@@ -73,11 +100,11 @@ uploadArchives {
 			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
  
 			repository(url: oss_staging) {
-				authentication(userName: sonatypeUsername, password: sonatypePassword)
+				authentication(userName: publish.user, password: publish.password)
 			}
 			
 			snapshotRepository(url: oss_snapshot) {
-				authentication(userName: sonatypeUsername, password: sonatypePassword)
+				authentication(userName: publish.user, password: publish.password)
 			}
 			
 			pom.project {
