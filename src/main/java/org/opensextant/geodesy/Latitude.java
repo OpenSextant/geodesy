@@ -57,8 +57,10 @@ public class Latitude extends Angle {
      * @throws IllegalArgumentException error if syntax is incorrect or value is out of range
      */
     public Latitude(String latStr) throws IllegalArgumentException {
+		if (latStr == null) throw new IllegalArgumentException("latStr cannot be null");
         latStr = latStr.trim().toUpperCase();
         int n = latStr.length() - 1;
+		if (n < 0) throw new IllegalArgumentException("Latitude must be non-empty value");
         char suffix = latStr.charAt(n);
         char sign = ' ';
         if (suffix == 'N') sign = '+';

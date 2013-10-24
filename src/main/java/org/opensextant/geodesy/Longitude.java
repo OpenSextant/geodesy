@@ -48,8 +48,10 @@ public class Longitude extends Angle {
      * @throws IllegalArgumentException error if syntax is incorrect or value is out of range
      */
     public Longitude(String lonStr) throws IllegalArgumentException {
+		if (lonStr == null) throw new IllegalArgumentException("lonStr cannot be null");
         lonStr = lonStr.trim().toUpperCase();
         int n = lonStr.length() - 1;
+		if (n < 0) throw new IllegalArgumentException("Longitude must be non-empty value");
         char suffix = lonStr.charAt(n);
         char sign = ' ';
         if (suffix == 'E') sign = '+';

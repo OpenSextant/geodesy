@@ -7,14 +7,17 @@
  */
 package org.opensextant.geodesy.test;
 
+import org.junit.Test;
 import org.opensextant.geodesy.*;
 
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import junit.textui.TestRunner;
 
-public class TestLatLonStrings extends TestCase {
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
+
+public class TestLatLonStrings {
 
 	private static final String[] testStringsEtrex = {
     		/* DD-MM.MMMH,DDD-MM.MMMH) */
@@ -134,6 +137,7 @@ public class TestLatLonStrings extends TestCase {
     /**
      * Test the LatLonParser class with test strings
      */
+	@Test
     public void testLatLonParserEtrex() {
        	System.out.print("\n\n LatLonParser Test (Etrex unique format)\n\n");
     	LatLonParser parser = new LatLonParser();
@@ -150,6 +154,7 @@ public class TestLatLonStrings extends TestCase {
     /**
      * Test the LatLonParser class with test strings
      */
+	@Test
     public void testLatLonParser() {
        	System.out.print("\n\n LatLonParser Test \n\n");
     	LatLonParser parser = new LatLonParser();
@@ -167,6 +172,7 @@ public class TestLatLonStrings extends TestCase {
     /**
      * Test the LatLonParser class and Geodetic2DPoint class with test strings
      */
+	@Test
     public void testLatLonParserGeodetic2DPoint() {
     	System.out.print("\n\n LatLonParserGeodetic2DPoint Test \n\n");
     	String latLon;
@@ -195,6 +201,31 @@ public class TestLatLonStrings extends TestCase {
     	}
     }
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testNullLatitude() {
+		new Latitude((String)null);
+		// expected: latStr cannot be null
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testNullLongitude() {
+		new Longitude((String)null);
+		// expected: latStr cannot be null
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testEmptyStringLatitude() {
+		new Latitude("");
+		// expected: Latitude must be non-empty value
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testShortLatitude() {
+		new Latitude("N"); //
+		// expected: No valid tokens found in Angle string "+"
+	}
+
+	@Test
 	public void testInvalidCreation() {
 		try {
 			// out of legal latitude range (-90 deg to +90 deg)
@@ -241,12 +272,14 @@ public class TestLatLonStrings extends TestCase {
 		}
 	}
 
+	@Test
 	public void testNullLatCompare() {
 		Latitude lat = new Latitude(Math.PI/2);
 		Latitude other = null;
 		assertFalse(lat.equals(other));
 	}
 
+	@Test
 	public void testNullLonCompare() {
 		Longitude lon = new Longitude(Math.PI/2);
 		Longitude other = null;
