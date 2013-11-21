@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * SafeDateFormat is not a thread safe class and therefore needs to be 
+ * {@link SimpleDateFormat} is not a thread safe class and therefore needs to be
  * instantiated on a per-thread basis. This class is a simplistic wrapper that
  * wraps a per-thread formatter and creates them on the fly, exposing only 
  * needed functionality.
