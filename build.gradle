@@ -9,7 +9,7 @@ group = "org.opensextant"
 version = "2.0.1-SNAPSHOT"
 ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
 sourceCompatibility = 1.6
-javadoc.options.encoding = compileJava.options.encoding = 'ISO-8859-1'
+javadoc.options.encoding = compileJava.options.encoding = compileTestJava.options.encoding = 'ISO-8859-1'
 
 // Define var to avoid deref problem, will redefined normally
 ext.publish = [user: null, password: null]
