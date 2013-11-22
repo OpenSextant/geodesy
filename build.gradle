@@ -9,7 +9,7 @@ group = "org.opensextant"
 version = "2.0.1-SNAPSHOT"
 ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
 sourceCompatibility = 1.6
-javadoc.options.encoding = compileJava.options.encoding = 'ISO-8859-1'
+javadoc.options.encoding = compileJava.options.encoding = compileTestJava.options.encoding = 'ISO-8859-1'
 
 // Define var to avoid deref problem, will redefined normally
 ext.publish = [user: null, password: null]
@@ -76,9 +76,9 @@ dependencies {
 	def slf4j_version = '1.7.2'
 	
 	compile group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
-	compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
 	compile group: 'findbugs', name: 'annotations', version: "1.0.0"
 	testCompile('junit:junit:4.10')
+	testRuntime group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
 }
 
 uploadArchives.doFirst {
