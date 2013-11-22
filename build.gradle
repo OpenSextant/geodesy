@@ -76,9 +76,9 @@ dependencies {
 	def slf4j_version = '1.7.2'
 	
 	compile group: 'org.slf4j', name: 'slf4j-api', version: slf4j_version
-	compile group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
 	compile group: 'findbugs', name: 'annotations', version: "1.0.0"
 	testCompile('junit:junit:4.10')
+	testRuntime group: 'org.slf4j', name: 'slf4j-simple', version: slf4j_version
 }
 
 uploadArchives.doFirst {
