@@ -100,6 +100,12 @@ public class TestMGRS {
         //Assert.assertEquals(568, valid);
     }
 
+    @Test
+    public void testGeodetic2DPoint() {
+	MGRS mgrs = new MGRS(new Geodetic2DPoint()); // 31NAA6602100000
+	Assert.assertEquals(mgrs.toString(2), "31NAA6600");
+   }
+
     /**
      * This method generates a random sample of Geodetic points, converting them to MGRS
      * Strings and back into Geodetic form, to compare the two forms for proximal equality
