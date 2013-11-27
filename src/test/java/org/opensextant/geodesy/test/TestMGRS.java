@@ -35,6 +35,10 @@ public class TestMGRS {
 
     private final static String MGRS_washington_monument = "18SUJ2348306479";
 
+	private static final Latitude NORTH_POLE = new Latitude(+90.0, Angle.DEGREES);
+	private static final Latitude SOUTH_POLE = new Latitude(-90.0, Angle.DEGREES);
+	private static final Longitude PRIME_MERIDIAN = new Longitude(0.0, Angle.DEGREES);
+
     /**
      * This method does an exhaustive test of possible MGRS square values
      */
@@ -128,6 +132,42 @@ public class TestMGRS {
         MGRS other = null;
         Assert.assertFalse(mgrs.equals(other));
     }
+
+	@Test
+	public void testMgrsAtPoles() {
+		Geodetic2DPoint northPole = new Geodetic2DPoint(PRIME_MERIDIAN, NORTH_POLE);
+		MGRS mgrs = new MGRS(northPole);
+		Assert.assertEquals("ZAH0000", mgrs.toString(2));
+		Geodetic2DPoint southPole = new Geodetic2DPoint(PRIME_MERIDIAN, SOUTH_POLE);
+		mgrs = new MGRS(southPole);
+		// System.out.println(" -> " + mgrs.toString(2));
+		Assert.assertEquals("BAN0000", mgrs.toString(2));
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testMgrsAtPoleNonZeroLon() {
+		// java.lang.IllegalArgumentException: Longitude should be zero at a Pole, lon: -77.03524166666666
+		Geodetic2DPoint northPole = new Geodetic2DPoint(
+			new Longitude(-77, 2, 6.87), NORTH_POLE);
+		new MGRS(northPole); // must throw exception
+	}
+
+	@Test
+	public void testMgrsInvalidPrecision() {
+		MGRS mgrs = new MGRS(MGRS_washington_monument);
+		try {
+			mgrs.toString(6);
+			Assert.fail("Expected exception: java.lang.IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+		try {
+			mgrs.toString(-1);
+			Assert.fail("Expected exception: java.lang.IllegalArgumentException");
+		} catch (IllegalArgumentException e) {
+			// expected
+		}
+	}
 
     /**
      * This method is used to test some specific landmark points around the globe
