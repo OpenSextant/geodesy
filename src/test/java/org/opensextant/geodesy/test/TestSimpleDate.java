@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 import org.opensextant.geodesy.SafeDateFormat;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
@@ -13,7 +12,6 @@ import java.util.TimeZone;
 public class TestSimpleDate extends TestCase {
 
 	private volatile boolean running = true;
-	//private final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	private final SafeDateFormat df = new SafeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 	private Thread current;
 	private final Random rand = new Random();

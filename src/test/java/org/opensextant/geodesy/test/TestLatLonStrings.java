@@ -10,6 +10,9 @@ package org.opensextant.geodesy.test;
 import org.junit.Test;
 import org.opensextant.geodesy.*;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import junit.framework.TestSuite;
 
 import junit.textui.TestRunner;
@@ -137,11 +140,11 @@ public class TestLatLonStrings {
 	private static final Set badStrings;
 	static {
 		badStrings = new HashSet<String>(
-			Arrays.asList(new String[] {
-				"38.889097 -+",
-				"++38.889097",
-				"-+-38.889097",
-			} ));
+			Arrays.asList(new String[]{
+					"38.889097 -+",
+					"++38.889097",
+					"-+-38.889097",
+			}));
 	}
 
     /**
