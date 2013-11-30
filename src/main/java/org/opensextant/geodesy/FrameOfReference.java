@@ -18,6 +18,8 @@
  ***************************************************************************************/
 package org.opensextant.geodesy;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -48,11 +50,12 @@ import java.io.Serializable;
  * Circle distances on a Sphere).
  */
 public class FrameOfReference implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	
-	private Ellipsoid ellip;
-    private Geodetic3DPoint topoOrigLle;
-    private GeocentricPoint topoOrigEcf;
+	@NonNull private Ellipsoid ellip;
+	@NonNull private Geodetic3DPoint topoOrigLle;
+	@NonNull private GeocentricPoint topoOrigEcf;
 
     private static final Ellipsoid DEFAULT_ELLIPSOID =
             Ellipsoid.getInstance("WGS 84");
@@ -64,6 +67,7 @@ public class FrameOfReference implements Serializable {
      *
      * @param lle the Geodetic3DPoint (Longitude, Latitude, Elevation or lle)
      * @return the GeocentricPoint (Earth Centered Fixed or ecf)
+     * @throws NullPointerException if ellip or lle are null
      */
     private GeocentricPoint toGeocentric(Geodetic3DPoint lle) {
         double lambda = lle.getLongitude().inRadians();
@@ -86,6 +90,7 @@ public class FrameOfReference implements Serializable {
      *
      * @param ecf the GeocentricPoint (Earth Centered Fixed or ecf)
      * @return the TopocentricPoint (Topo Centric System or tcs)
+     * @throws NullPointerException if ecf is null
      */
     private Topocentric3DPoint toTopocentric(GeocentricPoint ecf) {
         double x0 = ecf.getX() - topoOrigEcf.getX();
@@ -197,8 +202,9 @@ public class FrameOfReference implements Serializable {
      * This constructor takes an Ellipsoid object earth model and a Geodetic3DPoint
      * to use as the Topographic Origin point for coordinate conversions.
      *
-     * @param ellip    the Ellipsoid model of the earth to use in conversions.
+     * @param ellip    the Ellipsoid model of the earth to use in conversions
      * @param topoOrig the topographic origin point as a Geodetic3DPoint object.
+	 * @throws NullPointerException if ellip or topoOrig are null
      */
     public FrameOfReference(Ellipsoid ellip, Geodetic3DPoint topoOrig) {
         this.ellip = ellip;
@@ -211,6 +217,7 @@ public class FrameOfReference implements Serializable {
      * Topographic Origin to be (0&deg N, 0&deg E, 0m).
      *
      * @param ellip the Ellipsoid model of the earth to use in conversions.
+	 * @throws NullPointerException if ellip is null
      */
     public FrameOfReference(Ellipsoid ellip) {
         this(ellip, DEFAULT_TOPOORIG);
@@ -221,7 +228,8 @@ public class FrameOfReference implements Serializable {
      * point for coordinate conversions, and defaults the Ellipsoid to be WGS-84.
      *
      * @param topoOrig the topographic origin point as a Geodetic3DPoint object.
-     */
+	 * @throws NullPointerException if topoOrig is null
+	 */
     public FrameOfReference(Geodetic3DPoint topoOrig) {
         this(DEFAULT_ELLIPSOID, topoOrig);
     }
@@ -240,7 +248,8 @@ public class FrameOfReference implements Serializable {
      *
      * @return Ellipsoid object being used.
      */
-    public Ellipsoid getEllipsoid() {
+    @NonNull
+	public Ellipsoid getEllipsoid() {
         return ellip;
     }
 
@@ -249,8 +258,10 @@ public class FrameOfReference implements Serializable {
      * earth for this FrameOfReference.
      *
      * @param ellip the new Ellipsoid object to be used.
+	 * @throws NullPointerException if ellip is null
      */
     public void setEllipsoid(Ellipsoid ellip) {
+		if (ellip == null) throw new NullPointerException();
         this.ellip = ellip;
     }
 
@@ -269,7 +280,8 @@ public class FrameOfReference implements Serializable {
      * (as a Geodetic3DPoint object) for this FrameOfReference.
      *
      * @param topoOrig the new topographic origin point as a Geodetic3DPoint object.
-     */
+	 * @throws NullPointerException if topoOrig is null
+	 */
     public void setTopographicOrigin(Geodetic3DPoint topoOrig) {
         this.topoOrigLle = topoOrig;
         this.topoOrigEcf = this.toGeocentric(topoOrig);
