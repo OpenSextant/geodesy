@@ -184,7 +184,6 @@ public class TestLatLonStrings {
     			// System.out.println(testString  + " Illegal Argument Exception");
     		}
     	}
- 
     }
   
     /**
@@ -192,7 +191,7 @@ public class TestLatLonStrings {
      */
 	@Test
     public void testLatLonParserGeodetic2DPoint() {
-    	System.out.print("\n\n LatLonParserGeodetic2DPoint Test \n\n");
+    	System.out.println("\n\n LatLonParserGeodetic2DPoint Test \n");
     	String latLon;
     	
     	LatLonParser parser = new LatLonParser();
@@ -201,8 +200,12 @@ public class TestLatLonStrings {
        	for (String testString : testStrings) {   		
 			try {
 				latLon = parser.parseString(testString);
+				if (badStrings.contains(testString))
+					fail("expected IllegalArgumentException for " + testString);
 			} catch (IllegalArgumentException e) {
-    			System.out.println("\nError: parse exception with  " + testString);
+				if (!badStrings.contains(testString))
+					fail("unexpected exception for " + testString);
+    			//System.out.println("\nError: parse exception with  " + testString);
     			continue;
     		}
 			
