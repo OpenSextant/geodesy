@@ -135,6 +135,15 @@ public class TestGeoPoint extends TestCase {
     private final Geodetic2DPoint b = new Geodetic2DPoint(new Longitude(-1), new Latitude(1));
     private final Geodetic2DPoint c = new Geodetic2DPoint(new Longitude(-1.001), new Latitude(1));
 
+	public void testLatLonAngle() {
+		Latitude lat = new Latitude(new Angle());
+		Longitude lon = new Longitude(new Angle());
+		Geodetic2DPoint a = new Geodetic2DPoint(lon, lat);
+		Geodetic2DPoint b = new Geodetic2DPoint( new Longitude(new Angle(0, Angle.DEGREES)),
+				new Latitude(new Angle(0, Angle.DEGREES)));
+		assertEquals(a, b);
+	}
+
     public void testEquals() {
         // test equality with known geo-points
         assertEquals(a, b);

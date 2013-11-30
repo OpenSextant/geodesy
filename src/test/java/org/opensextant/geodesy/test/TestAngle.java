@@ -107,6 +107,15 @@ public class TestAngle {
 	}
 
 	@Test
+	public void testCompare() {
+		Angle a = new Angle(0);
+		Angle b = new Angle(0, Angle.DEGREES);
+		Assert.assertEquals(0, a.compareTo(b));
+		Assert.assertEquals(0.0, a.getValue(Angle.RADIANS), 1e-6);
+		Assert.assertEquals(0.0, a.getValue(Angle.DEGREES), 1e-6);
+	}
+
+	@Test
     public void testNullAngleCompare() {
 		Angle r1 = new Angle(Math.PI, Angle.RADIANS);
 		Angle r2 = null;
