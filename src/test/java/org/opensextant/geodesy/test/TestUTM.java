@@ -19,19 +19,25 @@
 package org.opensextant.geodesy.test;
 
 import junit.framework.TestSuite;
-import junit.framework.TestCase;
 import junit.textui.TestRunner;
 
 import java.util.Random;
 
+import org.junit.Test;
 import org.opensextant.geodesy.*;
 
-public class TestUTM extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class TestUTM {
 
     /**
      * This method tests UTM methods to determine Longitude Zones and their limits
      */
-    public static void testLonZones() {
+	@Test
+	public void testLonZones() {
         int lonZone;
         char latBand = 'N';
         double lonDeg;
@@ -64,7 +70,8 @@ public class TestUTM extends TestCase {
     /**
      * This method tests UTM methods to determine Latitude Bands and their limits
      */
-    public void testLatBands() {
+	@Test
+	public void testLatBands() {
         char latBand;
         double latDeg;
         // Test the latitude band char mappings and band ranges
@@ -88,6 +95,7 @@ public class TestUTM extends TestCase {
         }
     }
 
+	@Test
 	public void testInvalidCreation() {
 		try {
 			// Hemisphere 'X', should be 'N' or 'S'
@@ -122,16 +130,20 @@ public class TestUTM extends TestCase {
 		}
 	}
 
-
+	@Test
 	public void testEquals() {
 		Geodetic2DPoint g1 = new Geodetic2DPoint(
 				new Longitude(-79, 23, 13.7),
 				new Latitude(43, 38, 33.24));
 		UTM u1 = new UTM(g1);
 
+		assertTrue(u1.equals(u1));
+
 		UTM u2 = new UTM(u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
 		assertEquals(u1, u2);
 		assertEquals(u1.hashCode(), u2.hashCode());
+		assertEquals(u1.getLatitude(), u2.getLatitude());
+		assertEquals(u1.getLongitude(), u2.getLongitude());
 
 		UTM u3 = new UTM(u1.getEllipsoid(), u1.getLonZone(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
 		assertEquals(u1, u3);
@@ -150,6 +162,9 @@ public class TestUTM extends TestCase {
 
 		UTM u7 = null;
 		assertFalse(u1.equals(u7));
+
+		Object other = g1;
+		assertFalse(u1.equals(other));
 	}
 
     /**
@@ -158,6 +173,7 @@ public class TestUTM extends TestCase {
      * 2 fractional digits of precision (hundreths of arc seconds and hundreths
      * of meters)
      */
+	@Test
     public void testProjections() {
         // Test Case : Toronto's CNN Tower
         //   WGS 84 Geodetic2DPoint (lon-lat): (79° 23' 13.70" W, 43° 38' 33.24" N)
@@ -222,8 +238,48 @@ public class TestUTM extends TestCase {
         }
     }
 
-	public void testToString() {
+	@Test
+	public void testLonZone() {
+		assertEquals(31, UTM.getLonZone(360, 'N'));
+		assertEquals(31, UTM.getLonZone(-360, 'N'));
+	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testMinNorthing() {
+		UTM.minNorthing('I');
+		// UTM latitude band character ('C' to 'X", not including 'I' or 'O')
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testMaxNorthing() {
+		UTM.maxNorthing(1, 'O');
+		// UTM latitude band character ('C' to 'X", not including 'I' or 'O')
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testLatZoneLowerRange() {
+		UTM.getLatBand(-81);
+		// expected out of legal range (-80 deg to 84 deg) for UTM
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testLatZoneUpperRange() {
+		UTM.getLatBand(90);
+		// expected out of legal range (-80 deg to 84 deg) for UTM
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testValidateLonZoneLowerRange() {
+		UTM.validateLonZone(0);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testValidateLonZoneUpperRange() {
+		UTM.validateLonZone(61);
+	}
+
+	@Test
+	public void testToString() {
 		UTM u1 = new UTM(14, 'N', 621160.08, 3349893.03);
 		// tp.toString(0) WGS 84 UTM 14 N hemisphere 621160m E, 3349893m N
 		// tp.toString(4) WGS 84 UTM 14 N hemisphere 621160.0800m E, 3349893.0300m N

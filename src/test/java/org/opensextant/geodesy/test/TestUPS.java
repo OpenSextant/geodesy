@@ -1,26 +1,38 @@
 package org.opensextant.geodesy.test;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.opensextant.geodesy.*;
 
 import java.util.Random;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * User: MATHEWS
  * Date: 6/21/11 10:41 AM
  */
-public class TestUPS extends TestCase {
+public class TestUPS {
 
+	@Test
 	public void testEquals() {
 		Geodetic2DPoint g1 = new Geodetic2DPoint(
 				new Longitude(-79, 23, 13.7),
 				new Latitude(88, 38, 33.24));
 		UPS u1 = new UPS(g1);
+		assertTrue(u1.equals(u1));
+		assertEquals('Y', u1.getPolarZone());
 
 		UPS u2 = new UPS(u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
 		assertEquals(u1, u2);
 		assertEquals(u1.hashCode(), u2.hashCode());
+		assertEquals(u1.getLatitude(), u2.getLatitude());
+		assertEquals(u1.getLongitude(), u2.getLongitude());
+		//u1=WGS 84 UPS Y 1851864m E, 1972243m N
+		//u2=WGS 84 UPS Z 1851864m E, 1972243m N
+		//assertEquals(u1.getPolarZone(), u2.getPolarZone()); // not same
 
 		UPS u3 = new UPS(u1.getEllipsoid(), u1.getHemisphere(), u1.getEasting(), u1.getNorthing());
 		assertEquals(u1, u3);
@@ -39,8 +51,17 @@ public class TestUPS extends TestCase {
 
 		UPS u7 = null;
 		assertFalse(u1.equals(u7));
+
+		UPS u8 = new UPS(g1.getLongitude(), g1.getLatitude());
+		// u8 => WGS 84 UPS Y 1851864m E, 1972243m N
+		assertEquals(u1, u8);
+		assertEquals(u1.getPolarZone(), u8.getPolarZone());
+
+		Object other = g1;
+		assertFalse(u1.equals(other));
 	}
 
+	@Test
 	public void testInvalidCreation() {
 		try {
 			// Hemisphere 'X', should be 'N' or 'S'
@@ -87,6 +108,17 @@ public class TestUPS extends TestCase {
 		}
 	}
 
+	@Test
+	public void testSouthPole() {
+		// WGS 84 UPS B 2m E, 2m N
+		UPS u = new UPS('S', 0, 2);
+		assertEquals('B', u.getPolarZone());
+		assertEquals(2, u.getNorthing(), 1e-6);
+		assertEquals(0, u.getEasting(), 1e-6);
+		//System.out.println(u);
+	}
+
+	@Test
 	public void testProjections() {
         Geodetic2DPoint g1, g2;
         UPS u1, u2;
@@ -123,8 +155,8 @@ public class TestUPS extends TestCase {
         }
 	}
 
+	@Test
 	public void testToString() {
-
 		UPS u1 = new UPS('N', 621160.08, 3349893.03);
 		// tp.toString(0) WGS 84 UPS Z 621160m E, 3349893m N
 		// tp.toString(4) WGS 84 UPS Z 621160.0800m E, 3349893.0300m N

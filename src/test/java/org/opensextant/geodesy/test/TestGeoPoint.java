@@ -78,6 +78,22 @@ public class TestGeoPoint extends TestCase {
         assertEquals(ellip, f.getEllipsoid());
     }
 
+	public void testBadReference() {
+		Ellipsoid ellip = null;
+		try {
+			new FrameOfReference(ellip);
+			fail("Expected NullPointerException");
+		} catch(NullPointerException npe) {
+			// expected
+		}
+		try {
+			new FrameOfReference(ellip, randomGeodetic3DPoint(r));
+			fail("Expected NullPointerException");
+		} catch(NullPointerException npe) {
+			// expected
+		}
+	}
+
     /**
      * This method performs format conversions with string constructors in degrees and dms
      */

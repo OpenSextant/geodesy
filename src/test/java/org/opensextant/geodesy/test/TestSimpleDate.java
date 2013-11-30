@@ -1,7 +1,7 @@
 package org.opensextant.geodesy.test;
 
-import junit.framework.TestCase;
-
+import org.junit.Assert;
+import org.junit.Test;
 import org.opensextant.geodesy.SafeDateFormat;
 
 import java.text.ParseException;
@@ -9,13 +9,38 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class TestSimpleDate extends TestCase {
+public class TestSimpleDate {
 
 	private volatile boolean running = true;
-	private final SafeDateFormat df = new SafeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	private final SafeDateFormat df = new SafeDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 	private Thread current;
 	private final Random rand = new Random();
 
+	@Test
+	public void testFormat() {
+		Assert.assertEquals(TimeZone.getTimeZone("UTC"), df.getTimeZone());
+		Assert.assertEquals("1970-01-01T00:00:00.000", df.format(0));
+	}
+
+	@Test
+	public void testTimeZome() {
+		TimeZone tz = TimeZone.getDefault();
+		SafeDateFormat b = new SafeDateFormat("HH:mm:ss", tz);
+		Assert.assertEquals(tz, b.getTimeZone());
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testNullFormat() {
+		new SafeDateFormat(null);
+	}
+
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testEmptyFormat() {
+		new SafeDateFormat("");
+	}
+
+	@Test
 	public void testThreads() {
 		df.setTimeZone(TimeZone.getTimeZone("UTC"));
 		current = Thread.currentThread();
@@ -26,15 +51,15 @@ public class TestSimpleDate extends TestCase {
 			t.start();
 		}
 
-		// run thread tests for 10 seconds
+		// run thread tests for 5 seconds
 		// if SimpleDateFormat used instead of SafeDateFormat then fails after few iterations
 		try {
-			Thread.sleep(10000);
+			Thread.sleep(5000);
 		} catch (InterruptedException e) {
 			// one of the test threads probably failed the test
 		}
 		// System.out.println("running = " + running);
-		assertTrue("format returned non-consistent result", running);
+		Assert.assertTrue("format returned non-consistent result", running);
 		running = false; // kill running threads
 	}
 
