@@ -368,7 +368,7 @@ public class UPS implements Serializable {
 		if (hemisphere != ups.hemisphere) return false;
         if (Double.compare(ups.easting, easting) != 0) return false;
         if (Double.compare(ups.northing, northing) != 0) return false;
-        if (lonLat != null ? !lonLat.equals(ups.lonLat) : ups.lonLat != null) return false;
+        if (!lonLat.equals(ups.lonLat)) return false;
         return true;
     }
 
@@ -381,7 +381,7 @@ public class UPS implements Serializable {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = northing != +0.0d ? Double.doubleToLongBits(northing) : 0L;
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (lonLat != null ? lonLat.hashCode() : 0);
+        result = 31 * result + lonLat.hashCode();
         return result;
     }
 
