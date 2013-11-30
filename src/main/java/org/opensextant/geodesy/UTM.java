@@ -762,7 +762,7 @@ public class UTM implements Serializable {
         if (latBand != utm.latBand) return false;
         if (lonZone != utm.lonZone) return false;
         if (Double.compare(utm.northing, northing) != 0) return false;
-        if (lonLat != null ? !lonLat.equals(utm.lonLat) : utm.lonLat != null) return false;
+        if (!lonLat.equals(utm.lonLat)) return false;
         // TODO: following fails since TransverseMercator does not implement Object.equals(Object) so skip it
         // if (tm != null ? !tm.equals(utm.tm) : utm.tm != null) return false;
         return true;
@@ -782,7 +782,7 @@ public class UTM implements Serializable {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = northing != +0.0d ? Double.doubleToLongBits(northing) : 0L;
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (lonLat != null ? lonLat.hashCode() : 0);
+        result = 31 * result + lonLat.hashCode();
         return result;
     }
 
