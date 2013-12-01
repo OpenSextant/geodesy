@@ -18,8 +18,7 @@
  ***************************************************************************************/
 package org.opensextant.geodesy.test;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.opensextant.geodesy.Angle;
 import org.opensextant.geodesy.Geodetic2DArc;
 import org.opensextant.geodesy.Geodetic2DBounds;
@@ -28,14 +27,19 @@ import org.opensextant.geodesy.Geodetic2DPoint;
 import org.opensextant.geodesy.Latitude;
 import org.opensextant.geodesy.Longitude;
 
-public class TestGeodetic2DEllipse extends TestCase {
+import java.util.Random;
+
+import static org.junit.Assert.*;
+
+public class TestGeodetic2DEllipse {
 
 	private static final double EPSILON = 1E-5;
 
+	@Test
 	public void testCreation() {
 		Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
-		Geodetic2DPoint cp = ellipse.getCenter();
-		assertNotNull(cp);
+		assertNotNull(ellipse.getCenter());
+		assertNotNull(ellipse.toString());
 
 		Geodetic2DPoint boston =
                 new Geodetic2DPoint("42\u00B0 22' 11.77\" N, 71\u00B0 1' 40.30\" W");
@@ -52,21 +56,82 @@ public class TestGeodetic2DEllipse extends TestCase {
 		assertFalse(ellipse.equals(geo));
 	}
 
+	@Test
+	public void testCreateAndSet() {
+		Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
+		Geodetic2DPoint center = new Geodetic2DPoint(new Random());
+		ellipse.setCenter(center);
+		ellipse.setSemiAxes(1000, 500);
+		ellipse.setOrientation(new Angle(45, Angle.DEGREES));
+	}
+
+	@Test
+	public void testEquals() {
+		Geodetic2DEllipse ellipse1 = new Geodetic2DEllipse();
+		// 180 difference in orientation is normalized as same
+		Geodetic2DEllipse ellipse2 = new Geodetic2DEllipse(
+				ellipse1.getCenter(), 0, 0, new Angle(180, Angle.DEGREES));
+		assertEquals(ellipse1, ellipse2);
+
+		// same except for the orientation
+		Geodetic2DEllipse ellipse3 = new Geodetic2DEllipse(
+				ellipse1.getCenter(), 0, 0, new Angle(45, Angle.DEGREES));
+		assertFalse(ellipse1.equals(ellipse3));			// compare using equals(Geodetic2DEllipse)
+		assertFalse(ellipse1.equals((Object)ellipse3));	// compare using equals(Object)
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidAxes() {
+		Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
+		// set minor > major
+		ellipse.setSemiAxes(500, 1000);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetInvalidMinor() {
+		Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
+		ellipse.setSemiMajorAxis(10);
+		// set minor > major
+		ellipse.setSemiMinorAxis(100);
+	}
+
+	@Test
 	public void testNullEllipseCompare() {
         Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
 		Geodetic2DEllipse other = null;
 		assertFalse(ellipse.equals(other));
 	}
 	
+	@Test
+	public void testNonEllipseEquals() {
+		Geodetic2DEllipse ellipse = new Geodetic2DEllipse();
+		Object other = new Object();
+		assertFalse(ellipse.equals(other));
+	}
+
+	@Test
 	public void testBounds() {
 		Geodetic2DPoint center = new Geodetic2DPoint(
 				"0\u00B0 0' 0\" N, 0\u00B0 0' 0\" W");
 
-		Geodetic2DEllipse ellipse = new Geodetic2DEllipse(center, 4000, 1000, new Angle(0, Angle.DEGREES));
-		
+		Geodetic2DEllipse ellipse = new Geodetic2DEllipse(
+				center, 4000, 1000, new Angle(0, Angle.DEGREES));
+		final Iterable<Geodetic2DPoint> boundary = ellipse.boundary(4);
+		assertCount(boundary, 4); // check once to initialize bounds
+		// check again to verify the same bounds is returned
+		assertSame(boundary, ellipse.boundary(4));
+
 		Geodetic2DBounds bounds = new Geodetic2DBounds(ellipse);
 		assertEquals(2000.0, calculateEWDistance(bounds), 60.0);
 		assertEquals(8000.0, calculateNSDistance(bounds), 60.0);
+	}
+
+	private void assertCount(Iterable<Geodetic2DPoint> boundary, int expected) {
+		int count = 0;
+		for(Geodetic2DPoint pt : boundary) {
+			count++;
+		}
+		assertEquals("boundary count does not match", expected, count);
 	}
 
 	private double calculateNSDistance(Geodetic2DBounds bounds) {
