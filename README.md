@@ -3,17 +3,17 @@
 Geodesy is a geodetic library that allows the construction of basic shapes on a specified 
 ellipsoid world model. You can then perform various operations on the shapes and points 
 such as discovering distance, whether shapes intersect and such. The shapes can have altitude
-but not arbitrary 3D shape.
+but not an arbitrary 3D shape.
 
 ## Building ##
 
-Setup your gradle.properties file appropriately after reading gradle documentation. Use gradle
-to build, see the various tasks and use the gradle documentation to understand what they do.  
+Setup your gradle.properties file appropriately after reading [Gradle](http://www.gradle.org/) documentation.
+Use Gradle to build, see the various tasks and use the Gradle documentation to understand what they do.
 
 ### Versions and Packages ###
 
-Note that for the public release the version was bumped to 2.0.0 and the java package
-is now org.opensextant.geodesy
+Note that for the public release the version was bumped to 2.0.0 and the Java package
+is now org.opensextant.geodesy.
 
 ## Other Information of note ##
 
