@@ -19,8 +19,8 @@ public class TestTopocentric2DPoint extends TestCase {
 		Topocentric2DPoint tp = new Topocentric2DPoint(easting, northing);
 		Topocentric3DPoint point = tp.toTopocentric3D();
 		assertNotNull(point); // (630084m East, 4833439m North) @ 0m
-		assertEquals(tp.getEasting(), point.getEasting(), 10e-8);
-		assertEquals(tp.getNorthing(), point.getNorthing(), 10e-8);
+		assertEquals(tp.getEasting(), point.getEasting(), 1e-6);
+		assertEquals(tp.getNorthing(), point.getNorthing(), 1e-6);
 		FrameOfReference f = new FrameOfReference();
 		Geodetic3DPoint pt = tp.toGeodetic3D(f); // (5° 38' 31" E, 37° 10' 6" N) @ 1657072m
 		assertNotNull(pt);
@@ -37,6 +37,9 @@ public class TestTopocentric2DPoint extends TestCase {
 		tp2.setEasting(easting + 123);
 		tp2.setNorthing(northing  - 123);
 		assertFalse(tp.equals(tp2));
+
+		Object other = new Object();
+		assertFalse(tp.equals(other));
 	}
 
     public static void testNullCompare() throws Exception {
