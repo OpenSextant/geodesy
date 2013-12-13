@@ -37,8 +37,8 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
 	
     private static final long serialVersionUID = 1L;
 
-    private final static Ellipsoid WGS84 = Ellipsoid.getInstance("WGS 84");
-    private final static String NOCONVERGE = "Failed to converge for arc from ";
+    private static final Ellipsoid WGS84 = Ellipsoid.getInstance("WGS 84");
+    private static final String NOCONVERGE = "Failed to converge for arc from ";
 
     // Tolerance factors from the strictest to the most relaxed
     private static final double TOLERANCE_0 = 5.0e-15,
@@ -437,7 +437,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
 
     // Valid range checker for distance in meters
     private void validateDistance(double distanceInMeters) throws IllegalArgumentException {
-        if ((distanceInMeters < 0.0) || (maxOrthodromicDistance < distanceInMeters))
+        if (distanceInMeters < 0.0 || distanceInMeters > maxOrthodromicDistance)
             throw new IllegalArgumentException("Distance is out of legal range (0 .. " +
                     maxOrthodromicDistance + ")");
     }
