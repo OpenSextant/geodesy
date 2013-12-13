@@ -3,6 +3,7 @@ package org.opensextant.geodesy.test;
 import junit.framework.TestCase;
 
 import org.opensextant.geodesy.FrameOfReference;
+import org.opensextant.geodesy.GeoPoint;
 import org.opensextant.geodesy.Geodetic3DPoint;
 import org.opensextant.geodesy.Topocentric2DPoint;
 import org.opensextant.geodesy.Topocentric3DPoint;
@@ -42,12 +43,23 @@ public class TestTopocentric2DPoint extends TestCase {
 		assertFalse(tp.equals(other));
 	}
 
-    public static void testNullCompare() throws Exception {
+    public void testNullCompare() throws Exception {
 		double easting = 630084;
 		double northing = 4833439;
 		Topocentric2DPoint tp = new Topocentric2DPoint(easting, northing);
 		Topocentric2DPoint tp2 = null;
 		assertFalse(tp.equals(tp2));
+	}
+
+	public void testConversion() {
+		double easting = 630084.12345;
+		double northing = 4833439.6789;
+		FrameOfReference f = new FrameOfReference();
+		Topocentric2DPoint tp = new Topocentric2DPoint(easting, northing);
+		GeoPoint a2 = f.toTopocentric(tp);
+		GeoPoint a3 = f.toGeocentric(tp);
+		assertTrue(f.proximallyEquals(tp, a2));
+		assertTrue(f.proximallyEquals(tp, a3));
 	}
 
 	public void testToString() {

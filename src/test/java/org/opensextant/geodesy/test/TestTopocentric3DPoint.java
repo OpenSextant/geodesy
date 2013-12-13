@@ -2,6 +2,7 @@ package org.opensextant.geodesy.test;
 
 import org.junit.Test;
 import org.opensextant.geodesy.FrameOfReference;
+import org.opensextant.geodesy.GeoPoint;
 import org.opensextant.geodesy.Geodetic3DPoint;
 import org.opensextant.geodesy.Topocentric3DPoint;
 
@@ -43,6 +44,16 @@ public class TestTopocentric3DPoint {
 		Topocentric3DPoint p2 = new Topocentric3DPoint(easting, northing, 5000);
 		assertEquals(p1, p2);
 		assertEquals("hashCode", p1.hashCode(), p2.hashCode());
+	}
+
+	@Test
+	public void testConversion() {
+		Topocentric3DPoint tp = new Topocentric3DPoint(easting, northing, 5000);
+		FrameOfReference f = new FrameOfReference();
+		GeoPoint a2 = f.toTopocentric(tp);
+		GeoPoint a3 = f.toGeocentric(tp);
+		assertTrue(f.proximallyEquals(tp, a2));
+		assertTrue(f.proximallyEquals(tp, a3));
 	}
 
 	@Test
