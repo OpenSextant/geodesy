@@ -6,3 +6,7 @@
 /build
 /testOutput
 /local.properties
+
+#intelliJ
+/.idea
+.iml
