@@ -1,11 +1,10 @@
-
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "maven"
 apply plugin: "signing"
 
 group = "org.opensextant"
-version = "2.0.1-SNAPSHOT"
+version = "2.0.2-SNAPSHOT"
 ext.isReleaseVersion = !version.endsWith('-SNAPSHOT')
 sourceCompatibility = 1.6
 javadoc.options.encoding = compileJava.options.encoding = compileTestJava.options.encoding = 'ISO-8859-1'
