@@ -90,14 +90,14 @@ public class SafeDateFormat {
 
 	/**
 	 * Format the value
-	 * @param obj    The object to format
+	 * @param value    The value to format
 	 * @return the formatted value, never <code>null</code> or empty
 	 * @exception IllegalArgumentException if the Format cannot format the given
 	 *            object
 	 */
 	@NonNull
-	public String format(Object obj) {
-		return getInstance().format(obj);
+	public String format(Number value) {
+		return getInstance().format(value);
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public class SafeDateFormat {
 	 * @param value the value, never <code>null</code>
 	 * @return the parsed value, never <code>null</code>
 	 * @exception ParseException if the beginning of the specified string
-     *            cannot be parsed.
+	 *            cannot be parsed.
 	 */
 	@NonNull
 	public Date parse(String value) throws ParseException {
