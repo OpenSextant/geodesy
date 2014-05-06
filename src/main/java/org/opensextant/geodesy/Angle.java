@@ -376,8 +376,8 @@ public class Angle implements Serializable, Comparable<Angle> {
         return new Angle(that.inRadians - this.inRadians);
     }
 
-    // use 1e-7 for less than 1 meter resolution distinction in radians (on earth's surface)
-    private static final double EPSILON = 1e-7;
+    // use 1e-8 for ~ 0.1 meter resolution distinction in radians (on earth's surface)
+    private static final double EPSILON = 1e-8;
 
     /**
      * This method returns a hash code for this Angle object. The result depends only on
@@ -388,10 +388,10 @@ public class Angle implements Serializable, Comparable<Angle> {
     @Override
     public int hashCode() {
         // Note we're using approximate equals vs absolute equals on floating point number
-        // so must ignore beyond ~6 decimal places in computing the hashCode, otherwise
+        // so must ignore beyond ~7 decimal places in computing the hashCode, otherwise
         // we break the equals-hashCode contract. Changing EPSILON or equals(Angle) may
         // require changing the logic used here also.
-        return (int) (inRadians * 10e+6);
+        return (int) (inRadians * 10e+7);
     }
 
     /**
