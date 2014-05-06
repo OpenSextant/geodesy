@@ -391,7 +391,7 @@ public class Angle implements Serializable, Comparable<Angle> {
         // so must ignore beyond ~7 decimal places in computing the hashCode, otherwise
         // we break the equals-hashCode contract. Changing EPSILON or equals(Angle) may
         // require changing the logic used here also.
-        return (int) (inRadians * 10e+7);
+        return (int) (inRadians * 1e+7);
     }
 
     /**
