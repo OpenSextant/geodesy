@@ -104,6 +104,14 @@ public class TestAngle {
 			Assert.assertEquals(r2, r3);
 			Assert.assertEquals(r2.hashCode(), r3.hashCode());
 		}
+		// small EPSILON delta but equal
+		Angle r1 = new Angle(1);
+		Angle r2 = new Angle(r1.inRadians() + 1e-8);
+		Assert.assertEquals(r1, r2);
+		Assert.assertEquals(r1.hashCode(), r2.hashCode());
+		// "large" enough EPSILON delta so not equal
+		Angle r3 = new Angle(r1.inRadians() + 1e-7);
+		Assert.assertFalse(r1.equals(r3));
 	}
 
 	@Test
@@ -111,6 +119,12 @@ public class TestAngle {
 		Angle a = new Angle(0);
 		Angle b = new Angle(0, Angle.DEGREES);
 		Assert.assertEquals(0, a.compareTo(b));
+		double delta = 0.1;
+		for(int i=0; i < 8; i++) {
+			Angle c = new Angle(a.inRadians() + delta);
+			Assert.assertEquals(-1, a.compareTo(c));
+			delta /= 10.0;
+		}
 		Assert.assertEquals(0.0, a.getValue(Angle.RADIANS), 1e-6);
 		Assert.assertEquals(0.0, a.getValue(Angle.DEGREES), 1e-6);
 	}
