@@ -90,12 +90,14 @@ public class SafeDateFormat {
 
 	/**
 	 * Format the value
-	 * @param value the value
+	 * @param obj    The object to format
 	 * @return the formatted value, never <code>null</code> or empty
+	 * @exception IllegalArgumentException if the Format cannot format the given
+	 *            object
 	 */
 	@NonNull
-	public String format(long value) {
-		return getInstance().format(value);
+	public String format(Object obj) {
+		return getInstance().format(obj);
 	}
 	
 	/**
