@@ -12,6 +12,15 @@ but not an arbitrary 3D shape.
 Setup your gradle.properties file appropriately after reading [Gradle](http://www.gradle.org/) documentation.
 Use Gradle to build, see the various tasks and use the Gradle documentation to understand what they do.
 
+To compile source and run test:
+ > gradle test
+
+To compile source and build jar file:
+ > gradle jar
+ 
+To install the jar into your local Maven repository:
+ > gradle install
+
 ### Versions and Packages ###
 
 Note that for the public release the version was bumped to 2.0.0 and the Java package
