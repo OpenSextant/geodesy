@@ -26,14 +26,6 @@ repositories {
 	mavenCentral()
 }
 
-configurations {
-	compile { description = 'These modules are needed at compile time and runtime' }
-	runtime { extendsFrom compile
-			  description = 'These modules are only needed at runtime' }
-	test    { extendsFrom runtime
-			  description = 'Include these in addition when testing' }
-}
-
 eclipse {
 	project {
 		name = 'geodesy'
@@ -41,7 +33,7 @@ eclipse {
 			'org.eclipse.jdt.groovy.core.groovyNature'
 	}
 	classpath {
-		plusConfigurations += configurations.test
+		plusConfigurations += configurations.runtime
 	}
 }
 
