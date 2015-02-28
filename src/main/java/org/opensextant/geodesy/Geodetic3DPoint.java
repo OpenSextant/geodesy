@@ -32,7 +32,7 @@ import java.text.DecimalFormat;
  * ocean depths, as well as up to altitudes that include those achievable by "air-breather"
  * aircraft (tested up to 26km).
  */
-public class Geodetic3DPoint extends Geodetic2DPoint implements GeoPoint {
+public class Geodetic3DPoint extends Geodetic2DPoint {
 
 	private static final long serialVersionUID = 1L;
 

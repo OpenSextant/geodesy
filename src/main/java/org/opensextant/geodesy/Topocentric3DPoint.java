@@ -33,7 +33,7 @@ import java.text.DecimalFormat;
  * make different assumptions about the directional positioning of the x, y, and z axis.
  * This class is lightweight and simple in the interest of efficient storage and processing.
  */
-public class Topocentric3DPoint extends Topocentric2DPoint implements GeoPoint {
+public class Topocentric3DPoint extends Topocentric2DPoint {
 	
 	private static final long serialVersionUID = 1L;
 	
