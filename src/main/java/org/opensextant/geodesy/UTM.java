@@ -557,7 +557,7 @@ public class UTM implements Serializable {
 
     /**
      * This constructor assumes the WGS 84 Ellipsoid (default for TransverseMercator).
-     * Convert UTM parameters to equivalent geodetic (lon-lat) position, & compute lat band,
+     * Convert UTM parameters to equivalent geodetic (lon-lat) position, compute lat band,
      * and allows projection distortion warnings to optionally cause an Exception.
      *
      * @param lonZone             UTM longitudinal zone (1 to 60)
@@ -581,7 +581,7 @@ public class UTM implements Serializable {
 
     /**
      * This constructor assumes the WGS 84 Ellipsoid (default for TransverseMercator).
-     * Convert UTM parameters to equivalent geodetic (lon-lat) position, & compute lat band.
+     * Convert UTM parameters to equivalent geodetic (lon-lat) position, compute lat band.
      *
      * @param lonZone    UTM longitudinal zone (1 to 60)
      * @param hemisphere character 'N' for Northern or 'S' for Southern hemisphere
