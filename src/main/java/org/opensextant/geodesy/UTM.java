@@ -502,7 +502,7 @@ public class UTM implements Serializable {
     /**
      * This constructor takes an ellipsoid.  If WGS 84 is desired, instead use one of
      * the constructors without the ellipsoid parameter, since WGS 84 is the default.
-     * Convert UTM parameters to equivalent geodetic (lon-lat) position, & compute lat band.
+     * Convert UTM parameters to equivalent geodetic (lon-lat) position, compute lat band.
      *
      * @param ellip      Ellipsoid data model for earth
      * @param lonZone    UTM longitudinal zone (1 to 60)

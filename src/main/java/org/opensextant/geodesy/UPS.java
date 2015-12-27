@@ -28,13 +28,13 @@ import java.text.DecimalFormat;
  * one for each pole. The origin of the UPS coordinate system is the pole (north or
  * south), where X=2,000,000m and Y=2,000,000m.
  * <p/>
- * The X-axis lies along the meridians 90&degE and 90&degW.
+ * The X-axis lies along the meridians 90&deg;E and 90&deg;W.
  * Moving from the pole (north or south), X-values (Eastings) increase along
- * the 90&degE meridian.
- * The Y-axis lies along the meridians 0&deg and 180&deg.
- * Moving from the north pole, Y-values (Northings) increase along the 180&deg
+ * the 90&deg;E meridian.
+ * The Y-axis lies along the meridians 0&deg; and 180&deg;.
+ * Moving from the north pole, Y-values (Northings) increase along the 180&deg;
  * meridian.  Moving from the south pole, Y-values (Northings) increase along
- * the 0&deg meridian.
+ * the 0&deg; meridian.
  */
 public class UPS implements Serializable {
 	private static final long serialVersionUID = 1L;
