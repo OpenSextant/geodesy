@@ -112,7 +112,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * @throws IllegalArgumentException if error in argument values is detected
      */
     public Geodetic2DArc(Geodetic2DPoint point1, double distanceInMeters,
-                         Angle forwardAzimuth) throws IllegalArgumentException {
+                         Angle forwardAzimuth) {
         this(WGS84, point1, distanceInMeters, forwardAzimuth);
     }
 
@@ -129,7 +129,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
 	 * @throws NullPointerException if ellip, point1 or forwardAzimuth are null
      */
     public Geodetic2DArc(Ellipsoid ellip, Geodetic2DPoint point1, double distanceInMeters,
-                         Angle forwardAzimuth) throws IllegalArgumentException {
+                         Angle forwardAzimuth) {
         this.ellip = ellip;
         init();
 
@@ -436,7 +436,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
     }
 
     // Valid range checker for distance in meters
-    private void validateDistance(double distanceInMeters) throws IllegalArgumentException {
+    private void validateDistance(double distanceInMeters) {
         if (distanceInMeters < 0.0 || distanceInMeters > maxOrthodromicDistance)
             throw new IllegalArgumentException("Distance is out of legal range (0 .. " +
                     maxOrthodromicDistance + ")");
@@ -513,7 +513,7 @@ public class Geodetic2DArc implements Serializable, Comparable<Geodetic2DArc> {
      * @param distanceInMeters double distance from point 1 to new point 2
      * @throws IllegalArgumentException if distance is out of legal range
      */
-    public void setDistanceInMeters(double distanceInMeters) throws IllegalArgumentException {
+    public void setDistanceInMeters(double distanceInMeters) {
         validateDistance(distanceInMeters);
         this.distanceInMeters = distanceInMeters;
         calcPoint2();

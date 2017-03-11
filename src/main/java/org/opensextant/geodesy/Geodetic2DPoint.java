@@ -93,7 +93,7 @@ public class Geodetic2DPoint implements GeoPoint, Serializable {
      * @param geoStr Normal form is same as toString output.
      * @throws IllegalArgumentException error if syntax is invalid
      */
-    public Geodetic2DPoint(String geoStr) throws IllegalArgumentException {
+    public Geodetic2DPoint(String geoStr) {
         // First look for and remove enclosing parentheses
         geoStr = geoStr.trim().toUpperCase();
         int n = geoStr.length() - 1;

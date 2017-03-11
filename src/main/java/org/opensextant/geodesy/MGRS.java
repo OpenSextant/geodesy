@@ -499,7 +499,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param mgrs  Military Grid Reference System coordinate CharSequence
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Ellipsoid ellip, CharSequence mgrs) throws IllegalArgumentException {
+    public MGRS(Ellipsoid ellip, CharSequence mgrs) {
         ellipsoid = ellip;
         initFromString(mgrs, false);
     }
@@ -514,7 +514,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param mgrs  Military Grid Reference System coordinate string
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Ellipsoid ellip, String mgrs) throws IllegalArgumentException {
+    public MGRS(Ellipsoid ellip, String mgrs) {
         this(ellip, (CharSequence) mgrs);
     }
 
@@ -558,7 +558,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param lonLat Geodetic2DPoint coordinate (lon-lat point)
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Ellipsoid ellip, Geodetic2DPoint lonLat) throws IllegalArgumentException {
+    public MGRS(Ellipsoid ellip, Geodetic2DPoint lonLat) {
         ellipsoid = ellip;
         initFromGeodetic(lonLat.getLongitude(), lonLat.getLatitude());
     }
@@ -571,7 +571,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param lat   Latitude of geodetic coordinate point
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Ellipsoid ellip, Longitude lon, Latitude lat) throws IllegalArgumentException {
+    public MGRS(Ellipsoid ellip, Longitude lon, Latitude lat) {
         ellipsoid = ellip;
         initFromGeodetic(lon, lat);
     }
@@ -585,7 +585,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param mgrs Military Grid Reference System coordinate CharSequence
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(CharSequence mgrs) throws IllegalArgumentException {
+    public MGRS(CharSequence mgrs) {
         initFromString(mgrs, false);
     }
 
@@ -598,7 +598,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param mgrs Military Grid Reference System coordinate string
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(String mgrs) throws IllegalArgumentException {
+    public MGRS(String mgrs) {
         this((CharSequence) mgrs);
     }
 
@@ -613,7 +613,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param strict boolean indicating if parsing rules should be strictly enforced
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(CharSequence mgrs, boolean strict) throws IllegalArgumentException {
+    public MGRS(CharSequence mgrs, boolean strict) {
         initFromString(mgrs, strict);
     }
 
@@ -628,7 +628,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param strict boolean indicating if parsing rules should be strictly enforced
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(String mgrs, boolean strict) throws IllegalArgumentException {
+    public MGRS(String mgrs, boolean strict) {
         this((CharSequence) mgrs, strict);
     }
 
@@ -638,7 +638,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param lonLat Geodetic2DPoint coordinate (lon-lat point)
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Geodetic2DPoint lonLat) throws IllegalArgumentException {
+    public MGRS(Geodetic2DPoint lonLat) {
         initFromGeodetic(lonLat.getLongitude(), lonLat.getLatitude());
     }
 
@@ -649,7 +649,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @param lat Latitude of geodetic coordinate point
      * @throws IllegalArgumentException error if parameters are invalid
      */
-    public MGRS(Longitude lon, Latitude lat) throws IllegalArgumentException {
+    public MGRS(Longitude lon, Latitude lat) {
         initFromGeodetic(lon, lat);
     }
 
@@ -777,7 +777,7 @@ public class MGRS implements GeoPoint, Serializable {
      * @return MGRS coordinate string at the specified precision level
      * @throws IllegalArgumentException - exception if precision is out of range (0..5)
      */
-    public String toString(int precisionDigits) throws IllegalArgumentException {
+    public String toString(int precisionDigits) {
         if (precisionDigits < 0 || precisionDigits > 5)
             throw new IllegalArgumentException("Precision must be an integer in the range 0..5");
 

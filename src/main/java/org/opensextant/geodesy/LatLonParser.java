@@ -388,7 +388,7 @@ public class LatLonParser {
      * @return String containing lat/lon coordinate separated by a comma
      * @throws IllegalArgumentException if invalid lat/lon string received
      */
-    public String parseEtrexString(String latLonString) throws IllegalArgumentException {
+    public String parseEtrexString(String latLonString) {
 
         StringBuilder outString = new StringBuilder();   // string returned to caller
         String token;             // token received from input string
@@ -441,7 +441,7 @@ public class LatLonParser {
      * @return String containing lat/lon coordinate separated by a comma
      * @throws IllegalArgumentException if invalid lat/lon string received
      */
-	public String parseString(String latLonString) throws IllegalArgumentException {
+	public String parseString(String latLonString) {
 
 		final int splitDMSCount = 6;   // three geo coordinate tokens (DMS) each for lat and lon
 		final int regularCount = 2;   // one geo coordinate token each (DD) for lat and lon

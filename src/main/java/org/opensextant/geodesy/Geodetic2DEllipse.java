@@ -169,7 +169,7 @@ public class Geodetic2DEllipse implements Serializable {
      * @param center new Geodetic2DPoint center of this ellipse
      * @throws IllegalArgumentException error if center is null
      */
-    public void setCenter(Geodetic2DPoint center) throws IllegalArgumentException {
+    public void setCenter(Geodetic2DPoint center) {
         if (center == null)
             throw new IllegalArgumentException(NULL_ERROR);
         this.center = center;
@@ -190,7 +190,7 @@ public class Geodetic2DEllipse implements Serializable {
      * @param semiMajorAxis double distance in meters of this ellipse's semi major axis
      * @throws IllegalArgumentException if axis ordering error
      */
-    public void setSemiMajorAxis(double semiMajorAxis) throws IllegalArgumentException {
+    public void setSemiMajorAxis(double semiMajorAxis) {
         if (semiMajorAxis < this.semiMinorAxis)
             throw new IllegalArgumentException(AXIS_ERROR);
         this.semiMajorAxis = semiMajorAxis;
@@ -211,7 +211,7 @@ public class Geodetic2DEllipse implements Serializable {
      * @param semiMinorAxis double distance in meters of this ellipse's semi minor axis
      * @throws IllegalArgumentException if axis ordering error
      */
-    public void setSemiMinorAxis(double semiMinorAxis) throws IllegalArgumentException {
+    public void setSemiMinorAxis(double semiMinorAxis) {
         if (this.semiMajorAxis < semiMinorAxis)
             throw new IllegalArgumentException(AXIS_ERROR);
         this.semiMinorAxis = semiMinorAxis;
@@ -250,7 +250,7 @@ public class Geodetic2DEllipse implements Serializable {
      * @param orientation Angle from North to the semi major axis for this ellipse
      * @throws IllegalArgumentException error if orientation is null
      */
-    public void setOrientation(Angle orientation) throws IllegalArgumentException {
+    public void setOrientation(Angle orientation) {
         if (orientation == null)
             throw new IllegalArgumentException(NULL_ERROR);
         this.orientation = orientation;

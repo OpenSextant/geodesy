@@ -61,7 +61,7 @@ public class UPS implements Serializable {
      * @param polarZone UPS Polar Zone ('A' or 'B' for Southern, 'Y' or 'Z' for Northern)
      * @throws IllegalArgumentException error if UPS Polar Zone is invalid
      */
-    public static void validatePolarZone(char polarZone) throws IllegalArgumentException {
+    public static void validatePolarZone(char polarZone) {
         if ((polarZone != 'A') && (polarZone != 'B') && (polarZone != 'Y') && (polarZone != 'Z'))
             throw new IllegalArgumentException("UPS polar zone '" + polarZone + "' is not valid");
     }
@@ -72,7 +72,7 @@ public class UPS implements Serializable {
      * @param hemisphere UPS Hemisphere character ('N' for North, 'S' for South)
      * @throws IllegalArgumentException error if hemisphere character is invalid
      */
-    private static void validateHemisphere(char hemisphere) throws IllegalArgumentException {
+    private static void validateHemisphere(char hemisphere) {
         if ((hemisphere != 'N') && (hemisphere != 'S'))
             throw new IllegalArgumentException("Invalid hemisphere '" +
                     hemisphere + "', should be 'N' or 'S'");
@@ -84,7 +84,7 @@ public class UPS implements Serializable {
      * @param easting UPS Easting value in meters
      * @throws IllegalArgumentException error if easting value is out of range
      */
-    private static void validateEasting(double easting) throws IllegalArgumentException {
+    private static void validateEasting(double easting) {
         if ((easting < MIN_EASTING) || (MAX_EASTING < easting))
             throw new IllegalArgumentException("Easting value '" + easting +
                     "' is outside of valid range (0 to 4,000,000 meters)");
@@ -96,7 +96,7 @@ public class UPS implements Serializable {
      * @param northing UPS Northing value in meters
      * @throws IllegalArgumentException error if northing value is out of range
      */
-    private static void validateNorthing(double northing) throws IllegalArgumentException {
+    private static void validateNorthing(double northing) {
         if ((northing < MIN_NORTHING) || (MAX_NORTHING < northing))
             throw new IllegalArgumentException("Northing value '" + northing +
                     "' is outside of valid range (0 to 4,000,000 meters)");
@@ -108,7 +108,7 @@ public class UPS implements Serializable {
      * @param lat - latitude
      * @throws IllegalArgumentException error if latitude value is out of range
      */
-    private static void validateLatitude(Latitude lat) throws IllegalArgumentException {
+    private static void validateLatitude(Latitude lat) {
         double latDeg = lat.inDegrees();
         if ((0.0 <= latDeg) && (latDeg < MIN_NORTH_LATDEG)) {
             throw new IllegalArgumentException("Latitude value '" + latDeg +
@@ -166,7 +166,7 @@ public class UPS implements Serializable {
      * @param lonLat Geodetic2DPoint coordinates (lon-lat) to be converted to UPS
      * @throws IllegalArgumentException error if arguments are invalid or out of legal range
      */
-    public UPS(Ellipsoid ellip, Geodetic2DPoint lonLat) throws IllegalArgumentException {
+    public UPS(Ellipsoid ellip, Geodetic2DPoint lonLat) {
         initGeodetic(ellip, lonLat.getLongitude(), lonLat.getLatitude());
     }
 
@@ -181,7 +181,7 @@ public class UPS implements Serializable {
      * @param lat   Latitude of point to convert to UPS
      * @throws IllegalArgumentException error if arguments are invalid or out of legal range
      */
-    public UPS(Ellipsoid ellip, Longitude lon, Latitude lat) throws IllegalArgumentException {
+    public UPS(Ellipsoid ellip, Longitude lon, Latitude lat) {
         initGeodetic(ellip, lon, lat);
     }
 
@@ -210,7 +210,7 @@ public class UPS implements Serializable {
      * @param lonLat Geodetic2DPoint coordinates (lon-lat) to be converted to UPS
      * @throws IllegalArgumentException error if arguments are invalid or out of legal range
      */
-    public UPS(Geodetic2DPoint lonLat) throws IllegalArgumentException {
+    public UPS(Geodetic2DPoint lonLat) {
         initGeodetic(null, lonLat.getLongitude(), lonLat.getLatitude());
     }
 
@@ -222,7 +222,7 @@ public class UPS implements Serializable {
      * @param lat Latitude of point to convert to UPS
      * @throws IllegalArgumentException error if latitude is not close enough to a pole
      */
-    public UPS(Longitude lon, Latitude lat) throws IllegalArgumentException {
+    public UPS(Longitude lon, Latitude lat) {
         initGeodetic(null, lon, lat);
     }
 
@@ -236,7 +236,7 @@ public class UPS implements Serializable {
      * @param northing   positive meters north of false adjusted origin (equator for 'N' hemisphere)
      * @throws IllegalArgumentException error if arguments are invalid or out of legal range
      */
-    public UPS(char hemisphere, double easting, double northing) throws IllegalArgumentException {
+    public UPS(char hemisphere, double easting, double northing) {
         initUPS(null, hemisphere, easting, northing);
     }
 
@@ -247,7 +247,7 @@ public class UPS implements Serializable {
      *
      * @throws IllegalArgumentException input parameter error(s)
      */
-    private void toGeodetic() throws IllegalArgumentException {
+    private void toGeodetic() {
         // Validate input parameters
         validateHemisphere(hemisphere);
         validateEasting(easting);

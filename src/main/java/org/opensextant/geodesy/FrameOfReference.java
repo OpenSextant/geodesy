@@ -354,7 +354,7 @@ public class FrameOfReference implements Serializable {
      * @return the equivalent Geodetic3DPoint.
      * @throws IllegalArgumentException error if the GeoPoint instance is not recognized.
      */
-    public Geodetic3DPoint toGeodetic(GeoPoint gp) throws IllegalArgumentException {
+    public Geodetic3DPoint toGeodetic(GeoPoint gp) {
         if (gp instanceof Geodetic3DPoint)
             return (Geodetic3DPoint) gp;
         else if ((gp instanceof Geodetic2DPoint) || (gp instanceof MGRS))
@@ -376,7 +376,7 @@ public class FrameOfReference implements Serializable {
      * @return the equivalent GeocentricPoint.
      * @throws IllegalArgumentException error if the GeoPoint instance is not recognized.
      */
-    public GeocentricPoint toGeocentric(GeoPoint gp) throws IllegalArgumentException {
+    public GeocentricPoint toGeocentric(GeoPoint gp) {
         if (gp instanceof GeocentricPoint)
             return (GeocentricPoint) gp;
         else if (gp instanceof Geodetic3DPoint)
@@ -398,7 +398,7 @@ public class FrameOfReference implements Serializable {
      * @return the equivalent Topocentric3DPoint.
      * @throws IllegalArgumentException error if the GeoPoint instance is not recognized.
      */
-    public Topocentric3DPoint toTopocentric(GeoPoint gp) throws IllegalArgumentException {
+    public Topocentric3DPoint toTopocentric(GeoPoint gp) {
         if (gp instanceof Topocentric3DPoint)
             return (Topocentric3DPoint) gp;
         else if (gp instanceof Topocentric2DPoint)

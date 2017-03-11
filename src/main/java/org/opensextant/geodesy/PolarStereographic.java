@@ -193,7 +193,7 @@ public class PolarStereographic implements Serializable {
      * @throws IllegalArgumentException error if Easting or Northing are out of legal range
      */
     @NonNull
-    public Geodetic2DPoint toGeodetic(double easting, double northing) throws IllegalArgumentException {
+    public Geodetic2DPoint toGeodetic(double easting, double northing) {
         double lonRad;
         double latRad;
 

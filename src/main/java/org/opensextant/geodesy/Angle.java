@@ -74,7 +74,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @return normalized value in radians (-PI .. PI)
      * @throws IllegalArgumentException - error if angle is too large
      */
-    static double normalize(double rad) throws IllegalArgumentException {
+    static double normalize(double rad) {
         // This is somewhat arbitrary to limit angles to 4 revolutions
         if (Math.abs(rad) > (4.0 * TWO_PI))
             throw new IllegalArgumentException("Angle " + rad + " radians is too big");
@@ -86,7 +86,7 @@ public class Angle implements Serializable, Comparable<Angle> {
     /*
      * Base initializer takes angle value and units designator
      */
-    protected void init(double value, int unitType) throws IllegalArgumentException {
+    protected void init(double value, int unitType) {
         if (unitType == Angle.RADIANS)
             this.inRadians = normalize(value);
         else if (unitType == Angle.DEGREES)
@@ -98,7 +98,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * This initializer takes integer degrees and minutes with decimal seconds
      * Degrees may be any signed integer value, others are range checked.
      */
-    protected void init(double deg, double min, double sec) throws IllegalArgumentException {
+    protected void init(double deg, double min, double sec) {
         if ((min < 0.0) || (60.0 <= min))
             throw new IllegalArgumentException("Arc minutes value '" + min +
                     "' is out of legal range");
@@ -117,7 +117,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param unitType one of Angle.DEGREES or Angle.RADIANS
      * @throws IllegalArgumentException error if units or value are out of range
      */
-    public Angle(double value, int unitType) throws IllegalArgumentException {
+    public Angle(double value, int unitType) {
         this.init(value, unitType);
     }
 
@@ -138,7 +138,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param seconds double seconds component of angular value
      * @throws IllegalArgumentException error if a component value is out of range
      */
-    public Angle(int degrees, int minutes, double seconds) throws IllegalArgumentException {
+    public Angle(int degrees, int minutes, double seconds) {
         this.init(degrees, minutes, seconds);
     }
 
@@ -151,7 +151,7 @@ public class Angle implements Serializable, Comparable<Angle> {
      * @param valStr the String to be parsed as an instance of Angle
      * @throws IllegalArgumentException error if string can not be successfully parsed.
      */
-    public Angle(String valStr) throws IllegalArgumentException {
+    public Angle(String valStr) {
         String token;
         String[] components = new String[]{"", "", ""};
         double ang, min, sec;

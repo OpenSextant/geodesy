@@ -177,7 +177,7 @@ public class TransverseMercator implements Serializable {
      * @param scale scaling factor (0.3 .. 3.0)
      * @throws IllegalArgumentException error if scale is out of legal range
      */
-    public void setScaleFactor(double scale) throws IllegalArgumentException {
+    public void setScaleFactor(double scale) {
         if ((scale < MIN_SCALE) || (MAX_SCALE < scale))
             throw new IllegalArgumentException("Scale factor outside of valid range (0.3 to 3.0)");
         this.scale = scale;

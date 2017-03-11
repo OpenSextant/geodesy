@@ -35,7 +35,7 @@ public class Longitude extends Angle {
      * @param unitType Angle.DEGREES or Angle.RADIANS
      * @throws IllegalArgumentException error if units or value are out of range
      */
-    public Longitude(double value, int unitType) throws IllegalArgumentException {
+    public Longitude(double value, int unitType) {
         this.init(value, unitType);
     }
 
@@ -47,7 +47,7 @@ public class Longitude extends Angle {
      * @param lonStr longitude value string
      * @throws IllegalArgumentException error if syntax is incorrect or value is out of range
      */
-    public Longitude(String lonStr) throws IllegalArgumentException {
+    public Longitude(String lonStr) {
 		if (lonStr == null) throw new IllegalArgumentException("lonStr cannot be null");
         lonStr = lonStr.trim().toUpperCase();
         int n = lonStr.length() - 1;
@@ -89,7 +89,7 @@ public class Longitude extends Angle {
      * @param seconds double seconds component of Longitude angular value
      * @throws IllegalArgumentException error if a component value is out of range
      */
-    public Longitude(int degrees, int minutes, double seconds) throws IllegalArgumentException {
+    public Longitude(int degrees, int minutes, double seconds) {
         this.init(degrees, minutes, seconds);
     }
 

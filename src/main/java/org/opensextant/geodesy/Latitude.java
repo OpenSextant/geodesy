@@ -44,7 +44,7 @@ public class Latitude extends Angle {
      * @param unitType Angle.DEGREES or Angle.RADIANS
      * @throws IllegalArgumentException error if units or value are out of range
      */
-    public Latitude(double value, int unitType) throws IllegalArgumentException {
+    public Latitude(double value, int unitType) {
         this.init(value, unitType);
     }
 
@@ -56,7 +56,7 @@ public class Latitude extends Angle {
      * @param latStr latitude value string
      * @throws IllegalArgumentException error if syntax is incorrect or value is out of range
      */
-    public Latitude(String latStr) throws IllegalArgumentException {
+    public Latitude(String latStr) {
 		if (latStr == null) throw new IllegalArgumentException("latStr cannot be null");
         latStr = latStr.trim().toUpperCase();
         int n = latStr.length() - 1;
@@ -85,7 +85,7 @@ public class Latitude extends Angle {
      * @param valueInRadians Latitude angular value in radians
      * @throws IllegalArgumentException error if value is out of range (-PI/2 to +PI/2 radians)
      */
-    public Latitude(double valueInRadians) throws IllegalArgumentException {
+    public Latitude(double valueInRadians) {
         this.init(valueInRadians, Angle.RADIANS);
     }
 
@@ -97,7 +97,7 @@ public class Latitude extends Angle {
      * @param seconds double seconds component of Latitude angular value
      * @throws IllegalArgumentException error if a component value is out of range
      */
-    public Latitude(int degrees, int minutes, double seconds) throws IllegalArgumentException {
+    public Latitude(int degrees, int minutes, double seconds) {
         this.init(degrees, minutes, seconds);
     }
 

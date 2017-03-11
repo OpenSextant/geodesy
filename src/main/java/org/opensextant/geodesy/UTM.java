@@ -264,7 +264,7 @@ public class UTM implements Serializable {
      * @return character representing latitude band ('C' to 'X', skipping 'I' and 'O')
      * @throws IllegalArgumentException error if latitude value is out of valid range
      */
-    public static char getLatBand(double latDeg) throws IllegalArgumentException {
+    public static char getLatBand(double latDeg) {
         // validate that latitude is within proper range (allow half degree overlap with UPS)
         if ((latDeg < -80.5) || (84.5 < latDeg))
             throw new IllegalArgumentException("Latitude value '" + latDeg +
@@ -293,7 +293,7 @@ public class UTM implements Serializable {
      * @return minimum latitude for the given band, in decimal degrees
      * @throws IllegalArgumentException - error if lat band char is out of range
      */
-    public static double minLatDegrees(char latBand) throws IllegalArgumentException {
+    public static double minLatDegrees(char latBand) {
         validateLatBand(latBand);
 
         int i = (int) latBand - (int) 'C';
@@ -310,7 +310,7 @@ public class UTM implements Serializable {
      * @return maximum latitude for the given band, in decimal degrees
      * @throws IllegalArgumentException - error if lat band char is out of range
      */
-    public static double maxLatDegrees(char latBand) throws IllegalArgumentException {
+    public static double maxLatDegrees(char latBand) {
         validateLatBand(latBand);
 
         int i = (int) latBand - (int) 'C';
@@ -328,7 +328,7 @@ public class UTM implements Serializable {
      * @return minimum northing value for the specified latitude band
      * @throws IllegalArgumentException - error if the latitude band is invalid
      */
-    public static int minNorthing(char latBand) throws IllegalArgumentException {
+    public static int minNorthing(char latBand) {
         Integer minNorthing = UTM.MIN_NORTHINGS.get(latBand);
         if (minNorthing == null)
             throw new IllegalArgumentException("Invalid latitude band '" + latBand + "'");
@@ -344,7 +344,7 @@ public class UTM implements Serializable {
      * @return maximum northing value for the specified latitude band
      * @throws IllegalArgumentException error if the latitude band is invalid
      */
-    public static int maxNorthing(int lonZone, char latBand) throws IllegalArgumentException {
+    public static int maxNorthing(int lonZone, char latBand) {
         Integer maxNorthing = UTM.MAX_NORTHINGS.get(latBand);
         if (maxNorthing == null)
             throw new IllegalArgumentException("Invalid latitude band '" + latBand + "'");
@@ -366,7 +366,7 @@ public class UTM implements Serializable {
      * @return hemisphere character ('N' for Northern, or 'S' for Southern)
      * @throws IllegalArgumentException error if lat band char is out of range
      */
-    public static char getHemisphere(char latBand) throws IllegalArgumentException {
+    public static char getHemisphere(char latBand) {
         validateLatBand(latBand);
         return (latBand < 'N') ? 'S' : 'N';
     }
@@ -389,7 +389,7 @@ public class UTM implements Serializable {
      * @param latBand UTM Latitudinal Band ('C' to 'X', but not 'I' or 'O')
      * @throws IllegalArgumentException error if UTM Latitudinal Band is invalid
      */
-    public static void validateLatBand(char latBand) throws IllegalArgumentException {
+    public static void validateLatBand(char latBand) {
         if ((latBand < 'C') || ('X' < latBand) || (latBand == 'I') || (latBand == 'O'))
             throw new IllegalArgumentException("UTM latitudinal band '" + latBand +
                     "' is not valid");
@@ -418,7 +418,7 @@ public class UTM implements Serializable {
      * @param hemisphere UTM Hemisphere character ('N' for North, 'S' for South)
      * @throws IllegalArgumentException error if hemisphere character is invalid
      */
-    private static void validateHemisphere(char hemisphere) throws IllegalArgumentException {
+    private static void validateHemisphere(char hemisphere) {
         if ((hemisphere != 'N') && (hemisphere != 'S'))
             throw new IllegalArgumentException("Invalid hemisphere '" +
                     hemisphere + "', should be 'N' or 'S'");
@@ -430,7 +430,7 @@ public class UTM implements Serializable {
      * @param easting UTM Easting value in meters
      * @throws IllegalArgumentException error if easting value is out of range
      */
-    private static void validateEasting(double easting) throws IllegalArgumentException {
+    private static void validateEasting(double easting) {
         if ((easting < MIN_EASTING) || (MAX_EASTING < easting))
             throw new IllegalArgumentException("Easting value '" + easting +
                     "' is outside of valid range (100,000 to 900,000 meters)");
@@ -442,7 +442,7 @@ public class UTM implements Serializable {
      * @param northing UTM Northing value in meters
      * @throws IllegalArgumentException error if northing value is out of range
      */
-    private static void validateNorthing(double northing) throws IllegalArgumentException {
+    private static void validateNorthing(double northing) {
         if ((northing < MIN_NORTHING) || (MAX_NORTHING < northing))
             throw new IllegalArgumentException("Northing value '" + northing +
                     "' is outside of valid range (0 to 10,000,000 meters)");
@@ -600,7 +600,7 @@ public class UTM implements Serializable {
      *
      * @throws IllegalArgumentException input parameter error(s)
      */
-    private void toGeodetic(boolean validate) throws IllegalArgumentException {
+    private void toGeodetic(boolean validate) {
         // Validate input parameters
         validateLonZone(lonZone);
         validateHemisphere(hemisphere);
