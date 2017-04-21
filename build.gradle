@@ -46,6 +46,10 @@ task sourcesJar(type: Jar) {
 	classifier = 'sources'
 }
 
+javadoc {
+	failOnError = false
+}
+
 jar {
 	baseName = "geodesy"
 }
