@@ -26,41 +26,42 @@ import java.io.Serializable;
 import java.text.DecimalFormat;
 
 /**
+ * <P>
  * The UTM (Universal Transverse Mercator) class contains methods to parse and format
  * between UTM coordinate strings and their geodetic (longitude and latitude)
  * equivalents. A UTM object is defined only in terms of the Ellipsoid data model
  * against which projections are made. The default constructor uses the WGS 84
- * ellipsoid. <P>
- * <p/>
- * Notes: <P>
- * <p/>
- * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6 deg wide. <P>
- * <p/>
+ * ellipsoid.
+ * <P/><P>
+ * Notes:
+ * <P/><P>
+ * Projection: Transverse Mercator (Gauss-Kruger type) in zones 6 deg wide.
+ * <P/><P>
  * Longitude of Origin: Central meridian (CM) of each projection zone (degrees of 3,
  * 9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 93, 99, 105, 111, 117, 123,
  * 129, 135, 141, 147, 153, 159, 165, 171, 177, E and W). <P>
- * <p/>
- * Latitude of Origin: 0 deg (the Equator). <P>
- * <p/>
- * Unit: Meter. <P>
- * <p/>
+ * <P/><P>
+ * Latitude of Origin: 0 deg (the Equator).
+ * <P/> <P>
+ * Unit: Meter.
+ * <P/><P>
  * False Northing: 0 meters at the Equator for the Northern Hemisphere;
- * 10,000,000 meters at the Equator for the Southern Hemisphere. <P>
- * <p/>
- * False Easting: 500,000 meters at the Central Meridian (CM) of each zone. <P>
- * <p/>
- * Scale Factor at the Central Meridian: 0.9996. <P>
- * <p/>
- * Latitude Limits of System: From 80 deg S to 84 deg N. <P>
- * <p/>
+ * 10,000,000 meters at the Equator for the Southern Hemisphere. 
+ * <P/><P>
+ * False Easting: 500,000 meters at the Central Meridian (CM) of each zone. 
+ * <P/><P>
+ * Scale Factor at the Central Meridian: 0.9996. 
+ * <P/><P>
+ * Latitude Limits of System: From 80 deg S to 84 deg N.
+ * </P><P>
  * Overlap: On large-scale maps and trig lists, the data for each zone, datum, or
  * ellipsoid overlaps the adjacent zone, datum, or ellipsoid a minimum of 40
  * kilometers. The UTM grid extends to 80.5 deg S and 84.5 deg N, providing a
- * 30-minute overlap with the UPS grid. <P>
- * <p/>
+ * 30-minute overlap with the UPS grid.
+ * <P/><P>
  * Limits of Projection Zones: The zones are bounded by meridians, the longitudes
- * of which are multiples of 6 deg east and west of the prime meridian. <P>
- * <p/>
+ * of which are multiples of 6 deg east and west of the prime meridian.
+ * </P><P>
  * Universal Transverse Mercator (UTM) coordinates define two dimensional,
  * horizontal, positions. The sixty UTM zone numbers designate 6 degree wide
  * longitudinal strips extending from 80 degrees South latitude to 84 degrees North
@@ -68,21 +69,22 @@ import java.text.DecimalFormat;
  * extending north and south from the equator. Beginning at 80 deg south and
  * proceeding northward, twenty bands are lettered C through X, omitting I and O.
  * These bands are all 8 deg wide except for band X which is 12 deg wide (between
- * 72-84 deg N). <P>
- * <p/>
+ * 72-84 deg N).
+ * </P><P>
  * There are special UTM zones between 0 degrees and 36 degrees longitude above 72
  * degrees latitude and a special zone 32 between 56 degrees and 64 degrees north
- * latitude: <P>
- * <p/>
+ * latitude: </P>
+ * <P>
  * UTM Zone 32 has been widened to 9 deg (at the expense of zone 31) between
  * latitudes 56 deg and 64 deg (band V) to accommodate southwest Norway. Thus zone
- * 32 it extends westwards to 3 deg E in the North Sea. <P>
- * <p/>
+ * 32 it extends westwards to 3 deg E in the North Sea.
+ * </P><P>
  * Similarly, between 72 deg and 84 deg (band X), zones 33 and 35 have been widened
  * to 12 deg to accommodate Svalbard. To compensate for these 12 deg wide zones,
  * zones 31 and 37 are widened to 9 deg and zones 32, 34, and 36 are eliminated.
  * Thus the W and E boundaries of zones are 31: 0 - 9 deg E, 33: 9 - 21 deg E,
  * 35: 21 - 33 deg E and 37: 33 - 42 deg E.
+ * </P>
  */
 public class UTM implements Serializable {
     private static final long serialVersionUID = 1L;
